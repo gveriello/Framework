@@ -1,9 +1,9 @@
-<?php 
+<?php
 namespace App;
 
-class Controller {
+class Part {
 
-    protected $controller;
+    protected $part;
     protected $action;
     protected $phpbehind;
     protected $jsbehind;
@@ -11,8 +11,8 @@ class Controller {
     protected $model;
     protected $querystring;
 
-    function __construct($_controller, $_action, $querystring, $_phpbehind, $_jsbehind, $_layout, $_model) {
-        $this->controller = $_controller;
+    function __construct($_part, $_action, $querystring, $_phpbehind, $_jsbehind, $_layout, $_model) {
+        $this->part = $_part;
         $this->action = $_action;
         $this->querystring = $querystring;
         $this->phpbehind = $_phpbehind;
@@ -20,9 +20,7 @@ class Controller {
         $this->layout = $_layout;
         $this->model = $_model;
 
-        //$this->model = new $_model;
-        //$this->_template = new Template($controller,$action);
-
+        $this->phpbehind = new $_phpbehind();
     }
 
     function set($name,$value) {

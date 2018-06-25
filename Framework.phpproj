@@ -22,7 +22,7 @@
     <Compile Include="application\phpbehind\IndexPHP.php" />
     <Compile Include="config\db\Connector.php" />
     <Compile Include="config\framework\Model.php" />
-    <Compile Include="config\framework\Controller.php" />
+    <Compile Include="config\framework\Part.php" />
     <Compile Include="helper\HelperFunction.php" />
     <Compile Include="index.php" />
   </ItemGroup>

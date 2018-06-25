@@ -24,19 +24,15 @@ function Main() {
         if (CanAllocate('model', $model)){
             if (CanAllocate('phpbehind', $phpbehind)){
                 if (CanAllocate('jsbehind', $jsbehind)){
-                    Allocate('layout', $layout);
-                    Allocate('model', $model);
-                    Allocate('phpbehind', $phpbehind);
-                    Allocate('jsbehind', $jsbehind);
-                    if (class_exists($phpbehind)){
-                        $dispatch = new $phpbehind($part, $action, $querystring, $phpbehind, $jsbehind, $layout, $model);
-                        if ((int)method_exists($phpbehind, $action)) {
-                            call_user_func_array(array($dispatch, $action), $querystring);
-                        } else {
-                            echo 'Action non esistente 404';
-                        }
-                    }else{
-                        echo '<br>La classe non è stata caricata';
+                    require_once(StringForAllocateFile('layout', $layout));
+                    require_once(StringForAllocateFile('model', $model));
+                    require_once(StringForAllocateFile('jsbehind', $jsbehind));
+                    require_once(StringForAllocateFile('phpbehind', $phpbehind));
+                    $dispatch = new Part($part, $action, $querystring, $phpbehind, $jsbehind, $layout, $model);
+                    if ((int)method_exists($phpbehind, $action)) {
+                        call_user_func_array(array($dispatch, $action), $querystring);
+                    } else {
+                        echo 'Action non esistente 404';
                     }
 
                 }else{
@@ -53,7 +49,8 @@ function Main() {
     }
 }
 
-function CanAllocate($folder, $file){
+function CanAllocate($folder, $file)
+{
     if ($folder !== NULL && $file !== NULL && $folder !== '' && $file !== ''){
         switch($folder){
             case 'layout':
@@ -87,35 +84,32 @@ function CanAllocate($folder, $file){
     return false;
 }
 
-function Allocate($folder, $file){
+function StringForAllocateFile($folder, $file)
+{
     if ($folder !== NULL && $file !== NULL && $folder !== '' && $file !== ''){
         switch($folder){
             case 'layout':
                 $extension = '.php';
                 if (file_exists(LAYOUT.DS.$file.$extension)){
-                    require_once(LAYOUT.DS.$file.$extension);
-                    return true;
+                    return LAYOUT.DS.$file.$extension;
                 }
                 return false;
             case 'model':
                 $extension = '.php';
                 if (file_exists(MODEL.DS.$file.$extension)){
-                    require_once(MODEL.DS.$file.$extension);
-                    return true;
+                    return MODEL.DS.$file.$extension;
                 }
                 return false;
             case 'phpbehind':
                 $extension = '.php';
                 if (file_exists(PHPBEHIND.DS.$file.$extension)){
-                    require_once(PHPBEHIND.DS.$file.$extension);
-                    return true;
+                    return PHPBEHIND.DS.$file.$extension;
                 }
                 return false;
             case 'jsbehind':
                 $extension = '.js';
                 if (file_exists(JSBEHIND.DS.$file.$extension)){
-                    require_once(JSBEHIND.DS.$file.$extension);
-                    return true;
+                    return JSBEHIND.DS.$file.$extension;
                 }
                 return false;
             default:
@@ -124,7 +118,9 @@ function Allocate($folder, $file){
     }
     return false;
 }
-function GetRouting($url, &$part, &$action, &$querystring, &$phpbehind, &$jsbehind, &$layout, &$model){
+
+function GetRouting($url, &$part, &$action, &$querystring, &$phpbehind, &$jsbehind, &$layout, &$model)
+{
     $part  = 'Index';
     $action = 'index';
     $querystring = NULL;
@@ -163,7 +159,8 @@ function GetRouting($url, &$part, &$action, &$querystring, &$phpbehind, &$jsbehi
     echo 'La querystring è: '.$querystring;
 }
 
-function SetReporting() {
+function SetReporting()
+{
     if (ENVIRONMENT === 0) {
         ini_set('display_errors', 1);
         ini_set('display_startup_errors', 1);
@@ -179,12 +176,14 @@ function SetReporting() {
     }
 }
 
-function StripSlashesDeep($value) {
+function StripSlashesDeep($value)
+{
     $value = is_array($value) ? array_map('stripSlashesDeep', $value) : stripslashes($value);
     return $value;
 }
 
-function RemoveMagicQuotes() {
+function RemoveMagicQuotes()
+{
     if ( get_magic_quotes_gpc() ) {
         $_GET    = stripSlashesDeep($_GET   );
         $_POST   = stripSlashesDeep($_POST  );
@@ -192,7 +191,8 @@ function RemoveMagicQuotes() {
     }
 }
 
-function UnRegisterGlobals() {
+function UnRegisterGlobals()
+{
     if (ini_get('register_globals') == 0) return;
     $variables = array(
         'REQUEST', 'GET', 'POST', 'COOKIE',

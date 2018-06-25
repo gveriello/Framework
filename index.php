@@ -39,7 +39,7 @@ const ENVIRONMENT = ENVIRONMENTSTATUS::DEVELOP;
 
 /** Resources that loaded when page starts to load **/
 require (DB.DS.'Connector.php');
-require (FRAMEWORK.DS.'Controller.php');
+require (FRAMEWORK.DS.'Part.php');
 require (FRAMEWORK.DS.'Model.php');
 //require (DB.DS.'Model.php');
 //require (DB.DS.'Layout.php');
