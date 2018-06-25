@@ -36,7 +36,7 @@
 </head>
 <body>
 	<form method="post" action="">
-		<input type="text" placeholder="Scegli il nome del tuo progetto" name="name_file"><br><br>
+		<input type="text" placeholder="Digita il nome della Part" name="name_file"><br><br>
 		<button type="submit" name="create_file">Crea</button>
 	</form>
 	<?php 
@@ -46,20 +46,20 @@
 
 			$nome_file = $_POST['name_file'];
 			if(crea_file($nome_file, '', 'JS', '.js', 'jsbehind')){
-				echo "Ho creato il file .js<br>";
+				echo "Ho creato il file in: application/jsbehind/".$nome_file."JS.js<br>";
 				$files = 1;
 			}
 
 			if(crea_file($nome_file, '', 'Model', '.php', 'model')){
-				echo "Ho creato il file Model.php<br>";
+				echo "Ho creato il file in: application/model/".$nome_file."Model.php<br>";
 				$files = $files+1;
 			}
 			if(crea_file($nome_file, '', 'Layout', '.php', 'layout')){
-				echo "Ho creato il file Layout.php<br>";
+				echo "Ho creato il file in: application/layout/".$nome_file."Layout.php<br>";
 				$files = $files+1;
 			}
 			if(crea_file($nome_file, '', 'PHP', '.php', 'phpbehind')){
-				echo "Ho creato il file PHP.php<br>";
+				echo "Ho creato il file in: application/phpbehind/".$nome_file."PHP.php<br>";
 				$files = $files+1;
 			}
 			if($files === 4){
@@ -70,9 +70,16 @@
 
 	function crea_file($nomefile = '', $contenuto = '', $tipo = 'PHP', $estensione = '.php', $cartella = ''){
 			
-			$fpjs = fopen('../application/'.$cartella.'/'.$nomefile.$tipo.$estensione,'w+');
+			if(file_exists('../application/'.$cartella.'/'.$nomefile.$tipo.$estensione)){
+				unlink('../application/'.$cartella.'/'.$nomefile.$tipo.$estensione);
+				$fpjs = fopen('../application/'.$cartella.'/'.$nomefile.$tipo.$estensione,'w+');
+		    	fclose($fpjs);
+		    	echo "<label style='color:red'>Il file esiste già, è stato sovrascritto</label>";
+			}else{
+				$fpjs = fopen('../application/'.$cartella.'/'.$nomefile.$tipo.$estensione,'w+');
 		    fclose($fpjs);
 
+			}
 
 			if($fpjs){
 				return true;
