@@ -24,22 +24,32 @@ function Main() {
         if (CanAllocate('model', $model)){
             if (CanAllocate('phpbehind', $phpbehind)){
                 if (CanAllocate('jsbehind', $jsbehind)){
-                    $dispatch = new $phpbehind($part, $action, $querystring, $phpbehind, $jsbehind, $layout, $model);
-
-                    if ((int)method_exists($phpbehind, $action)) {
-                        call_user_func_array(array($dispatch, $action), $querystring);
-                    } else {
-                        echo '404';
+                    Allocate('layout', $layout);
+                    Allocate('model', $model);
+                    Allocate('phpbehind', $phpbehind);
+                    Allocate('jsbehind', $jsbehind);
+                    if (class_exists($phpbehind)){
+                        $dispatch = new $phpbehind($part, $action, $querystring, $phpbehind, $jsbehind, $layout, $model);
+                        if ((int)method_exists($phpbehind, $action)) {
+                            call_user_func_array(array($dispatch, $action), $querystring);
+                        } else {
+                            echo 'Action non esistente 404';
+                        }
+                    }else{
+                        echo '<br>La classe non è stata caricata';
                     }
+
+                }else{
+                    echo '<br>JS 404';
                 }
             }else{
-                echo '404';
+                echo '<br>PHP 404';
             }
         }else{
-            echo '404';
+            echo '<br>Model 404';
         }
     }else{
-        echo '404';
+        echo '<br>Layout 404';
     }
 }
 
@@ -47,26 +57,26 @@ function CanAllocate($folder, $file){
     if ($folder !== NULL && $file !== NULL && $folder !== '' && $file !== ''){
         switch($folder){
             case 'layout':
-                if (file_exists(LAYOUT.DB.$file)){
-                    require_once(LAYOUT.DB.$file);
+                $extension = '.php';
+                if (file_exists(LAYOUT.DS.$file.$extension)){
                     return true;
                 }
                 return false;
             case 'model':
-                if (file_exists(MODEL.DB.$file)){
-                    require_once(MODEL.DB.$file);
+                $extension = '.php';
+                if (file_exists(MODEL.DS.$file.$extension)){
                     return true;
                 }
                 return false;
             case 'phpbehind':
-                if (file_exists(PHPBEHIND.DB.$file)){
-                    require_once(PHPBEHIND.DB.$file);
+                $extension = '.php';
+                if (file_exists(PHPBEHIND.DS.$file.$extension)){
                     return true;
                 }
                 return false;
             case 'jsbehind':
-                if (file_exists(JSBEHIND.DB.$file)){
-                    require_once(JSBEHIND.DB.$file);
+                $extension = '.js';
+                if (file_exists(JSBEHIND.DS.$file.$extension)){
                     return true;
                 }
                 return false;
@@ -77,6 +87,43 @@ function CanAllocate($folder, $file){
     return false;
 }
 
+function Allocate($folder, $file){
+    if ($folder !== NULL && $file !== NULL && $folder !== '' && $file !== ''){
+        switch($folder){
+            case 'layout':
+                $extension = '.php';
+                if (file_exists(LAYOUT.DS.$file.$extension)){
+                    require_once(LAYOUT.DS.$file.$extension);
+                    return true;
+                }
+                return false;
+            case 'model':
+                $extension = '.php';
+                if (file_exists(MODEL.DS.$file.$extension)){
+                    require_once(MODEL.DS.$file.$extension);
+                    return true;
+                }
+                return false;
+            case 'phpbehind':
+                $extension = '.php';
+                if (file_exists(PHPBEHIND.DS.$file.$extension)){
+                    require_once(PHPBEHIND.DS.$file.$extension);
+                    return true;
+                }
+                return false;
+            case 'jsbehind':
+                $extension = '.js';
+                if (file_exists(JSBEHIND.DS.$file.$extension)){
+                    require_once(JSBEHIND.DS.$file.$extension);
+                    return true;
+                }
+                return false;
+            default:
+                return false;
+        }
+    }
+    return false;
+}
 function GetRouting($url, &$part, &$action, &$querystring, &$phpbehind, &$jsbehind, &$layout, &$model){
     $part  = 'Index';
     $action = 'index';
@@ -101,10 +148,10 @@ function GetRouting($url, &$part, &$action, &$querystring, &$phpbehind, &$jsbehi
         }
     }
     $part = ucwords(strtolower($part));
-    $phpbehind = $part.'PHPScript';
+    $phpbehind = $part.'PHP';
     $layout = $part.'Layout';
     $model = $part.'Model';
-    $jsbehind = $part.'JSScript';
+    $jsbehind = $part.'JS';
 
     echo 'L\'url è: '.$url.'<br>';
     echo 'Il controllore è: '.$part.'<br>';

@@ -1,7 +1,7 @@
 <?php namespace App;
 //DIRECTORY
 #region CONST FOLDER
-define('DS', '/'); // slash /
+define('DS', '\\'); // slash /
 define('ROOT', __DIR__); //root del sito
 
 define('APPLICATION', ROOT.DS.'application');
@@ -40,6 +40,7 @@ const ENVIRONMENT = ENVIRONMENTSTATUS::DEVELOP;
 /** Resources that loaded when page starts to load **/
 require (DB.DS.'Connector.php');
 require (FRAMEWORK.DS.'Controller.php');
+require (FRAMEWORK.DS.'Model.php');
 //require (DB.DS.'Model.php');
 //require (DB.DS.'Layout.php');
 //require (DB.DS.'ScriptBehind.php');

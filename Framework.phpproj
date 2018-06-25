@@ -19,8 +19,9 @@
     <Compile Include="application\jsbehind\IndexJS.js" />
     <Compile Include="application\layout\IndexLayout.php" />
     <Compile Include="application\model\IndexModel.php" />
-    <Compile Include="application\phpbehind\IndexScript.php" />
+    <Compile Include="application\phpbehind\IndexPHP.php" />
     <Compile Include="config\db\Connector.php" />
+    <Compile Include="config\framework\Model.php" />
     <Compile Include="config\framework\Controller.php" />
     <Compile Include="helper\HelperFunction.php" />
     <Compile Include="index.php" />

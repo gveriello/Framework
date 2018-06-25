@@ -1,19 +1,22 @@
-<?php namespace App;
+<?php 
+namespace App;
 
 class Controller {
 
     protected $controller;
     protected $action;
-    protected $scriptbehind;
+    protected $phpbehind;
+    protected $jsbehind;
     protected $layout;
     protected $model;
     protected $querystring;
 
-    function __construct($_controller, $_action, $querystring, $_scriptbehind, $_layout, $_model) {
+    function __construct($_controller, $_action, $querystring, $_phpbehind, $_jsbehind, $_layout, $_model) {
         $this->controller = $_controller;
         $this->action = $_action;
         $this->querystring = $querystring;
-        $this->scriptbehind = $_scriptbehind;
+        $this->phpbehind = $_phpbehind;
+        $this->jsbehind = $_jsbehind;
         $this->layout = $_layout;
         $this->model = $_model;
 
