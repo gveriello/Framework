@@ -15,8 +15,8 @@ class Page {
         $this->querystring = $querystring;
         $this->jsbehind = $_jsbehind;
         $this->layout = $_layout;
-        $this->phpbehind = new $_phpbehind();
         $this->model = new $_model();
+        $this->phpbehind = new $_phpbehind($querystring);
     }
     function __destruct() {
     }

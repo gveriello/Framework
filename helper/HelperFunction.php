@@ -29,12 +29,10 @@ function Main() {
                     require StringForAllocateFile('phpbehind', $phpbehind);
                     $dispatch = new Page($page, $action, $querystring, $phpbehind, $jsbehind, $layout, $model);
                     if ((int)method_exists($dispatch->phpbehind, $action)) {
-                        if ($querystring === NULL) $querystring = array();
-                        call_user_func_array(array($dispatch->phpbehind, $action), $querystring);
+                        call_user_func_array(array($dispatch->phpbehind,$action), array());
                     } else {
                         echo 'Action non esistente 404';
                     }
-
                 }else{
                     echo '<br>JS 404';
                 }
@@ -123,7 +121,7 @@ function GetRouting($url, &$page, &$action, &$querystring, &$phpbehind, &$jsbehi
 {
     $page  = 'Index';
     $action = 'index';
-    $querystring = NULL;
+    $querystring = array();
     $phpbehind  = 'Index';
     $layout = 'Index';
     $model = 'Index';
@@ -139,8 +137,10 @@ function GetRouting($url, &$page, &$action, &$querystring, &$phpbehind, &$jsbehi
         }
         if (count($urlArray) > 2){
             $page = $urlArray[0];
-            $action = $urlArray[1];
-            $querystring = $urlArray[2];
+            array_shift($urlArray);
+            $action = $urlArray[0];
+            array_shift($urlArray);
+            $querystring = ParseQueryString($urlArray);
         }
     }
     $page = ucwords(strtolower($page));
@@ -150,15 +150,29 @@ function GetRouting($url, &$page, &$action, &$querystring, &$phpbehind, &$jsbehi
     $jsbehind = $page.'JS';
 
     echo 'L\'url è: '.$url.'<br>';
-    echo 'Il controllore è: '.$page.'<br>';
+    echo 'Il nome della pagina è: '.$page.'<br>';
     echo 'Il phpbehind è: '.$phpbehind.'<br>';
-    echo 'Il jdbehind è: '.$jsbehind.'<br>';
+    echo 'Il jsbehind è: '.$jsbehind.'<br>';
     echo 'Il model è: '.$model.'<br>';
     echo 'Il layout è: '.$layout.'<br>';
     echo 'L\' action è: '.$action.'<br>';
-    echo 'La querystring è: '.$querystring;
+    echo 'La querystring è: '.print_r($querystring);
 }
 
+function ParseQueryString($array){
+    $NewArray = array();
+    if (is_array($array)){
+        for ($i = 0; $i < count($array); $i = $i + 2){
+            if ($array[$i] !== NULL){
+                if ($array[$i + 1] === NULL)
+                    $NewArray[$array[$i]] = NULL;
+                else
+                    $NewArray[$array[$i]] = $array[$i+1];
+            }
+        }
+    }
+    return $NewArray;
+}
 function SetReporting()
 {
     if (ENVIRONMENT === 0) {

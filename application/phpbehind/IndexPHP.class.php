@@ -1,13 +1,15 @@
-<?php 
+<?php
 class IndexPHP extends PHPBehind{
-    
-    function __construct(){
-        
+
+    function __construct($_querystring){
+        parent::setQueryString($_querystring);
     }
-    function index(){
-        echo '<br>Sono entrato!!!';
+
+    public function index(){
+        echo '<br>Sono entrato!!!'.json_encode(parent::getQueryString());
     }
-    function login(){
-        echo '<br>Accedi!!';
+
+    public function login(){
+        echo '<br>Accedi!!'.json_encode($this->querystring);
     }
 }
