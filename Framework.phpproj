@@ -17,7 +17,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="application\jsbehind\IndexJS.js" />
-    <Compile Include="application\layout\IndexLayout.class.php" />
+    <Compile Include="application\layout\IndexLayout.php" />
     <Compile Include="application\model\IndexModel.class.php" />
     <Compile Include="application\phpbehind\IndexPHP.class.php" />
     <Compile Include="config\db\Connector.php" />

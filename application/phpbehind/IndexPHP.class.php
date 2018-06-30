@@ -6,11 +6,10 @@ class IndexPHP extends PHPBehind{
     }
 
     public function index(){
-        echo '<br>Sono entrato!!!'.json_encode(parent::getQueryString());
+        Allocate(LAYOUT, $this->layout);
     }
 
     public function login(){
-        //echo '<br>Accedi!!'.json_encode($this->querystring);
-        //echo $this->page;
+
     }
 }

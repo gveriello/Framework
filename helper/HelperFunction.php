@@ -23,10 +23,9 @@ function Main() {
         if (CanAllocate('model', $model)){
             if (CanAllocate('phpbehind', $phpbehind)){
                 if (CanAllocate('jsbehind', $jsbehind)){
-                    require StringForAllocateFile('layout', $layout);
-                    require StringForAllocateFile('jsbehind', $jsbehind);
-                    require StringForAllocateFile('model', $model);
-                    require StringForAllocateFile('phpbehind', $phpbehind);
+                    Allocate(JSBEHIND, $jsbehind);
+                    Allocate(MODEL, $model);
+                    Allocate(PHPBEHIND, $phpbehind);
                     $dispatch = new Page($page, $action, $querystring, $phpbehind, $jsbehind, $layout, $model);
                     if ((int)method_exists($dispatch->phpbehind, $action)) {
                         call_user_func_array(array($dispatch->phpbehind,$action), array());
@@ -89,25 +88,25 @@ function StringForAllocateFile($folder, $file)
 {
     if ($folder !== NULL && $file !== NULL && $folder !== '' && $file !== ''){
         switch($folder){
-            case 'layout':
+            case LAYOUT:
                 $extension = '.php';
                 if (file_exists(LAYOUT.DS.$file.$extension)){
                     return LAYOUT.DS.$file.$extension;
                 }
                 return false;
-            case 'model':
+            case MODEL:
                 $extension = '.class.php';
                 if (file_exists(MODEL.DS.$file.$extension)){
                     return MODEL.DS.$file.$extension;
                 }
                 return false;
-            case 'phpbehind':
+            case PHPBEHIND:
                 $extension = '.class.php';
                 if (file_exists(PHPBEHIND.DS.$file.$extension)){
                     return PHPBEHIND.DS.$file.$extension;
                 }
                 return false;
-            case 'jsbehind':
+            case JSBEHIND:
                 $extension = '.js';
                 if (file_exists(JSBEHIND.DS.$file.$extension)){
                     return JSBEHIND.DS.$file.$extension;
