@@ -17,12 +17,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="application\jsbehind\IndexJS.js" />
-    <Compile Include="application\layout\IndexLayout.php" />
-    <Compile Include="application\model\IndexModel.php" />
-    <Compile Include="application\phpbehind\IndexPHP.php" />
+    <Compile Include="application\layout\IndexLayout.class.php" />
+    <Compile Include="application\model\IndexModel.class.php" />
+    <Compile Include="application\phpbehind\IndexPHP.class.php" />
     <Compile Include="config\db\Connector.php" />
     <Compile Include="config\framework\Model.php" />
-    <Compile Include="config\framework\Part.php" />
+    <Compile Include="config\framework\PHPBehind.php" />
+    <Compile Include="config\framework\Page.php" />
     <Compile Include="helper\HelperFunction.php" />
     <Compile Include="index.php" />
   </ItemGroup>
@@ -42,7 +43,6 @@
     <Folder Include="public\resources\img\" />
     <Folder Include="public\resources\js\" />
     <Folder Include="public\resources\" />
-    <Folder Include="scripts" />
     <Folder Include="security\attachments" />
     <Folder Include="security\log" />
     <Folder Include="security" />

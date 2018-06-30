@@ -1,5 +1,4 @@
 <?php
-namespace App;
 
 function RequestUri(){
     return sprintf(
@@ -11,26 +10,27 @@ function RequestUri(){
 //function that start when all is ready
 function Main() {
     global $url;
-    global $part;
+    global $page;
     global $phpbehind;
     global $jsbehind;
     global $action;
     global $querystring;
     global $layout;
     global $model;
-    GetRouting($url, $part, $action, $querystring, $phpbehind, $jsbehind, $layout, $model);
+    GetRouting($url, $page, $action, $querystring, $phpbehind, $jsbehind, $layout, $model);
 
     if (CanAllocate('layout', $layout)){
         if (CanAllocate('model', $model)){
             if (CanAllocate('phpbehind', $phpbehind)){
                 if (CanAllocate('jsbehind', $jsbehind)){
-                    require_once(StringForAllocateFile('layout', $layout));
-                    require_once(StringForAllocateFile('model', $model));
-                    require_once(StringForAllocateFile('jsbehind', $jsbehind));
-                    require_once(StringForAllocateFile('phpbehind', $phpbehind));
-                    $dispatch = new Part($part, $action, $querystring, $phpbehind, $jsbehind, $layout, $model);
-                    if ((int)method_exists($phpbehind, $action)) {
-                        call_user_func_array(array($dispatch, $action), $querystring);
+                    require StringForAllocateFile('layout', $layout);
+                    require StringForAllocateFile('model', $model);
+                    require StringForAllocateFile('jsbehind', $jsbehind);
+                    require StringForAllocateFile('phpbehind', $phpbehind);
+                    $dispatch = new Page($page, $action, $querystring, $phpbehind, $jsbehind, $layout, $model);
+                    if ((int)method_exists($dispatch->phpbehind, $action)) {
+                        if ($querystring === NULL) $querystring = array();
+                        call_user_func_array(array($dispatch->phpbehind, $action), $querystring);
                     } else {
                         echo 'Action non esistente 404';
                     }
@@ -54,19 +54,19 @@ function CanAllocate($folder, $file)
     if ($folder !== NULL && $file !== NULL && $folder !== '' && $file !== ''){
         switch($folder){
             case 'layout':
-                $extension = '.php';
+                $extension = '.class.php';
                 if (file_exists(LAYOUT.DS.$file.$extension)){
                     return true;
                 }
                 return false;
             case 'model':
-                $extension = '.php';
+                $extension = '.class.php';
                 if (file_exists(MODEL.DS.$file.$extension)){
                     return true;
                 }
                 return false;
             case 'phpbehind':
-                $extension = '.php';
+                $extension = '.class.php';
                 if (file_exists(PHPBEHIND.DS.$file.$extension)){
                     return true;
                 }
@@ -89,19 +89,19 @@ function StringForAllocateFile($folder, $file)
     if ($folder !== NULL && $file !== NULL && $folder !== '' && $file !== ''){
         switch($folder){
             case 'layout':
-                $extension = '.php';
+                $extension = '.class.php';
                 if (file_exists(LAYOUT.DS.$file.$extension)){
                     return LAYOUT.DS.$file.$extension;
                 }
                 return false;
             case 'model':
-                $extension = '.php';
+                $extension = '.class.php';
                 if (file_exists(MODEL.DS.$file.$extension)){
                     return MODEL.DS.$file.$extension;
                 }
                 return false;
             case 'phpbehind':
-                $extension = '.php';
+                $extension = '.class.php';
                 if (file_exists(PHPBEHIND.DS.$file.$extension)){
                     return PHPBEHIND.DS.$file.$extension;
                 }
@@ -119,9 +119,9 @@ function StringForAllocateFile($folder, $file)
     return false;
 }
 
-function GetRouting($url, &$part, &$action, &$querystring, &$phpbehind, &$jsbehind, &$layout, &$model)
+function GetRouting($url, &$page, &$action, &$querystring, &$phpbehind, &$jsbehind, &$layout, &$model)
 {
-    $part  = 'Index';
+    $page  = 'Index';
     $action = 'index';
     $querystring = NULL;
     $phpbehind  = 'Index';
@@ -131,26 +131,26 @@ function GetRouting($url, &$part, &$action, &$querystring, &$phpbehind, &$jsbehi
         $urlArray = array();
         $urlArray = explode("/", $url);
         if (count($urlArray) === 1){
-            $part = $urlArray[0];
+            $page = $urlArray[0];
         }
         if (count($urlArray) === 2){
-            $part = $urlArray[0];
+            $page = $urlArray[0];
             $action = $urlArray[1];
         }
         if (count($urlArray) > 2){
-            $part = $urlArray[0];
+            $page = $urlArray[0];
             $action = $urlArray[1];
             $querystring = $urlArray[2];
         }
     }
-    $part = ucwords(strtolower($part));
-    $phpbehind = $part.'PHP';
-    $layout = $part.'Layout';
-    $model = $part.'Model';
-    $jsbehind = $part.'JS';
+    $page = ucwords(strtolower($page));
+    $phpbehind = $page.'PHP';
+    $layout = $page.'Layout';
+    $model = $page.'Model';
+    $jsbehind = $page.'JS';
 
     echo 'L\'url è: '.$url.'<br>';
-    echo 'Il controllore è: '.$part.'<br>';
+    echo 'Il controllore è: '.$page.'<br>';
     echo 'Il phpbehind è: '.$phpbehind.'<br>';
     echo 'Il jdbehind è: '.$jsbehind.'<br>';
     echo 'Il model è: '.$model.'<br>';

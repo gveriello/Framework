@@ -1,7 +1,6 @@
-<?php namespace App;
-//DIRECTORY
+<?php
 #region CONST FOLDER
-define('DS', '\\'); // slash /
+define('DS', DIRECTORY_SEPARATOR, true); // slash /
 define('ROOT', __DIR__); //root del sito
 
 define('APPLICATION', ROOT.DS.'application');
@@ -21,7 +20,6 @@ define('RESOURCES', ROOT.DS.'resources');
 define('CSS', RESOURCES.DS.'css');
 define('JS', RESOURCES.DS.'js');
 define('IMG', RESOURCES.DS.'img');
-define('SCRIPTS', ROOT.DS.'scripts');
 
 define('SECURITY', ROOT.DS.'security');
 define('LOG', RESOURCES.DS.'log');
@@ -39,11 +37,9 @@ const ENVIRONMENT = ENVIRONMENTSTATUS::DEVELOP;
 
 /** Resources that loaded when page starts to load **/
 require (DB.DS.'Connector.php');
-require (FRAMEWORK.DS.'Part.php');
+require (FRAMEWORK.DS.'Page.php');
+require (FRAMEWORK.DS.'PHPBehind.php');
 require (FRAMEWORK.DS.'Model.php');
-//require (DB.DS.'Model.php');
-//require (DB.DS.'Layout.php');
-//require (DB.DS.'ScriptBehind.php');
 require (HELPER.DS.'HelperFunction.php');
 
 $url = ltrim(RequestUri(), '/');
