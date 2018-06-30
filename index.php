@@ -38,9 +38,9 @@ const ENVIRONMENT = ENVIRONMENTSTATUS::DEVELOP;
 /** Resources that loaded when page starts to load **/
 require (DB.DS.'Connector.php');
 require (FRAMEWORK.DS.'Page.php');
+require (HELPER.DS.'HelperFunction.php');
 require (FRAMEWORK.DS.'PHPBehind.php');
 require (FRAMEWORK.DS.'Model.php');
-require (HELPER.DS.'HelperFunction.php');
 
 $url = ltrim(RequestUri(), '/');
 

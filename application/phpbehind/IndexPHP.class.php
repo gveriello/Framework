@@ -10,6 +10,7 @@ class IndexPHP extends PHPBehind{
     }
 
     public function login(){
-        echo '<br>Accedi!!'.json_encode($this->querystring);
+        //echo '<br>Accedi!!'.json_encode($this->querystring);
+        //echo $this->page;
     }
 }

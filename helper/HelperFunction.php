@@ -24,8 +24,8 @@ function Main() {
             if (CanAllocate('phpbehind', $phpbehind)){
                 if (CanAllocate('jsbehind', $jsbehind)){
                     require StringForAllocateFile('layout', $layout);
-                    require StringForAllocateFile('model', $model);
                     require StringForAllocateFile('jsbehind', $jsbehind);
+                    require StringForAllocateFile('model', $model);
                     require StringForAllocateFile('phpbehind', $phpbehind);
                     $dispatch = new Page($page, $action, $querystring, $phpbehind, $jsbehind, $layout, $model);
                     if ((int)method_exists($dispatch->phpbehind, $action)) {
@@ -52,7 +52,7 @@ function CanAllocate($folder, $file)
     if ($folder !== NULL && $file !== NULL && $folder !== '' && $file !== ''){
         switch($folder){
             case 'layout':
-                $extension = '.class.php';
+                $extension = '.php';
                 if (file_exists(LAYOUT.DS.$file.$extension)){
                     return true;
                 }
@@ -82,12 +82,15 @@ function CanAllocate($folder, $file)
     return false;
 }
 
+function Allocate($folder, $file){
+    require_once StringForAllocateFile($folder, $file);
+}
 function StringForAllocateFile($folder, $file)
 {
     if ($folder !== NULL && $file !== NULL && $folder !== '' && $file !== ''){
         switch($folder){
             case 'layout':
-                $extension = '.class.php';
+                $extension = '.php';
                 if (file_exists(LAYOUT.DS.$file.$extension)){
                     return LAYOUT.DS.$file.$extension;
                 }
@@ -149,14 +152,14 @@ function GetRouting($url, &$page, &$action, &$querystring, &$phpbehind, &$jsbehi
     $model = $page.'Model';
     $jsbehind = $page.'JS';
 
-    echo 'L\'url è: '.$url.'<br>';
-    echo 'Il nome della pagina è: '.$page.'<br>';
-    echo 'Il phpbehind è: '.$phpbehind.'<br>';
-    echo 'Il jsbehind è: '.$jsbehind.'<br>';
-    echo 'Il model è: '.$model.'<br>';
-    echo 'Il layout è: '.$layout.'<br>';
-    echo 'L\' action è: '.$action.'<br>';
-    echo 'La querystring è: '.print_r($querystring);
+    //echo 'L\'url è: '.$url.'<br>';
+    //echo 'Il nome della pagina è: '.$page.'<br>';
+    //echo 'Il phpbehind è: '.$phpbehind.'<br>';
+    //echo 'Il jsbehind è: '.$jsbehind.'<br>';
+    //echo 'Il model è: '.$model.'<br>';
+    //echo 'Il layout è: '.$layout.'<br>';
+    //echo 'L\' action è: '.$action.'<br>';
+    //echo 'La querystring è: '.print_r($querystring);
 }
 
 function ParseQueryString($array){
