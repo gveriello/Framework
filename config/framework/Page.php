@@ -1,24 +1,40 @@
 <?php
 class Page {
 
-    public $page;
-    public $action;
-    public $phpbehind;
-    public $jsbehind;
-    public $layout;
-    public $model;
-    public $querystring;
+    protected function getPage(){
+        return $GLOBALS['page'];
+    }
 
-    function __construct($_page, $_action, $querystring, $_phpbehind, $_jsbehind, $_layout, $_model) {
-        $this->part = $_page;
-        $this->action = $_action;
-        $this->querystring = $querystring;
-        $this->jsbehind = $_jsbehind;
-        $this->layout = $_layout;
-        $this->model = new $_model();
-        $this->phpbehind = new $_phpbehind($querystring);
+    protected function getPHPBehind(){
+        return $GLOBALS["phpbehind"];
     }
-    function __destruct() {
+
+    protected function getJSBehind(){
+        return $GLOBALS["jsbehind"];
     }
+
+    protected function getLayout(){
+        return $GLOBALS['layout'];
+    }
+
+    protected function getModel(){
+        return $GLOBALS['model'];
+    }
+
+    protected function getAction(){
+        return $GLOBALS['action'];
+    }
+
+    protected function getQueryString(){
+        return $GLOBALS['querystring'];
+    }
+
+
+}
+function show404(){
+    Allocate(PAGES, '404');
+}
+
+function show(){
 
 }

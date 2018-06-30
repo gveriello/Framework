@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <title>
-        <?= $title; ?>
+        PAGINA NON TROVATA!
     </title>
 </head>
 <body>
     <h1>
-        Benvenuto in <?= $title; ?>
+        PAGINA NON TROVATA!
     </h1>
 </body>
 </html>

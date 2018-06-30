@@ -1,13 +1,5 @@
 <?php
 
-function RequestUri(){
-    return sprintf(
-      "%s",
-      $_SERVER['REQUEST_URI']
-    );
-}
-
-//function that start when all is ready
 function Main() {
     global $url;
     global $page;
@@ -18,7 +10,15 @@ function Main() {
     global $layout;
     global $model;
     GetRouting($url, $page, $action, $querystring, $phpbehind, $jsbehind, $layout, $model);
-
+    $GLOBALS = array(
+        'page' => $page,
+        'phpbehind' => $phpbehind,
+        'jsbehind' => $jsbehind,
+        'layout' => $layout,
+        'model' => $model,
+        'action' => $action,
+        'querystring' => $querystring
+    );
     if (CanAllocate('layout', $layout)){
         if (CanAllocate('model', $model)){
             if (CanAllocate('phpbehind', $phpbehind)){
@@ -26,24 +26,31 @@ function Main() {
                     Allocate(JSBEHIND, $jsbehind);
                     Allocate(MODEL, $model);
                     Allocate(PHPBEHIND, $phpbehind);
-                    $dispatch = new Page($page, $action, $querystring, $phpbehind, $jsbehind, $layout, $model);
-                    if ((int)method_exists($dispatch->phpbehind, $action)) {
-                        call_user_func_array(array($dispatch->phpbehind,$action), array());
+                    $dispatch = new $phpbehind();
+                    if ((int)method_exists($dispatch, $action)) {
+                        call_user_func_array(array($dispatch, $action), array());
                     } else {
-                        echo 'Action non esistente 404';
+                        show404();
                     }
                 }else{
-                    echo '<br>JS 404';
+                    show404();
                 }
             }else{
-                echo '<br>PHP 404';
+                show404();
             }
         }else{
-            echo '<br>Model 404';
+            show404();
         }
     }else{
-        echo '<br>Layout 404';
+        show404();
     }
+}
+
+function RequestUri(){
+    return sprintf(
+      "%s",
+      $_SERVER['REQUEST_URI']
+    );
 }
 
 function CanAllocate($folder, $file)
@@ -74,6 +81,12 @@ function CanAllocate($folder, $file)
                     return true;
                 }
                 return false;
+            case PAGES:
+                $extension = '.php';
+                if (file_exists(PAGES.DS.$file.$extension)){
+                    return true;
+                }
+                return false;
             default:
                 return false;
         }
@@ -81,9 +94,12 @@ function CanAllocate($folder, $file)
     return false;
 }
 
-function Allocate($folder, $file){
+function Allocate($folder, $file, $databag = array())
+{
+    if (count($databag) > 0) extract($databag);
     require_once StringForAllocateFile($folder, $file);
 }
+
 function StringForAllocateFile($folder, $file)
 {
     if ($folder !== NULL && $file !== NULL && $folder !== '' && $file !== ''){
@@ -110,6 +126,12 @@ function StringForAllocateFile($folder, $file)
                 $extension = '.js';
                 if (file_exists(JSBEHIND.DS.$file.$extension)){
                     return JSBEHIND.DS.$file.$extension;
+                }
+                return false;
+            case PAGES:
+                $extension = '.php';
+                if (file_exists(PAGES.DS.$file.$extension)){
+                    return PAGES.DS.$file.$extension;
                 }
                 return false;
             default:
@@ -161,7 +183,8 @@ function GetRouting($url, &$page, &$action, &$querystring, &$phpbehind, &$jsbehi
     //echo 'La querystring è: '.print_r($querystring);
 }
 
-function ParseQueryString($array){
+function ParseQueryString($array)
+{
     $NewArray = array();
     if (is_array($array)){
         for ($i = 0; $i < count($array); $i = $i + 2){
@@ -175,6 +198,7 @@ function ParseQueryString($array){
     }
     return $NewArray;
 }
+
 function SetReporting()
 {
     if (ENVIRONMENT === 0) {
@@ -244,3 +268,4 @@ function UnRegisterGlobals()
 
     }
 }
+

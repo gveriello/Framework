@@ -20,6 +20,7 @@ define('RESOURCES', ROOT.DS.'resources');
 define('CSS', RESOURCES.DS.'css');
 define('JS', RESOURCES.DS.'js');
 define('IMG', RESOURCES.DS.'img');
+define('PAGES', RESOURCES.DS.'pages');
 
 define('SECURITY', ROOT.DS.'security');
 define('LOG', RESOURCES.DS.'log');
@@ -36,12 +37,13 @@ const ENVIRONMENT = ENVIRONMENTSTATUS::DEVELOP;
 #endregion
 
 /** Resources that loaded when page starts to load **/
+/** If you want load other class, add reference here **/
 require (DB.DS.'Connector.php');
 require (FRAMEWORK.DS.'Page.php');
 require (HELPER.DS.'HelperFunction.php');
 require (FRAMEWORK.DS.'PHPBehind.php');
 require (FRAMEWORK.DS.'Model.php');
-
+/** Get request URL **/
 $url = ltrim(RequestUri(), '/');
 
 SetReporting();

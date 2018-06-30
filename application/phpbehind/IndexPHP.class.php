@@ -1,15 +1,15 @@
 <?php
 class IndexPHP extends PHPBehind{
 
-    function __construct($_querystring){
-        parent::setQueryString($_querystring);
+    public function index()
+    {
+        $viewbag = array("title" => parent::getPage());
+        Allocate(LAYOUT, parent::getLayout(), $viewbag);
     }
 
-    public function index(){
-        Allocate(LAYOUT, $this->layout);
-    }
-
-    public function login(){
+    public function login()
+    {
 
     }
+
 }

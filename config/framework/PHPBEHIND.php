@@ -1,17 +1,35 @@
 <?php
-
 class PHPBehind extends Page{
 
-    public $querystring = array();
-
-    function __construct() {
+    #region extension page's method
+    protected function getPage(){
+        return parent::getPage();
     }
 
-    public function setQueryString($_querystring){
-        if (is_array($_querystring))
-            $this->querystring = $_querystring;
+    protected function getPHPBehind(){
+        return parent::getPHPBehind();
     }
-    public function getQueryString(){
-        return $this->querystring;
+
+    protected function getJSBehind(){
+        return parent::getJSBehind();
     }
+
+    protected function getLayout(){
+        return parent::getLayout();
+    }
+
+    protected function getModel(){
+        return parent::getModel();
+    }
+
+    protected function getAction(){
+        return parent::getAction();
+    }
+
+    protected function getQueryString(){
+        return parent::getQueryString();
+    }
+    #endregion
+
+
 }

@@ -26,6 +26,8 @@
     <Compile Include="config\framework\Page.php" />
     <Compile Include="helper\HelperFunction.php" />
     <Compile Include="index.php" />
+    <Compile Include="newpart\create_file.php" />
+    <Compile Include="resources\pages\404.php" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="application\model\" />
@@ -38,11 +40,12 @@
     <Folder Include="config\language" />
     <Folder Include="config" />
     <Folder Include="helper" />
-    <Folder Include="public\" />
-    <Folder Include="public\resources\css\" />
-    <Folder Include="public\resources\img\" />
-    <Folder Include="public\resources\js\" />
-    <Folder Include="public\resources\" />
+    <Folder Include="newpart\" />
+    <Folder Include="resources\" />
+    <Folder Include="resources\css\" />
+    <Folder Include="resources\img\" />
+    <Folder Include="resources\js\" />
+    <Folder Include="resources\pages\" />
     <Folder Include="security\attachments" />
     <Folder Include="security\log" />
     <Folder Include="security" />
