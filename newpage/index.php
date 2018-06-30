@@ -44,7 +44,7 @@
 
 		if(isset($_POST['create_file'])){
 			$nome_file = $_POST['name_file'];
-
+			$boh = '$page';
 			$contenuto_js = 
 			"<script>
 
@@ -52,11 +52,11 @@
 			";
 
 			$contenuto_layout = 
-			"
+			'
 			<!DOCTYPE html>
 				<html>
 				<head>
-				    <meta charset='utf-8' />
+				    <meta charset="utf-8" />
 				    <title>
 				        <?= $page; ?>
 				    </title>
@@ -67,7 +67,7 @@
 				    </h1>
 				</body>
 				</html>
-			";
+			';
 
 			$contenuto_model = 
 			"
@@ -80,9 +80,9 @@
 			";
 
 			$contenuto_php = 
-			"
+			'
 				<?php
-					class ".$nome_file."PHP extends PHPBehind{
+					class '.$nome_file.'PHP extends PHPBehind{
 
 					    function __construct($_querystring){
 					        parent::setQueryString($_querystring);
@@ -91,13 +91,13 @@
 					    public function index(){
 					        Allocate(LAYOUT, $this->layout);
 					    }	
-			";
+			';
 			if(crea_file($nome_file, $contenuto_js, 'JS', '.js', 'jsbehind')){
 				echo "Ho creato il file in: application/jsbehind/".$nome_file."JS.js<br>";
 				$files = 1;
 			}
 
-			if(crea_file($nome_file, $contenuto_layout, 'Model', '.php', 'model')){
+			if(crea_file($nome_file, $contenuto_model, 'Model', '.class.php', 'model')){
 				echo "Ho creato il file in: application/model/".$nome_file."Model.class.php<br>";
 				$files = $files+1;
 			}
@@ -105,7 +105,7 @@
 				echo "Ho creato il file in: application/layout/".$nome_file."Layout.php<br>";
 				$files = $files+1;
 			}
-			if(crea_file($nome_file, $contenuto_php, 'PHP', '.php', 'phpbehind')){
+			if(crea_file($nome_file, $contenuto_php, 'PHP', '.class.php', 'phpbehind')){
 				echo "Ho creato il file in: application/phpbehind/".$nome_file."PHP.class.php<br>";
 				$files = $files+1;
 			}
@@ -126,7 +126,7 @@
 			}else{
 				$fp = fopen('../application/'.$cartella.'/'.$nomefile.$tipo.$estensione,'w+');
 				fwrite($fp, $contenuto);
-		    	fclose($fpjs);
+		    	fclose($fp);
 
 			}
 
