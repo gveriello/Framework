@@ -10,29 +10,25 @@ function Main() {
     global $layout;
     global $model;
     GetRouting($url, $page, $action, $querystring, $phpbehind, $jsbehind, $layout, $model);
-    $GLOBALS = array(
-        'page' => $page,
-        'phpbehind' => $phpbehind,
-        'jsbehind' => $jsbehind,
-        'layout' => $layout,
-        'model' => $model,
-        'action' => $action,
-        'querystring' => $querystring
-    );
     if (CanAllocate('layout', $layout)){
         if (CanAllocate('model', $model)){
             if (CanAllocate('phpbehind', $phpbehind)){
-                if (CanAllocate('jsbehind', $jsbehind)){
-                    Allocate(JSBEHIND, $jsbehind);
-                    Allocate(MODEL, $model);
-                    Allocate(PHPBEHIND, $phpbehind);
-                    $dispatch = new $phpbehind();
-                    if ((int)method_exists($dispatch, $action)) {
-                        call_user_func_array(array($dispatch, $action), array());
-                    } else {
-                        show404();
-                    }
-                }else{
+                Allocate(JSBEHIND, $jsbehind);
+                Allocate(MODEL, $model);
+                Allocate(PHPBEHIND, $phpbehind);
+                $dispatch = new $phpbehind();
+                $GLOBALS = array(
+                    'page' => $page,
+                    'phpbehind' => $dispatch,
+                    'jsbehind' => $jsbehind,
+                    'layout' => $layout,
+                    'model' => new $model(),
+                    'action' => $action,
+                    'querystring' => $querystring
+                );
+                if ((int)method_exists($dispatch, $action)) {
+                    call_user_func_array(array($dispatch, $action), array());
+                } else {
                     show404();
                 }
             }else{
@@ -97,7 +93,15 @@ function CanAllocate($folder, $file)
 function Allocate($folder, $file, $databag = array())
 {
     if (count($databag) > 0) extract($databag);
-    require_once StringForAllocateFile($folder, $file);
+    if (file_exists(StringForAllocateFile($folder, $file)))
+        require_once StringForAllocateFile($folder, $file);
+}
+
+function ExtractVariable($data = array())
+{
+    for($i = 0; $i < count($data); $i++){
+
+    }
 }
 
 function StringForAllocateFile($folder, $file)
@@ -134,6 +138,12 @@ function StringForAllocateFile($folder, $file)
                     return PAGES.DS.$file.$extension;
                 }
                 return false;
+            case HELPER:
+                $extension = '.php';
+                if (file_exists(HELPER.DS.$file.$extension)){
+                    return HELPER.DS.$file.$extension;
+                }
+                return false;
             default:
                 return false;
         }
@@ -164,8 +174,8 @@ function GetRouting($url, &$page, &$action, &$querystring, &$phpbehind, &$jsbehi
             array_shift($urlArray);
             $action = $urlArray[0];
             array_shift($urlArray);
-            $querystring = ParseQueryString($urlArray);
         }
+        if (count($_GET) > 0) $querystring = ParseQueryString($_GET);
     }
     $page = ucwords(strtolower($page));
     $phpbehind = $page.'PHP';
@@ -186,14 +196,10 @@ function GetRouting($url, &$page, &$action, &$querystring, &$phpbehind, &$jsbehi
 function ParseQueryString($array)
 {
     $NewArray = array();
+
     if (is_array($array)){
-        for ($i = 0; $i < count($array); $i = $i + 2){
-            if ($array[$i] !== NULL){
-                if ($array[$i + 1] === NULL)
-                    $NewArray[$array[$i]] = NULL;
-                else
-                    $NewArray[$array[$i]] = $array[$i+1];
-            }
+        foreach($array as $key => $item){
+            $NewArray[$key] = $item;
         }
     }
     return $NewArray;

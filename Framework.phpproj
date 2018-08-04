@@ -24,10 +24,15 @@
     <Compile Include="config\framework\Model.php" />
     <Compile Include="config\framework\PHPBehind.php" />
     <Compile Include="config\framework\Page.php" />
+    <Compile Include="helper\ViewBag.php" />
+    <Compile Include="helper\FrameworksHelper.php" />
     <Compile Include="helper\HelperFunction.php" />
+    <Compile Include="helper\ViewTable.php" />
     <Compile Include="index.php" />
+    <Compile Include="newpage\index.php" />
     <Compile Include="newpart\create_file.php" />
     <Compile Include="resources\pages\404.php" />
+    <Compile Include="resources\pages\Blank.php" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="application\model\" />
@@ -40,6 +45,7 @@
     <Folder Include="config\language" />
     <Folder Include="config" />
     <Folder Include="helper" />
+    <Folder Include="newpage\" />
     <Folder Include="newpart\" />
     <Folder Include="resources\" />
     <Folder Include="resources\css\" />

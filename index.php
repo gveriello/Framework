@@ -36,15 +36,27 @@ class ENVIRONMENTSTATUS
 const ENVIRONMENT = ENVIRONMENTSTATUS::DEVELOP;
 #endregion
 
+#region GLOBAL'S VARIABLE
+$url;
+$page;
+$phpbehind;
+$jsbehind;
+$action;
+$querystring;
+$layout;
+$model;
+#endregion
 /** Resources that loaded when page starts to load **/
 /** If you want load other class, add reference here **/
 require (DB.DS.'Connector.php');
 require (FRAMEWORK.DS.'Page.php');
 require (HELPER.DS.'HelperFunction.php');
+require (HELPER.DS.'FrameworksHelper.php');
 require (FRAMEWORK.DS.'PHPBehind.php');
 require (FRAMEWORK.DS.'Model.php');
 /** Get request URL **/
 $url = ltrim(RequestUri(), '/');
+$url = rtrim($url, '/');
 
 SetReporting();
 RemoveMagicQuotes();

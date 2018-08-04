@@ -30,7 +30,20 @@ class Page {
     }
 
 
+
 }
+
+function RedirectPage($_page, $action = 'index', $querystring = array()){
+    $StringQueryString = '';
+    if (count($querystring) > 0){
+        $KeysOfQueryString = array_keys($querystring);
+        for ($KeysOfQueryStringI = 0; $KeysOfQueryStringI < count($KeysOfQueryString); $KeysOfQueryStringI++){
+            $StringQueryString .= $KeysOfQueryString[$KeysOfQueryStringI]."/".$querystring[$KeysOfQueryString[$KeysOfQueryStringI]]."/";
+        }
+    }
+    return $_page.'/'.$action.(count($querystring) > 0 ? $StringQueryString : '');
+}
+
 function show404(){
     Allocate(PAGES, '404');
 }
