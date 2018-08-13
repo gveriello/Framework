@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Name>Julius</Name>
+    <ProjectGuid>{b30af519-9078-461e-92e2-88d7cb4568b3}</ProjectGuid>
+    <RootNamespace>
+    </RootNamespace>
+    <OutputType>Library</OutputType>
+    <ProjectTypeGuids>{A0786B88-2ADB-4C21-ABE8-AA2D79766269}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <IncludeDebugInformation>true</IncludeDebugInformation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <IncludeDebugInformation>false</IncludeDebugInformation>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="api\" />
+    <Folder Include="application\" />
+    <Folder Include="application\jsbehind\" />
+    <Folder Include="application\layout\" />
+    <Folder Include="application\model\" />
+    <Folder Include="application\phpbehind\" />
+    <Folder Include="core\" />
+    <Folder Include="core\contracts\" />
+    <Folder Include="core\contracts\abstracts\" />
+    <Folder Include="core\contracts\interfaces\" />
+    <Folder Include="core\contracts\implemented\" />
+    <Folder Include="core\languages\" />
+    <Folder Include="core\utilities\" />
+    <Folder Include="core\framework\" />
+    <Folder Include="core\utilities\helpers\" />
+    <Folder Include="core\utilities\libraries\" />
+    <Folder Include="newpage\" />
+    <Folder Include="resources\" />
+    <Folder Include="resources\css\" />
+    <Folder Include="resources\img\" />
+    <Folder Include="resources\js\" />
+    <Folder Include="resources\pages\" />
+    <Folder Include="reserved\" />
+    <Folder Include="reserved\attachments\" />
+    <Folder Include="reserved\log\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="api\TestService.php" />
+    <Compile Include="application\layout\IndexLayout.php" />
+    <Compile Include="application\model\IndexModel.class.php" />
+    <Compile Include="application\phpbehind\IndexPHP.class.php" />
+    <Compile Include="core\contracts\abstracts\Rules.php" />
+    <Compile Include="core\contracts\abstracts\RulesComparator.php" />
+    <Compile Include="core\contracts\implemented\Model.php" />
+    <Compile Include="core\contracts\implemented\Page.php" />
+    <Compile Include="core\contracts\implemented\PHPBehind.php" />
+    <Compile Include="core\framework\Allocator.php" />
+    <Compile Include="core\framework\FrameworksHelper.php" />
+    <Compile Include="core\framework\GlobalFunctions.php" />
+    <Compile Include="core\framework\Rules.php" />
+    <Compile Include="core\contracts\implemented\APILibraries.php" />
+    <Compile Include="core\framework\Config.php" />
+    <Compile Include="core\framework\Constants.php" />
+    <Compile Include="core\framework\Globals.php" />
+    <Compile Include="core\framework\Julius.php" />
+    <Compile Include="core\utilities\helpers\APIService.php" />
+    <Compile Include="core\utilities\helpers\FormHelper.php" />
+    <Compile Include="core\utilities\helpers\ViewBag.php" />
+    <Compile Include="core\utilities\helpers\ViewTable.php" />
+    <Compile Include="core\utilities\helpers\StringerHelper.php" />
+    <Compile Include="index.php" />
+    <Compile Include="newpage\index.php" />
+    <Compile Include="resources\pages\404.php" />
+    <Compile Include="resources\pages\Blank.php" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="application\jsbehind\IndexJS.js" />
+  </ItemGroup>
+</Project>

@@ -7,13 +7,17 @@
     </title>
 </head>
 <body>
+    <?= $error; ?>
     <h1>
         Benvenuto in <?= $title; ?>
     </h1>
-    <form method="get" action="<?= RedirectPage('login'); ?>">
-        <input type="text" name="bho" value="ciao" />
+    <form method="post" action="<?= redirect_page('index', 'cosimo'); ?>">
+        <input type="text" name="bho" value="" />
+        <input type="text" name="bho2" value="" />
         <input type="submit" value="press"/>
+        <?= $validator; ?>
     </form>
     <?= $table; ?>
+    <?= $response; ?>
 </body>
 </html>

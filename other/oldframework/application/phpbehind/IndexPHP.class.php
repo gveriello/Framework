@@ -1,18 +1,17 @@
 <?php
 class IndexPHP extends PHPBehind
 {
-
     private $ViewBag;
     private $ViewTable;
     private $APIService;
     private $FormHelper;
-
     function __construct()
     {
-        $this->ViewBag =    Allocator::allocate_helper('ViewBag');
-        $this->ViewTable =  Allocator::allocate_helper('ViewTable');
-        $this->APIService = Allocator::allocate_helper('APIService');
-        $this->FormHelper = Allocator::allocate_helper('FormHelper');
+        $helper = new FrameworksHelper();
+        $this->ViewBag = $helper->AllocateHelper('ViewBag');
+        $this->ViewTable = $helper->AllocateHelper('ViewTable');
+        $this->APIService = $helper->AllocateHelper('APIService');
+        $this->FormHelper = $helper->AllocateHelper('FormHelper');
     }
     function __destruct(){}
 
@@ -32,11 +31,10 @@ class IndexPHP extends PHPBehind
 
         $this->ViewBag->Add('table', $this->ViewTable->TableToHtml());
 
-        $this->FormHelper->SetRules('bho', 'minlength', '', '2');
+        $this->FormHelper->SetRules('bho', 'minlength', 'Il nome deve avere almeno 2 caratteri', '2');
         $this->FormHelper->SetRules('bho', 'required', 'Il nome e\' obbligatorio');
-        $this->FormHelper->SetRules('bho', 'matches', 'Le due password devono combaciare', 'bho2');
         $this->ViewBag->Add('validator', $this->FormHelper->Validator());
-        allocate(LAYOUT, parent::getLayout(), $this->ViewBag->getBag());
+        Allocate(LAYOUT, parent::getLayout(), $this->ViewBag->getBag());
     }
 
     public function login()
@@ -44,15 +42,14 @@ class IndexPHP extends PHPBehind
         $ViewBag = new ViewBag();
         $ViewBag->Add('error', 'credenziali errate');
 
-        allocate(LAYOUT, parent::getLayout(), $ViewBag->getBag());
+        Allocate(LAYOUT, parent::getLayout(), $ViewBag->getBag());
     }
 
     public function cosimo()
     {
-        $result = validate_fields();
+        $result = ValidateField();
         $ViewBag = new ViewBag();
         $ViewBag->Add('error', implode("<br>", $result["message"]));
-        allocate(LAYOUT, parent::getLayout(), $ViewBag->getBag());
-
+        Allocate(LAYOUT, parent::getLayout(), $ViewBag->getBag());
     }
 }
