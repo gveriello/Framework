@@ -52,6 +52,7 @@ define('ATTACHMENTS',   SECURITY.DS.'attachments');
  * Globals variable of Julius.
  * DON'T CHANGE THEM
  */
+
 $url;
 $page;
 $phpbehind;

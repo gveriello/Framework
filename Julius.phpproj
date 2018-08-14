@@ -47,15 +47,13 @@
     <Compile Include="application\layout\IndexLayout.php" />
     <Compile Include="application\model\IndexModel.class.php" />
     <Compile Include="application\phpbehind\IndexPHP.class.php" />
-    <Compile Include="core\contracts\abstracts\Rules.php" />
-    <Compile Include="core\contracts\abstracts\RulesComparator.php" />
     <Compile Include="core\contracts\implemented\Model.php" />
     <Compile Include="core\contracts\implemented\Page.php" />
     <Compile Include="core\contracts\implemented\PHPBehind.php" />
     <Compile Include="core\framework\Allocator.php" />
     <Compile Include="core\framework\FrameworksHelper.php" />
     <Compile Include="core\framework\GlobalFunctions.php" />
-    <Compile Include="core\framework\Rules.php" />
+    <Compile Include="core\framework\DataValidator.php" />
     <Compile Include="core\contracts\implemented\APILibraries.php" />
     <Compile Include="core\framework\Config.php" />
     <Compile Include="core\framework\Constants.php" />

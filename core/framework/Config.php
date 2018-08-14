@@ -42,10 +42,10 @@ global $errorpages;
  */
 
 $autoloader = array(
-    ABSTRACTS => array("Rules", "RulesComparator"),
+    ABSTRACTS => array(),
     IMPLEMENTED => array("Page", "Model", "PHPBehind", "APILibraries"),
     INTERFACES => array(),
-    FRAMEWORK => array("Allocator", "Rules"),
+    FRAMEWORK => array("Allocator", "DataValidator"),
     LANGUAGES => array(),
     HELPERS => array(),
     LIBRARIES => array()

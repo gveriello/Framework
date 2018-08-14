@@ -199,7 +199,6 @@ function validate_fields($_style = '', $_class = '')
         $_formatattributevalidator = json_decode(base64_decode($_REQUEST["formattributevalidator"]));
         if ($_formatattributevalidator !== NULL)
         {
-            allocate(LIBRARIES, 'Rules');
             allocate(HELPERS, 'StringerHelper');
             if (password_verify(json_encode($_formatattributevalidator->configurator), base64_decode($_formatattributevalidator->token)))
             {
@@ -209,19 +208,18 @@ function validate_fields($_style = '', $_class = '')
                     $validatorresult = false;
                     foreach($rules as $rule)
                     {
-                        $stringer = (new StringerHelper($rule));
-                        $message = $stringer->after(',');
-                        $comparator = $stringer->between('[', ']');
+                        $message = StringerHelper::after($rule, ',');
+                        $comparator = StringerHelper::between($rule, '[', ']');
                         $validator = null;
                         if ($comparator !== '')
                         {
-                            $rule = $stringer->before('[');
+                            $rule = StringerHelper::before($rule, '[');
                             $validator = new $rule($value, $comparator, $message);
                             $validatorresult = $validator->Execute();
                         }
                         else
                         {
-                            $rule = $stringer->before(',');
+                            $rule = StringerHelper::before($rule, ',');
                             $validator = new $rule($value, $message);
                             $validatorresult = $validator->Execute();
                         }

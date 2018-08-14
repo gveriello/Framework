@@ -1,5 +1,44 @@
 <?php
-
+abstract class Rules
+{
+    private $value;
+    private $message;
+    abstract function __construct($_value, $_message = '');
+    abstract function Execute();
+    abstract function GetMessage();
+}
+abstract class RulesComparator
+{
+    private $value;
+    private $comparator;
+    private $message;
+    abstract function __construct($_value, $_comparator, $_message = '');
+    abstract function Execute();
+    abstract function GetMessage();
+}
+abstract class Action
+{
+    private $value;
+    private $message;
+    abstract function __construct($_value);
+    abstract function Execute();
+}
+#region Class with Action
+class Trim extends Action
+{
+    private $value;
+    private $message;
+    function __construct($_value)
+    {
+        $this->value = $_value;
+    }
+    function Execute()
+    {
+        $_REQUEST[$this->value] = trim($_REQUEST[$this->value]);
+        return true;
+    }
+}
+#endregion
 #region Class with Rules
 class IsNumeric extends Rules
 {

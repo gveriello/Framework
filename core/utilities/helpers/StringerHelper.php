@@ -1,38 +1,31 @@
 <?php
 class StringerHelper
 {
-    private $value;
-
-    function __construct($_value)
+    public static function after ($value, $character)
     {
-        $this->value = $_value;
+        if (!is_bool(strpos($value, $character)))
+            return substr($value, strpos($value, $character) + strlen($character));
     }
 
-    function after ($character)
+    public static function after_last ($value, $character)
     {
-        if (!is_bool(strpos($this->value, $character)))
-            return substr($this->value, strpos($this->value, $character) + strlen($character));
+        if (!is_bool(self::strrevpos($value, $character)))
+            return substr($value, self::strrevpos($value, $character)+strlen($character));
     }
 
-    function after_last ($character)
+    public static function before ($value, $character)
     {
-        if (!is_bool($this->strrevpos($this->value, $character)))
-            return substr($this->value, $this->strrevpos($this->value, $character)+strlen($character));
+        return substr($value, 0, strpos($value, $character));
     }
 
-    function before ($character)
+    public static function before_last ($value, $character)
     {
-        return substr($this->value, 0, strpos($this->value, $character));
+        return substr($value, 0, self::strrevpos($value, $character));
     }
 
-    function before_last ($character)
+    public static function between ($value, $_start, $_stop)
     {
-        return substr($this->value, 0, $this->strrevpos($this->value, $character));
-    }
-
-    function between ($_start, $_stop)
-    {
-        $string = " ".$this->value;
+        $string = " ".$value;
         $ini = strpos($string, $_start);
         if ($ini == 0) return "";
         $ini += strlen($_start);
@@ -40,8 +33,15 @@ class StringerHelper
         return substr($string, $ini, $len);
     }
 
-    function between_last ($character, $that)
+    public static function between_last ($value, $character, $that)
     {
-        return $this->after_last($character, $this->before_last($that));
+        return self::after_last($character, self::before_last($that));
+    }
+
+    public static function strrevpos($instr, $needle)
+    {
+        $rev_pos = strpos (strrev($instr), strrev($needle));
+        if ($rev_pos === false) return false;
+        else return strlen($instr) - $rev_pos - strlen($needle);
     }
 }

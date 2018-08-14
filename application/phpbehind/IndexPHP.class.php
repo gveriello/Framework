@@ -35,6 +35,7 @@ class IndexPHP extends PHPBehind
         $this->FormHelper->SetRules('bho', 'minlength', '', '2');
         $this->FormHelper->SetRules('bho', 'required', 'Il nome e\' obbligatorio');
         $this->FormHelper->SetRules('bho', 'matches', 'Le due password devono combaciare', 'bho2');
+        $this->FormHelper->SetRules('bho', 'trim');
         $this->ViewBag->Add('validator', $this->FormHelper->Validator());
         allocate(LAYOUT, parent::getLayout(), $this->ViewBag->getBag());
     }
