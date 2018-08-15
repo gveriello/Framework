@@ -18,42 +18,42 @@ class IndexPHP extends PHPBehind
 
     public function index()
     {
-        $this->APIService->SetCall("TestService", "getNomeCognome");
-        $response = $this->APIService->run();
+        $this->APIService::SetCall("TestService", "getNomeCognome");
+        $response = $this->APIService::run();
 
-        $this->ViewBag->Add(null, parent::getModel());
-        $this->ViewBag->Add('title', parent::getPage());
-        $this->ViewBag->Add('response', $response);
+        $this->ViewBag::Add(null, parent::getModel());
+        $this->ViewBag::Add('title', parent::getPage());
+        $this->ViewBag::Add('response', $response);
 
-        $this->ViewTable->SetStyle('column', 'a', 'font-size:20px;');
-        $this->ViewTable->AddColumn('a,c,e');
-        $this->ViewTable->AddData(parent::getModel()->arrayoftable);
-        $this->ViewTable->DataBinding();
+        $this->ViewTable::SetStyle('column', 'a', 'font-size:20px;');
+        $this->ViewTable::AddColumn('a,c,e');
+        $this->ViewTable::AddData(parent::getModel()->arrayoftable);
+        $this->ViewTable::DataBinding();
 
-        $this->ViewBag->Add('table', $this->ViewTable->TableToHtml());
+        $this->ViewBag::Add('table', $this->ViewTable::TableToHtml());
 
-        $this->FormHelper->SetRules('bho', 'minlength', '', '2');
-        $this->FormHelper->SetRules('bho', 'required', 'Il nome e\' obbligatorio');
-        $this->FormHelper->SetRules('bho', 'matches', 'Le due password devono combaciare', 'bho2');
-        $this->FormHelper->SetRules('bho', 'trim');
-        $this->ViewBag->Add('validator', $this->FormHelper->Validator());
-        allocate(LAYOUT, parent::getLayout(), $this->ViewBag->getBag());
+        $this->FormHelper::set_rules('bho', 'minlength', '', '2');
+        $this->FormHelper::set_rules('bho', 'required', 'Il nome e\' obbligatorio');
+        $this->FormHelper::set_rules('bho', 'matches', 'Le due password devono combaciare', 'bho2');
+        $this->FormHelper::set_rules('bho', 'trim');
+        $this->ViewBag::Add('validator', $this->FormHelper::validator());
+        allocate(LAYOUT, parent::getLayout(), $this->ViewBag::getBag());
     }
 
     public function login()
     {
         $ViewBag = new ViewBag();
-        $ViewBag->Add('error', 'credenziali errate');
+        $ViewBag::Add('error', 'credenziali errate');
 
-        allocate(LAYOUT, parent::getLayout(), $ViewBag->getBag());
+        allocate(LAYOUT, parent::getLayout(), $ViewBag::getBag());
     }
 
     public function cosimo()
     {
         $result = validate_fields();
         $ViewBag = new ViewBag();
-        $ViewBag->Add('error', implode("<br>", $result["message"]));
-        allocate(LAYOUT, parent::getLayout(), $ViewBag->getBag());
+        $ViewBag::Add('error', implode("<br>", $result["message"]));
+        allocate(LAYOUT, parent::getLayout(), $ViewBag::getBag());
 
     }
 }

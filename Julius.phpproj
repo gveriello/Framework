@@ -37,6 +37,7 @@
     <Folder Include="resources\css\" />
     <Folder Include="resources\img\" />
     <Folder Include="resources\js\" />
+    <Folder Include="resources\fonts\" />
     <Folder Include="resources\pages\" />
     <Folder Include="reserved\" />
     <Folder Include="reserved\attachments\" />
@@ -61,6 +62,7 @@
     <Compile Include="core\framework\Julius.php" />
     <Compile Include="core\utilities\helpers\APIService.php" />
     <Compile Include="core\utilities\helpers\FormHelper.php" />
+    <Compile Include="core\utilities\helpers\JavascriptHelper.php" />
     <Compile Include="core\utilities\helpers\ViewBag.php" />
     <Compile Include="core\utilities\helpers\ViewTable.php" />
     <Compile Include="core\utilities\helpers\StringerHelper.php" />
@@ -71,5 +73,22 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="application\jsbehind\IndexJS.js" />
+    <Content Include="resources\css\bootstrap-theme.css" />
+    <Content Include="resources\css\bootstrap-theme.css.map" />
+    <Content Include="resources\css\bootstrap-theme.min.css" />
+    <Content Include="resources\css\bootstrap-theme.min.css.map" />
+    <Content Include="resources\css\bootstrap.css" />
+    <Content Include="resources\css\bootstrap.css.map" />
+    <Content Include="resources\css\bootstrap.min.css" />
+    <Content Include="resources\css\bootstrap.min.css.map" />
+    <Content Include="resources\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="resources\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="resources\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="resources\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="resources\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="resources\js\bootstrap.js" />
+    <Content Include="resources\js\bootstrap.min.js" />
+    <Content Include="resources\js\jquery.min.js" />
+    <Content Include="resources\js\npm.js" />
   </ItemGroup>
 </Project>

@@ -47,7 +47,7 @@ $autoloader = array(
     INTERFACES => array(),
     FRAMEWORK => array("Allocator", "DataValidator"),
     LANGUAGES => array(),
-    HELPERS => array(),
+    HELPERS => array("JavascriptHelper"),
     LIBRARIES => array()
     );
 

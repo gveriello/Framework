@@ -35,7 +35,7 @@ class StringerHelper
 
     public static function between_last ($value, $character, $that)
     {
-        return self::after_last($character, self::before_last($that));
+        return self::after_last($character, self::before_last($value, $that));
     }
 
     public static function strrevpos($instr, $needle)

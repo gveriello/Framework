@@ -2,105 +2,97 @@
 
 class ViewTable
 {
-    private $Column;
-    private $Data;
-    private $ColumnData;
-    private $Row;
-    private $Style;
-    private $Class;
-    function __construct()
-    {
-        $this->Row = 0;
-        $this->ColumnData = array();
-        $this->Column = array();
-        $this->Data = array();
-        $this->Style = array(
+    static private $Column = array();
+    static private $Data = array();
+    static private $ColumnData = array();
+    static private $Row = 0;
+    static private $Style = array(
             "table" => '',
             "thead" => array(),
             "tbody" => array(),
             "row" => array(),
             "column" => array(),
         );
-        $this->Class = array(
+    static private $Class = array(
             "table" => '',
             "thead" => array(),
             "tbody" => array(),
             "row" => array(),
             "column" => array(),
         );
-    }
+
 
     #region Style
-    function SetStyle($_formcontrol, $_controlname, $_style)
+    public static function SetStyle($_formcontrol, $_controlname, $_style)
     {
-        $this->Style[$_formcontrol][$_controlname] = $_style;
+        self::$Style[$_formcontrol][$_controlname] = $_style;
     }
-    function RemoveStyle($_formcontrol, $_controlname){
-        if (in_array($_controlname, $this->Style[$_formcontrol])){
-            unset($this->Style[$_formcontrol][$_controlname]);
+    public static function RemoveStyle($_formcontrol, $_controlname){
+        if (in_array($_controlname, self::$Style[$_formcontrol])){
+            unset(self::$Style[$_formcontrol][$_controlname]);
         }
     }
-    function GetStyle($_formcontrol, $_controlname = ''){
-        if (is_array($this->Style[$_formcontrol])){
+    public static function GetStyle($_formcontrol, $_controlname = ''){
+        if (is_array(self::$Style[$_formcontrol])){
             if (empty($_controlname)){
-                if (in_array($_formcontrol, $this->Style))
-                    return $this->Style[$_formcontrol];
+                if (in_array($_formcontrol, self::$Style))
+                    return self::$Style[$_formcontrol];
                 else
                     return '';
             }else{
-                if (array_key_exists($_controlname,$this->Style[$_formcontrol]))
-                    return $this->Style[$_formcontrol][$_controlname];
+                if (array_key_exists($_controlname,self::$Style[$_formcontrol]))
+                    return self::$Style[$_formcontrol][$_controlname];
                 else
                     return '';
             }
         }else{
-            return (empty($this->Style[$_formcontrol]) ? '' : $this->Style[$_formcontrol]);
+            return (empty(self::$Style[$_formcontrol]) ? '' : self::$Style[$_formcontrol]);
         }
     }
     #endregion
 
     #region Class
-    function SetClass($_formcontrol, $_controlname, $_style)
+    public static function SetClass($_formcontrol, $_controlname, $_style)
     {
-        $this->Class[$_formcontrol][$_controlname] = $_style;
+        self::$Class[$_formcontrol][$_controlname] = $_style;
     }
-    function RemoveClass($_formcontrol, $_controlname){
-        if (in_array($_controlname, $this->Class[$_formcontrol])){
-            unset($this->Class[$_formcontrol][$_controlname]);
+    public static function RemoveClass($_formcontrol, $_controlname){
+        if (in_array($_controlname, self::$Class[$_formcontrol])){
+            unset(self::$Class[$_formcontrol][$_controlname]);
         }
     }
-    function GetClass($_formcontrol, $_controlname = ''){
-        if (is_array($this->Class[$_formcontrol])){
+    public static function GetClass($_formcontrol, $_controlname = ''){
+        if (is_array(self::$Class[$_formcontrol])){
             if (empty($_controlname)){
-                if (in_array($_formcontrol, $this->Class))
-                    return $this->Class[$_formcontrol];
+                if (in_array($_formcontrol, self::$Class))
+                    return self::$Class[$_formcontrol];
                 else
                     return '';
             }else{
-                if (array_key_exists($_controlname,$this->Class[$_formcontrol]))
-                    return $this->Class[$_formcontrol][$_controlname];
+                if (array_key_exists($_controlname,self::$Class[$_formcontrol]))
+                    return self::$Class[$_formcontrol][$_controlname];
                 else
                     return '';
             }
         }else{
-            return (empty($this->Class[$_formcontrol]) ? '' : $this->Class[$_formcontrol]);
+            return (empty(self::$Class[$_formcontrol]) ? '' : self::$Class[$_formcontrol]);
         }
     }
     #endregion
 
     #region Operation to column
-    function AddColumn($_column)
+    public static function AddColumn($_column)
     {
         if ($_column !== NULL){
-            if (!in_array($_column, $this->Column)){
+            if (!in_array($_column, self::$Column)){
                 if (!strpos($_column, ',')){
-                    array_push($this->Column, $_column);
-                    $this->ColumnData[$_column] = array();
+                    array_push(self::$Column, $_column);
+                    self::$ColumnData[$_column] = array();
                 }else{
                     $_columntemp = explode(',', $_column);
                     foreach($_columntemp as $ColumnKey){
-                        array_push($this->Column, $ColumnKey);
-                        $this->ColumnData[$ColumnKey] = array();
+                        array_push(self::$Column, $ColumnKey);
+                        self::$ColumnData[$ColumnKey] = array();
                     }
                 }
             }else{
@@ -110,36 +102,36 @@ class ViewTable
             throw new InvalidArgumentException("Column must be a string");
         }
     }
-    function RemoveColumn($_columnname){
-        if (!in_array($_columnname, $this->Column)){
-            unset($this->Column[$_columnname]);
+    public static function RemoveColumn($_columnname){
+        if (!in_array($_columnname, self::$Column)){
+            unset(self::$Column[$_columnname]);
         }
     }
     #endregion
 
     #region Operation to Data
-    function AddData($_data){
+    public static function AddData($_data){
         if (is_array($_data)){
-            $this->Data = $_data;
+            self::$Data = $_data;
         }else{
             throw new InvalidArgumentException("Data must be an array or matrix");
         }
     }
-    function RemoveData(){
-        $this->Data = array();
+    public static function RemoveData(){
+        self::$Data = array();
     }
     #endregion
 
     #region DataBinding Control
-    function DataBinding(){
-        if ($this->Data !== NULL && count($this->Column) > 0){
-            for($i = 0; $i < count($this->Data); $i++){
-                if (count($this->Data[$i]) > $this->Row) $this->Row = count($this->Data[$i]);
-                for($k = 0; $k < count($this->Column); $k++){
-                    if (array_key_exists($this->Column[$k], $this->Data[$i]))
-                        array_push($this->ColumnData[$this->Column[$k]], $this->Data[$i][$this->Column[$k]]);
+    public static function DataBinding(){
+        if (self::$Data !== NULL && count(self::$Column) > 0){
+            for($i = 0; $i < count(self::$Data); $i++){
+                if (count(self::$Data[$i]) > self::$Row) self::$Row = count(self::$Data[$i]);
+                for($k = 0; $k < count(self::$Column); $k++){
+                    if (array_key_exists(self::$Column[$k], self::$Data[$i]))
+                        array_push(self::$ColumnData[self::$Column[$k]], self::$Data[$i][self::$Column[$k]]);
                     else
-                        array_push($this->ColumnData[$this->Column[$k]], '');
+                        array_push(self::$ColumnData[self::$Column[$k]], '');
                 }
             }
         }else{
@@ -149,39 +141,39 @@ class ViewTable
     #endregion
 
     #region Result Html
-    function TableToHtml(){
-        if (count($this->ColumnData) > 0){
+    public static function TableToHtml(){
+        if (count(self::$ColumnData) > 0){
             $table = '<table '
-                .(!empty($this->GetStyle('table')) ? 'style="'.$this->GetStyle('table').'" ': null)
-                .(!empty($this->GetClass('table')) ? 'class="'.$this->GetClass('table').'" ': null)
+                .(!empty(self::GetStyle('table')) ? 'style="'.self::GetStyle('table').'" ': null)
+                .(!empty(self::GetClass('table')) ? 'class="'.self::GetClass('table').'" ': null)
                 .'>';
             $table .= '<thead '
-                .(!empty($this->GetStyle('thead')) ? 'style="'.$this->GetStyle('thead').'" ': null)
-                .(!empty($this->GetClass('thead')) ? 'class="'.$this->GetClass('thead').'" ': null)
+                .(!empty(self::GetStyle('thead')) ? 'style="'.self::GetStyle('thead').'" ': null)
+                .(!empty(self::GetClass('thead')) ? 'class="'.self::GetClass('thead').'" ': null)
                 .'>';
-            foreach($this->Column as $ColumnKey){
+            foreach(self::$Column as $ColumnKey){
                 $table .= '<th '
-                .(!empty($this->GetStyle('column', $ColumnKey)) ? 'style="'.$this->GetStyle('column', $ColumnKey).'" ': null)
-                .(!empty($this->GetClass('column', $ColumnKey)) ? 'class="'.$this->GetClass('column', $ColumnKey).'" ': null)
+                .(!empty(self::GetStyle('column', $ColumnKey)) ? 'style="'.self::GetStyle('column', $ColumnKey).'" ': null)
+                .(!empty(self::GetClass('column', $ColumnKey)) ? 'class="'.self::GetClass('column', $ColumnKey).'" ': null)
                 .'>'.$ColumnKey.'</th>';
             }
             $table .= '</thead>';
 
             $table .= '<tbody '
-                .(!empty($this->GetStyle('tbody')) ? 'style="'.$this->GetStyle('tbody').'" ': null)
-                .(!empty($this->GetClass('tbody')) ? 'class="'.$this->GetClass('tbody').'" ': null)
+                .(!empty(self::GetStyle('tbody')) ? 'style="'.self::GetStyle('tbody').'" ': null)
+                .(!empty(self::GetClass('tbody')) ? 'class="'.self::GetClass('tbody').'" ': null)
                 .'>';
-            for($r = 0; $r < $this->Row; $r++){
+            for($r = 0; $r < self::$Row; $r++){
                 $table .= '<tr '
-                .(!empty($this->GetStyle('row')) ? 'style="'.$this->GetStyle('row').'" ': null)
-                .(!empty($this->GetClass('row')) ? 'class="'.$this->GetClass('row').'" ': null)
+                .(!empty(self::GetStyle('row')) ? 'style="'.self::GetStyle('row').'" ': null)
+                .(!empty(self::GetClass('row')) ? 'class="'.self::GetClass('row').'" ': null)
                     .'>';
-                for($k = 0; $k < count($this->Column); $k++){
+                for($k = 0; $k < count(self::$Column); $k++){
                     $table .= '<td '
-                .(!empty($this->GetStyle('column', $this->ColumnData[$this->Column[$k]][$r])) ? 'style="'.$this->GetStyle('column', $this->ColumnData[$this->Column[$k]][$r]).'" ': null)
-                .(!empty($this->GetClass('column', $this->ColumnData[$this->Column[$k]][$r])) ? 'class="'.$this->GetClass('column', $this->ColumnData[$this->Column[$k]][$r]).'" ': null)
+                .(!empty(self::GetStyle('column', self::$ColumnData[self::$Column[$k]][$r])) ? 'style="'.self::GetStyle('column', self::$ColumnData[self::$Column[$k]][$r]).'" ': null)
+                .(!empty(self::GetClass('column', self::$ColumnData[self::$Column[$k]][$r])) ? 'class="'.self::GetClass('column', self::$ColumnData[self::$Column[$k]][$r]).'" ': null)
                         .'>';
-                    $table .= $this->ColumnData[$this->Column[$k]][$r];
+                    $table .= self::$ColumnData[self::$Column[$k]][$r];
                     $table .= '</td>';
                 }
                 $table .= '</tr>';

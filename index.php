@@ -36,6 +36,7 @@ define('RESOURCES', ROOT.DS.'resources');
 define('CSS',           RESOURCES.DS.'css');
 define('JS',            RESOURCES.DS.'js');
 define('IMG',           RESOURCES.DS.'img');
+define('FONTS',         RESOURCES.DS.'fonts');
 define('PAGES',         RESOURCES.DS.'pages');
 
 define('RESERVED',  ROOT.DS.'reserved');

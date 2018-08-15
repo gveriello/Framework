@@ -147,17 +147,10 @@ function set_reporting()
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 
-function can_allocate($folder, $file, $extension = '.php')
+function can_allocate($folder, $file)
 {
     if ($folder !== NULL && $file !== NULL && $folder !== '' && $file !== ''){
-        switch($folder){
-            case MODEL:
-            case PHPBEHIND:
-                $extension = '.class.php';
-            case JSBEHIND:
-                $extension = '.js';
-        }
-        return (!empty(string_for_allocate_file($folder, $file, $extension)));
+        return (!empty(string_for_allocate_file($folder, $file)));
     }
     return false;
 }
@@ -170,8 +163,9 @@ function allocate($folder, $file, $databag = array())
         require_once string_for_allocate_file($folder, $file);
 }
 
-function string_for_allocate_file($folder, $file, $extension = '.php')
+function string_for_allocate_file($folder, $file)
 {
+    $extension = '.php';
     if ($folder !== NULL && $file !== NULL && $folder !== '' && $file !== '')
     {
         switch($folder){
@@ -180,7 +174,11 @@ function string_for_allocate_file($folder, $file, $extension = '.php')
                 $extension = '.class.php';
                 break;
             case JSBEHIND:
+            case JS:
                 $extension = '.js';
+                break;
+            case CSS:
+                $extension = '.css';
                 break;
         }
         if (file_exists($folder.DS.$file.$extension))

@@ -1,33 +1,31 @@
 <?php
 class APIService
 {
-    private $NameService;
-    private $ActionService;
-    private $ParamService;
-    private $InstanceClassService;
+    static private $NameService;
+    static private $ActionService;
+    static private $ParamService;
+    static private $InstanceClassService;
 
-    public function __construct(){}
-
-    public function SetCall($_nameservice, $_actionservice, $_paramservice = array())
+    public static function SetCall($_nameservice, $_actionservice, $_paramservice = array())
     {
         if (!empty($_nameservice) && !empty($_actionservice)){
-            $this->NameService = $_nameservice;
-            $this->ActionService = $_actionservice;
-            $this->ParamService = $_paramservice;
-            $this->InstanceClassService = NULL;
+            self::$NameService = $_nameservice;
+            self::$ActionService = $_actionservice;
+            self::$ParamService = $_paramservice;
+            self::$InstanceClassService = NULL;
         }else{
             throw new AuthenticationException("Name service and Action service is required");
         }
     }
 
-    public function run()
+    public static function run()
     {
-        if (can_allocate(API, $this->NameService))
+        if (can_allocate(API, self::$NameService))
         {
             allocate(LIBRARIES, 'APILibraries');
-            allocate(API, $this->NameService);
-            $this->InstanceClassService = new $this->NameService($this->ActionService, $this->ParamService);
-            return $this->InstanceClassService->GenerateReport();
+            allocate(API, self::$NameService);
+            self::$InstanceClassService = new self::$NameService(self::$ActionService, self::$ParamService);
+            return self::$InstanceClassService->GenerateReport();
         }
         else
         {
