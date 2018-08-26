@@ -27,6 +27,11 @@ class ENVIRONMENTSTATUS
 const ENVIRONMENT = ENVIRONMENTSTATUS::PRODUCTION;
 #endregion
 
+#region RESOURCES
+global $jquery_url;
+
+$jquery_url = 'https://code.jquery.com/jquery-3.3.1.min.js';
+#endregion
 #region JULIUS CONFIGURATION
 
 global $autoloader;
@@ -42,13 +47,8 @@ global $errorpages;
  */
 
 $autoloader = array(
-    ABSTRACTS => array(),
-    IMPLEMENTED => array("Page", "Model", "PHPBehind", "APILibraries"),
-    INTERFACES => array(),
-    FRAMEWORK => array("Allocator", "DataValidator"),
-    LANGUAGES => array(),
-    HELPERS => array("JavascriptHelper"),
-    LIBRARIES => array()
+    IMPLEMENTED => '*',
+    FRAMEWORK => '*'
     );
 
 /*

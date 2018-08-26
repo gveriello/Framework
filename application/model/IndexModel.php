@@ -1,9 +1,10 @@
 <?php
-class IndexModel extends Model{
+class IndexModel extends PageModel{
 
     public $textoftable = 'ciao';
 
-
+    public $name = 'a';
+    public $surname = 'v';
     public $arrayoftable;
 
     function __construct(){

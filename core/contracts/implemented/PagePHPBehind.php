@@ -1,5 +1,5 @@
 <?php
-class PHPBehind extends Page{
+class PagePHPBehind extends Page{
 
     #region extension page's method
     protected function getPage(){

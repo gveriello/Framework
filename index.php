@@ -1,5 +1,5 @@
 <?php
-
+$start = microtime(true);
 #region FRAMEWORK CONST
 /*
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -27,6 +27,7 @@ define('ABSTRACTS',         CONTRACTS.DS.'abstracts');
 define('IMPLEMENTED',       CONTRACTS.DS.'implemented');
 define('INTERFACES',        CONTRACTS.DS.'interfaces');
 define('FRAMEWORK',     CORE.DS.'framework');
+define('CONTROLS',     FRAMEWORK.DS.'controls');
 define('LANGUAGES',     CORE.DS.'languages');
 define('UTILITIES',     CORE.DS.'utilities');
 define('HELPERS',       UTILITIES.DS.'helpers');

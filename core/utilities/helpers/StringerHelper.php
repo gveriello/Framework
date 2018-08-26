@@ -44,4 +44,11 @@ class StringerHelper
         if ($rev_pos === false) return false;
         else return strlen($instr) - $rev_pos - strlen($needle);
     }
+
+    public static function string_is_html($string)
+    {
+        if($string != strip_tags($string))
+            return true;
+        return false;
+    }
 }

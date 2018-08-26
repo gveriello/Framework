@@ -1,5 +1,5 @@
 <?php
-class select extends FormControl
+class select implements IFormControl
 {
 	private $attribute;
     private $value;
@@ -11,7 +11,7 @@ class select extends FormControl
     		$this->value = array();
             $this->child = array();
     }
-        
+
     function set_value($_attribute, $_value)
     {
     	array_push($this->attribute, $_attribute);
@@ -22,10 +22,10 @@ class select extends FormControl
     {
     	return $this->value(array_search($_attribute, $this->attribute));
     }
-    
+
     function add_child($_child)
     {
         array_push($this->child, $_child);
     }
-    
+
 }

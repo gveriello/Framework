@@ -8,6 +8,8 @@
     </RootNamespace>
     <OutputType>Library</OutputType>
     <ProjectTypeGuids>{A0786B88-2ADB-4C21-ABE8-AA2D79766269}</ProjectTypeGuids>
+    <SpecificPageValue>index.php</SpecificPageValue>
+    <StartAction>SpecificPage</StartAction>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <IncludeDebugInformation>true</IncludeDebugInformation>
@@ -27,6 +29,7 @@
     <Folder Include="core\contracts\abstracts\" />
     <Folder Include="core\contracts\interfaces\" />
     <Folder Include="core\contracts\implemented\" />
+    <Folder Include="core\framework\controls\" />
     <Folder Include="core\languages\" />
     <Folder Include="core\utilities\" />
     <Folder Include="core\framework\" />
@@ -46,15 +49,20 @@
   <ItemGroup>
     <Compile Include="api\TestService.php" />
     <Compile Include="application\layout\IndexLayout.php" />
-    <Compile Include="application\model\IndexModel.class.php" />
-    <Compile Include="application\phpbehind\IndexPHP.class.php" />
-    <Compile Include="core\contracts\implemented\Model.php" />
+    <Compile Include="application\model\IndexModel.php" />
+    <Compile Include="application\phpbehind\IndexPHP.php" />
+    <Compile Include="core\framework\controls\IFormControl.php" />
+    <Compile Include="core\contracts\implemented\PageModel.php" />
     <Compile Include="core\contracts\implemented\Page.php" />
-    <Compile Include="core\contracts\implemented\PHPBehind.php" />
+    <Compile Include="core\contracts\implemented\PagePHPBehind.php" />
     <Compile Include="core\framework\Allocator.php" />
+    <Compile Include="core\framework\controls\a.php" />
+    <Compile Include="core\framework\controls\option.php" />
+    <Compile Include="core\framework\controls\select.php" />
     <Compile Include="core\framework\FrameworksHelper.php" />
     <Compile Include="core\framework\GlobalFunctions.php" />
-    <Compile Include="core\framework\DataValidator.php" />
+    <Compile Include="core\utilities\helpers\HtmlParserHelper.php" />
+    <Compile Include="core\utilities\libraries\DataValidator.php" />
     <Compile Include="core\contracts\implemented\APILibraries.php" />
     <Compile Include="core\framework\Config.php" />
     <Compile Include="core\framework\Constants.php" />
@@ -72,7 +80,6 @@
     <Compile Include="resources\pages\Blank.php" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="application\jsbehind\IndexJS.js" />
     <Content Include="resources\css\bootstrap-theme.css" />
     <Content Include="resources\css\bootstrap-theme.css.map" />
     <Content Include="resources\css\bootstrap-theme.min.css" />

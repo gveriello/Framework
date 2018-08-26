@@ -12,7 +12,8 @@ class JavascriptHelper
 {
     public static function allocate_jquery()
     {
-        return Allocator::allocate_js("https://code.jquery.com/jquery-3.3.1.min.js");
+        global $jquery_url;
+        return Allocator::allocate_js($jquery_url);
     }
 
     public static function get_value($_controlname, $_attribute)

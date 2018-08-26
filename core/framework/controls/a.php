@@ -1,15 +1,15 @@
 <?php
-class a extends FormControl
+class a implements IFormControl
 {
 	private $attribute;
     private $value;
 
     function __construct()
     {
-    		$this->attribute = array();
-    		$this->value = array();
+        $this->attribute = array();
+        $this->value = array();
     }
-        
+
     function set_value($_attribute, $_value)
     {
     	array_push($this->attribute, $_attribute);
@@ -20,5 +20,9 @@ class a extends FormControl
     {
     	return $this->value(array_search($_attribute, $this->attribute));
     }
-    
+
+    function add_child($_child)
+    {
+        return null;
+    }
 }

@@ -2,11 +2,45 @@
 
 class Allocator
 {
+    public static function allocate_model($_model)
+    {
+        if ($_model !== '' && $_model !== null){
+            allocate(MODEL, $_model);
+            return new $_model();
+        }
+        return null;
+    }
+    public static function allocate_phpbehind($_phpbehind)
+    {
+        if ($_phpbehind !== '' && $_phpbehind !== null){
+            allocate(PHPBEHIND, $_phpbehind);
+            return new $_phpbehind();
+        }
+        return null;
+    }
+    public static function allocate_jsbehind($jsbehind)
+    {
+        allocate(JSBEHIND, $jsbehind);
+    }
+    public static function allocate_layout($_layout, $viewbag)
+    {
+        $input = file_get_contents(string_for_allocate_file(LAYOUT, $_layout));
+        $input = trim(str_replace("\r\n", "", $input));
+        if (!empty($input)){
+            self::allocate_helper('HtmlParserHelper');
+            HtmlParserHelper::LoadHtmlFromString($input);
+            HtmlParserHelper::Binding($viewbag);
+            HtmlParserHelper::RunHtml();
+        }else{
+            allocate(LAYOUT, $_layout, $viewbag::getBag());
+        }
+    }
     public static function allocate_helper($helper)
     {
         if ($helper !== '' && $helper !== null){
             allocate(HELPERS, $helper);
-            return new $helper();
+            if (class_exists($helper))
+                return new $helper();
         }
         return null;
     }
@@ -14,7 +48,8 @@ class Allocator
     {
         if ($library !== '' && $library !== null){
             allocate(LIBRARIES, $library);
-            return new $library();
+            if (class_exists($library))
+                return new $library();
         }
         return null;
     }
@@ -38,5 +73,10 @@ class Allocator
                     return '<script src="'.string_for_allocate_file(JS, $js).'" ></script>';
 
         return '';
+    }
+    public static function allocate_jquery()
+    {
+        global $jquery_url;
+        return Allocator::allocate_js($jquery_url);
     }
 }

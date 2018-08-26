@@ -97,16 +97,16 @@
 				$files = 1;
 			}
 
-			if(crea_file($nome_file, $contenuto_model, 'Model', '.class.php', 'model')){
-				echo "Ho creato il file in: application/model/".$nome_file."Model.class.php<br>";
+			if(crea_file($nome_file, $contenuto_model, 'Model', '.php', 'model')){
+				echo "Ho creato il file in: application/model/".$nome_file."Model.php<br>";
 				$files = $files+1;
 			}
 			if(crea_file($nome_file, $contenuto_layout, 'Layout', '.php', 'layout')){
 				echo "Ho creato il file in: application/layout/".$nome_file."Layout.php<br>";
 				$files = $files+1;
 			}
-			if(crea_file($nome_file, $contenuto_php, 'PHP', '.class.php', 'phpbehind')){
-				echo "Ho creato il file in: application/phpbehind/".$nome_file."PHP.class.php<br>";
+			if(crea_file($nome_file, $contenuto_php, 'PHP', '.php', 'phpbehind')){
+				echo "Ho creato il file in: application/phpbehind/".$nome_file."PHP.php<br>";
 				$files = $files+1;
 			}
 			if($files === 4){

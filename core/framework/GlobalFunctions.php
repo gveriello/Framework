@@ -23,9 +23,8 @@ function get_routing($url, &$page, &$action, &$querystring, &$phpbehind, &$jsbeh
     if ($url !== '' && $url !== NULL){
         $urlArray = array();
         $urlArray = explode("/", $url);
-        if (count($urlArray) === 1){
+        if (count($urlArray) === 1)
             $page = $urlArray[0];
-        }
         if (count($urlArray) === 2){
             $page = $urlArray[0];
             $action = $urlArray[1];
@@ -36,7 +35,8 @@ function get_routing($url, &$page, &$action, &$querystring, &$phpbehind, &$jsbeh
             $action = $urlArray[0];
             array_shift($urlArray);
         }
-        if (count($_GET) > 0) $querystring = parse_query_string($_GET);
+        if (count($_GET) > 0) 
+            $querystring = parse_query_string($_GET);
     }
     $page = ucwords(strtolower($page));
     $phpbehind = $page.'PHP';
@@ -48,12 +48,9 @@ function get_routing($url, &$page, &$action, &$querystring, &$phpbehind, &$jsbeh
 function parse_query_string($array)
 {
     $NewArray = array();
-
-    if (is_array($array)){
-        foreach($array as $key => $item){
+    if (is_array($array))
+        foreach($array as $key => $item)
             $NewArray[$key] = $item;
-        }
-    }
     return $NewArray;
 }
 #endregion
@@ -70,8 +67,7 @@ function parse_query_string($array)
 
 function strip_slashes_deep($value)
 {
-    $value = is_array($value) ? array_map('stripSlashesDeep', $value) : stripslashes($value);
-    return $value;
+    return is_array($value) ? array_map('stripSlashesDeep', $value) : stripslashes($value);
 }
 
 function remove_magic_quotes()
@@ -91,33 +87,23 @@ function unregister_globals()
         'SESSION', 'FILES', 'ENV', 'SERVER'
     );
     // Save the existing superglobals first
-    foreach ($variables as $variable) {
-        if (isset(${'_' . $variable})) {
+    foreach ($variables as $variable)
+        if (isset(${'_' . $variable}))
             ${'local_' . $variable} = ${'_' . $variable};
-        }
-    }
     // Unset the $GLOBALS array (clear all)
-    foreach($GLOBALS as $key => $value) {
-        if ($key != 'GLOBALS') {
+    foreach($GLOBALS as $key => $value)
+        if ($key != 'GLOBALS')
             unset($GLOBALS[$key]);
-        }
-    }
     // Re-assign the saved superglobals again
-    foreach ($variables as $variable) {
-        if (isset(${'local_' . $variable})) {
+    foreach ($variables as $variable)
+        if (isset(${'local_' . $variable}))
             ${'_' . $variable} = ${'local_' . $variable};
-        }
-    }
     if (ini_get('register_globals')) {
         $array = array('_SESSION', '_POST', '_GET', '_COOKIE', '_REQUEST', '_SERVER', '_ENV', '_FILES');
-        foreach ($array as $value) {
-            foreach ($GLOBALS[$value] as $key => $var) {
-                if ($var === $GLOBALS[$key]) {
+        foreach ($array as $value)
+            foreach ($GLOBALS[$value] as $key => $var)
+                if ($var === $GLOBALS[$key])
                     unset($GLOBALS[$key]);
-                }
-            }
-        }
-
     }
 }
 
@@ -149,9 +135,8 @@ function set_reporting()
 
 function can_allocate($folder, $file)
 {
-    if ($folder !== NULL && $file !== NULL && $folder !== '' && $file !== ''){
+    if ($folder !== NULL && $file !== NULL && $folder !== '' && $file !== '')
         return (!empty(string_for_allocate_file($folder, $file)));
-    }
     return false;
 }
 
@@ -165,26 +150,27 @@ function allocate($folder, $file, $databag = array())
 
 function string_for_allocate_file($folder, $file)
 {
+    $file = pathinfo($file, PATHINFO_FILENAME); //prendo solo il nome del file eliminando l' eventuale estensione
     $extension = '.php';
-    if ($folder !== NULL && $file !== NULL && $folder !== '' && $file !== '')
-    {
-        switch($folder){
-            case MODEL:
-            case PHPBEHIND:
-                $extension = '.class.php';
-                break;
-            case JSBEHIND:
-            case JS:
-                $extension = '.js';
-                break;
-            case CSS:
-                $extension = '.css';
-                break;
+    if (is_dir($folder.DS.$file))
+        return $folder.DS.$file;
+    else
+        if (!empty($folder) && !empty($file))
+        {
+            switch($folder){
+
+                case JSBEHIND:
+                case JS:
+                    $extension = '.js';
+                    break;
+                case CSS:
+                    $extension = '.css';
+                    break;
+            }
+            if (file_exists($folder.DS.$file.$extension))
+                return $folder.DS.$file.$extension;
+            return '';
         }
-        if (file_exists($folder.DS.$file.$extension))
-            return $folder.DS.$file.$extension;
-        return '';
-    }
     return '';
 }
 
@@ -197,7 +183,8 @@ function validate_fields($_style = '', $_class = '')
         $_formatattributevalidator = json_decode(base64_decode($_REQUEST["formattributevalidator"]));
         if ($_formatattributevalidator !== NULL)
         {
-            allocate(HELPERS, 'StringerHelper');
+            Allocator::allocate_library('DataValidator');
+            Allocator::allocate_helper('StringerHelper');
             if (password_verify(json_encode($_formatattributevalidator->configurator), base64_decode($_formatattributevalidator->token)))
             {
                 $_formatattributevalidator = $_formatattributevalidator->configurator;
@@ -240,7 +227,8 @@ function validate_fields($_style = '', $_class = '')
     }
 }
 
-function redirect_page($_page, $action = 'index', $querystring = array()){
+function redirect_page($_page, $action = 'index', $querystring = array())
+{
     $StringQueryString = '';
     if (count($querystring) > 0){
         $KeysOfQueryString = array_keys($querystring);
