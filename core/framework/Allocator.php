@@ -6,15 +6,29 @@ class Allocator
     {
         if ($_model !== '' && $_model !== null){
             allocate(MODEL, $_model);
-            return new $_model();
+            if (class_exists($_model))
+                return new $_model();
         }
         return null;
     }
-    public static function allocate_phpbehind($_phpbehind)
+    public static function allocate_behavior($_behavior)
     {
-        if ($_phpbehind !== '' && $_phpbehind !== null){
-            allocate(PHPBEHIND, $_phpbehind);
-            return new $_phpbehind();
+        if ($_behavior !== '' && $_behavior !== null){
+            allocate(BEHAVIOR, $_behavior);
+            if (class_exists($_behavior))
+                return new $_behavior();
+        }
+        return null;
+    }
+    public static function allocate_controller($_controller)
+    {
+        if ($_controller !== '' && $_controller !== null){
+            allocate(CONTROLLER, $_controller);
+            if (class_exists($_controller))
+            {
+                Event::trigger('OnControllerLoaded');
+                return new $_controller();
+            }
         }
         return null;
     }
@@ -24,6 +38,7 @@ class Allocator
     }
     public static function allocate_layout($_layout, $viewbag)
     {
+        Event::trigger('OnPreRender');
         $input = file_get_contents(string_for_allocate_file(LAYOUT, $_layout));
         $input = trim(str_replace("\r\n", "", $input));
         if (!empty($input)){

@@ -63,32 +63,38 @@ unregister_globals();
 
 $url = ltrim(request_uri(), '/');
 $url = rtrim($url, '/');
-get_routing($url, $page, $action, $querystring, $phpbehind, $jsbehind, $layout, $model);
-if (can_allocate(LAYOUT, $layout))
-    if (can_allocate(MODEL, $model))
-        if (can_allocate(PHPBEHIND, $phpbehind))
-        {
-            Allocator::allocate_model($model);
-            Allocator::allocate_phpbehind($phpbehind);
-            Allocator::allocate_jsbehind($jsbehind);
-            $dispatch = new $phpbehind();
-            $GLOBALS = array(
-                'page' => $page,
-                'phpbehind' => Allocator::allocate_phpbehind($phpbehind),
-                'jsbehind' => $jsbehind,
-                'layout' => $layout,
-                'model' => Allocator::allocate_model($model),
-                'action' => $action,
-                'querystring' => $querystring
-            );
-            if ((int)method_exists($dispatch, $action))
-                call_user_func_array(array($dispatch, $action), array());
-            else
-                show_404();
-        }else
-            show_404();
+get_routing($url, $page, $action, $querystring, $controller, $jsbehind, $layout, $model, $behavior);
+if (can_allocate(CONTROLLER, $controller))
+{
+    $behaviorInstance = Allocator::allocate_behavior($behavior);
+
+    if (!is_null($behaviorInstance))
+    {
+        $methods_implemented = get_class_methods($behaviorInstance);
+        foreach($methods_implemented as $method)
+            if ((int)method_exists($behaviorInstance, $method))
+                Event::listen($method, $behaviorInstance->$method());
+    }
+    $controllerInstance = Allocator::allocate_controller($controller);
+    $modelInstance = Allocator::allocate_model($model);
+    Allocator::allocate_jsbehind($jsbehind);
+    $GLOBALS = array(
+        'page' => $page,
+        'phpbehind' => $controllerInstance,
+        'model' => $modelInstance,
+        'behavior' => $behaviorInstance,
+        'jsbehind' => $jsbehind,
+        'layout' => $layout,
+        'action' => $action,
+        'querystring' => $querystring
+    );
+    if ((int)method_exists($controllerInstance, $action))
+    {
+        Event::trigger('OnLoad');
+        call_user_func_array(array($controllerInstance, $action), array());
+    }
     else
         show_404();
-else
+}else
     show_404();
 #endregion

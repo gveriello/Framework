@@ -12,12 +12,12 @@ function request_uri()
     return sprintf( "%s", $_SERVER['REQUEST_URI'] );
 }
 
-function get_routing($url, &$page, &$action, &$querystring, &$phpbehind, &$jsbehind, &$layout, &$model)
+function get_routing($url, &$page, &$action, &$querystring, &$controller, &$jsbehind, &$layout, &$model, &$behavior)
 {
     $page  = 'Index';
     $action = 'index';
     $querystring = array();
-    $phpbehind  = 'Index';
+    $controller  = 'Index';
     $layout = 'Index';
     $model = 'Index';
     if ($url !== '' && $url !== NULL){
@@ -35,11 +35,12 @@ function get_routing($url, &$page, &$action, &$querystring, &$phpbehind, &$jsbeh
             $action = $urlArray[0];
             array_shift($urlArray);
         }
-        if (count($_GET) > 0) 
+        if (count($_GET) > 0)
             $querystring = parse_query_string($_GET);
     }
     $page = ucwords(strtolower($page));
-    $phpbehind = $page.'PHP';
+    $behavior = ucwords(strtolower($action)).'PHP';
+    $controller = $page.'Controller';
     $layout = $page.'Layout';
     $model = $page.'Model';
     $jsbehind = $page.'JS';

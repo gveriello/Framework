@@ -71,6 +71,8 @@ class HtmlParserHelper
                         }
                     }
         }
+
+        Event::trigger('OnLayoutBinded');
     }
 
     private static function AddHtmlFromString($parent, $html_string) {

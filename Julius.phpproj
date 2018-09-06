@@ -23,7 +23,8 @@
     <Folder Include="application\jsbehind\" />
     <Folder Include="application\layout\" />
     <Folder Include="application\model\" />
-    <Folder Include="application\phpbehind\" />
+    <Folder Include="application\controller\" />
+    <Folder Include="application\behavior\" />
     <Folder Include="core\" />
     <Folder Include="core\contracts\" />
     <Folder Include="core\contracts\abstracts\" />
@@ -48,9 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="api\TestService.php" />
+    <Compile Include="application\behavior\IndexPHP.php" />
     <Compile Include="application\layout\IndexLayout.php" />
     <Compile Include="application\model\IndexModel.php" />
-    <Compile Include="application\phpbehind\IndexPHP.php" />
+    <Compile Include="application\controller\IndexController.php" />
+    <Compile Include="core\framework\Event.php" />
+    <Compile Include="core\contracts\interfaces\IEvent.php" />
     <Compile Include="core\framework\controls\IFormControl.php" />
     <Compile Include="core\contracts\implemented\PageModel.php" />
     <Compile Include="core\contracts\implemented\Page.php" />

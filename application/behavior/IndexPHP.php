@@ -4,11 +4,11 @@ class IndexPHP implements IEvent
 {
     public function OnControllerLoaded()
     {
-        echo '<br>Controller Loaded';
+        echo '<br>ControllerLoader';
     }
     public function OnLayoutBinded()
     {
-        echo '<br>OnLayoutBind';
+        echo '<br>OnLayoutBinded';
     }
     public function OnPreRender()
     {

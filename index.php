@@ -17,7 +17,8 @@ define('API', ROOT.DS.'api');
 
 define('APPLICATION', ROOT.DS.'application');
 define('MODEL',         APPLICATION.DS.'model');
-define('PHPBEHIND',     APPLICATION.DS.'phpbehind');
+define('BEHAVIOR',      APPLICATION.DS.'behavior');
+define('CONTROLLER',    APPLICATION.DS.'controller');
 define('JSBEHIND',      APPLICATION.DS.'jsbehind');
 define('LAYOUT',        APPLICATION.DS.'layout');
 
@@ -57,7 +58,7 @@ define('ATTACHMENTS',   SECURITY.DS.'attachments');
 
 $url;
 $page;
-$phpbehind;
+$controller;
 $jsbehind;
 $action;
 $querystring;

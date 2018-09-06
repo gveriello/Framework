@@ -1,5 +1,5 @@
 <?php
-class IndexPHP extends PagePHPBehind
+class IndexController extends PagePHPBehind
 {
 
     private $ViewBag;

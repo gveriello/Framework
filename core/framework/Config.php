@@ -47,6 +47,7 @@ global $errorpages;
  */
 
 $autoloader = array(
+    INTERFACES => '*',
     IMPLEMENTED => '*',
     FRAMEWORK => '*'
     );
