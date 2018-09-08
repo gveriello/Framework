@@ -184,7 +184,7 @@ function validate_fields($_style = '', $_class = '')
         $_formatattributevalidator = json_decode(base64_decode($_REQUEST["formattributevalidator"]));
         if ($_formatattributevalidator !== NULL)
         {
-            Allocator::allocate_library('DataValidator');
+            Allocator::allocate_helper('DataValidator');
             Allocator::allocate_helper('Stringer');
             if (password_verify(json_encode($_formatattributevalidator->configurator), base64_decode($_formatattributevalidator->token)))
             {
