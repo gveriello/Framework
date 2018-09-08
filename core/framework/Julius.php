@@ -38,7 +38,7 @@ foreach ($autoloader as $folder => $requiredpage)
         {
             $files = scandir(string_for_allocate_file($folder, $page));
             foreach($files as $file)
-                if ($file !== '.' && $file !== '..')
+                if ($file !== '.' && $file !== '..' && $file != '.htaccess')
                     require_once string_for_allocate_file(string_for_allocate_file($folder, $page), $file);
         }else{
             if (file_exists(string_for_allocate_file($folder, $page)))

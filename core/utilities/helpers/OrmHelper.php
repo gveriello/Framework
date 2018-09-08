@@ -9,7 +9,7 @@ class OrmHelper
     private static $typedatabase;
     public static $db;
 
-    private static function initialize($dbconfigurator)
+    public static function initialize($dbconfigurator)
     {
         if (is_array($dbconfigurator))
         {
@@ -76,8 +76,20 @@ class OrmHelper
         }
         return $result;
     }
+	private static function resultToArray($result)
+	{
+		$newResult = array();
+		foreach($result as $record => $index)
+		{
+			$row = array();
+			foreach($index as $property => $value)
+				$row[$property] = $value;
+			array_push($newResult, $row);
+		}
+		return $newResult;
+	}
 
-    public static function getTable($class)
+    public static function getTable($class, $toArray = false)
     {
         if (!class_exists($class))
             throw new Exception("Classresult must be a class");
@@ -91,6 +103,9 @@ class OrmHelper
         $fields = implode(', ', $fields);
         $query = str_replace('<fields>', $fields, $query);
 
-        return self::executeQuery($query, $class);
+        $result = self::executeQuery($query, $class);
+		if ($toArray)
+			return self::resultToArray($result);
+		return $result;
     }
 }

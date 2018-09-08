@@ -42,8 +42,10 @@ define('FONTS',         RESOURCES.DS.'fonts');
 define('PAGES',         RESOURCES.DS.'pages');
 
 define('RESERVED',  ROOT.DS.'reserved');
-define('LOG',           SECURITY.DS.'log');
-define('ATTACHMENTS',   SECURITY.DS.'attachments');
+define('LOG',           RESERVED.DS.'log');
+define('CACHE',         RESERVED.DS.'cache');
+define('ORMCLASSES',    RESERVED.DS.'ormclasses');
+define('ATTACHMENTS',   RESERVED.DS.'attachments');
 #endregion
 
 #region FRAMEWORK GLOBAL

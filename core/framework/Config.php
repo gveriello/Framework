@@ -43,7 +43,8 @@ global $errorpages;
 $autoloader = array(
     INTERFACES => '*',
     IMPLEMENTED => '*',
-    FRAMEWORK => '*'
+    FRAMEWORK => '*',
+	ORMCLASSES => '*'
     );
 
 /*
@@ -56,7 +57,7 @@ $autoloader = array(
 
 $dbconfigurator = array(
     "databases" => array(
-        "db1" => array("typedatabase" => DBType::MYSQL, "host" => NULL, "username" => NULL, "password" => NULL, "database" => NULL)
+        "db1" => array("typedatabase" => DBType::MYSQL, "host" => 'localhost', "username" => 'root', "password" => '', "database" => 'db_test')
     ),
     "use" => "db1"
 );

@@ -6,6 +6,7 @@ class IndexController extends Page
     private $ViewTable;
     private $APIService;
     private $FormHelper;
+	private $OrmHelper;
 
     function __construct()
     {
@@ -13,6 +14,10 @@ class IndexController extends Page
         $this->ViewTable        = Allocator::allocate_helper('ViewTable');
         $this->ServiceHelper    = Allocator::allocate_helper('Service');
         $this->FormHelper       = Allocator::allocate_helper('Form');
+        $this->OrmHelper		= Allocator::allocate_helper('Orm');
+		global $dbconfigurator;
+		$this->OrmHelper::initialize($dbconfigurator);
+		$this->OrmHelper::connect();
     }
     function __destruct(){}
 
@@ -24,9 +29,9 @@ class IndexController extends Page
         $this->FormHelper::set_rules('bho', 'matches', 'Le due password devono combaciare', 'bho2');
         $this->FormHelper::set_rules('bho', 'trim');
         $this->ViewBag::AddModel(parent::getModel());
-        $this->ViewTable::SetStyle('column', 'a', 'font-size:20px;');
-        $this->ViewTable::AddColumn('a,c,e');
-        $this->ViewTable::AddData(parent::getModel()->arrayoftable);
+        $this->ViewTable::SetStyle('column', 'Id', 'font-size:20px;');
+        $this->ViewTable::AddColumn('Id,Nome_device,Modello_device');
+        $this->ViewTable::AddData($this->OrmHelper::getTable(Device, true));
         $this->ViewTable::DataBinding();
         $this->ViewBag::Add('title', parent::getPage());
         $this->ViewBag::Add('response', $this->ServiceHelper::run()['Response']);

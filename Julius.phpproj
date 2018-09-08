@@ -79,6 +79,7 @@
     <Compile Include="core\utilities\helpers\StringerHelper.php" />
     <Compile Include="index.php" />
     <Compile Include="newpage\index.php" />
+    <Compile Include="reserved\ormclasses\Device.php" />
     <Compile Include="resources\pages\404.php" />
     <Compile Include="resources\pages\Blank.php" />
   </ItemGroup>

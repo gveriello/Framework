@@ -126,7 +126,8 @@ class ViewTableHelper
     public static function DataBinding(){
         if (self::$Data !== NULL && count(self::$Column) > 0){
             for($i = 0; $i < count(self::$Data); $i++){
-                if (count(self::$Data[$i]) > self::$Row) self::$Row = count(self::$Data[$i]);
+                if (count(self::$Data[$i]) > self::$Row) 
+					self::$Row = count(self::$Data[$i]);
                 for($k = 0; $k < count(self::$Column); $k++){
                     if (array_key_exists(self::$Column[$k], self::$Data[$i]))
                         array_push(self::$ColumnData[self::$Column[$k]], self::$Data[$i][self::$Column[$k]]);
