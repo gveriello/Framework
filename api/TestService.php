@@ -1,15 +1,21 @@
 <?php
-class TestService extends APILibraries
+class TestService
 {
-    function __construct($_action, $_params = array())
+    private $action;
+    private $params;
+    private $result;
+    function __construct(&$result, $_action, ...$_params)
     {
-        parent::__construct($_action, $_params);
+        $this->action = $_action;
+        $this->params = $_params;
+        $this->result = $result;
     }
     function getOperation()
     {
-        parent::setResult("ok");
+        return '';
     }
-    function getNomeCognome(){
-        parent::setResult("Giuseppe VEriello", true);
+    function getNomeCognome()
+    {
+        return 'Parametri passati: '.count($this->params);
     }
 }

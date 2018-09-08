@@ -36,26 +36,39 @@ class Allocator
     {
         allocate(JSBEHIND, $jsbehind);
     }
-    public static function allocate_layout($_layout, $viewbag)
+    public static function allocate_layout($_layout, $viewbag, $classic_layout = true)
     {
         Event::trigger('OnPreRender');
-        $input = file_get_contents(string_for_allocate_file(LAYOUT, $_layout));
-        $input = trim(str_replace("\r\n", "", $input));
-        if (!empty($input)){
-            self::allocate_helper('HtmlParserHelper');
-            HtmlParserHelper::LoadHtmlFromString($input);
-            HtmlParserHelper::Binding($viewbag);
-            HtmlParserHelper::RunHtml();
-        }else{
-            allocate(LAYOUT, $_layout, $viewbag::getBag());
+        if ($classic_layout)
+        {
+            $input = file_get_contents(string_for_allocate_file(LAYOUT, $_layout));
+            $input = trim(str_replace("\r\n", "", $input));
+            if (!empty($input)){
+                self::allocate_helper('HtmlParser');
+                HtmlParserHelper::LoadHtmlFromString($input);
+                HtmlParserHelper::Binding($viewbag);
+                HtmlParserHelper::RunHtml();
+            }
         }
+        else
+            allocate(LAYOUT, $_layout, $viewbag::getBag());
     }
     public static function allocate_helper($helper)
     {
+        $helper = $helper.'Helper';
         if ($helper !== '' && $helper !== null){
             allocate(HELPERS, $helper);
             if (class_exists($helper))
                 return new $helper();
+        }
+        return null;
+    }
+    public static function allocate_api($api)
+    {
+        if ($api !== '' && $api !== null){
+            allocate(API, $api);
+            if (class_exists($api))
+                return true;
         }
         return null;
     }

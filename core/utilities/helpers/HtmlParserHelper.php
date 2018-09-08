@@ -18,7 +18,7 @@ class HtmlParserHelper
     {
         self::$document = new DOMDocument;
         self::$bindingdone = array();
-        self::$stringer = Allocator::allocate_helper('StringerHelper');
+        self::$stringer = Allocator::allocate_helper('Stringer');
         self::$document->loadHTML($html_string);
         foreach (self::$document->childNodes as $item)
             if ($item->nodeType == XML_PI_NODE)
@@ -28,7 +28,7 @@ class HtmlParserHelper
     {
         self::$document = new DOMDocument;
         self::$bindingdone = array();
-        self::$stringer = Allocator::allocate_helper('StringerHelper');
+        self::$stringer = Allocator::allocate_helper('Stringer');
         self::$document->loadHTML($html_file_path);
         foreach (self::$document->childNodes as $item)
             if ($item->nodeType == XML_PI_NODE)
@@ -66,9 +66,9 @@ class HtmlParserHelper
                                 $node->setAttribute('value', $value);
                                 $node->nodeValue = $value;
                             }
-                            $node->removeAttribute('binding-property');
                             array_push(self::$bindingdone[$node], $value);
                         }
+                        $node->removeAttribute('binding-property');
                     }
         }
 

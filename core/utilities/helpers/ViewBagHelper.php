@@ -1,6 +1,6 @@
 <?php
 
-class ViewBag
+class ViewBagHelper
 {
     static private $Bag = array();
 

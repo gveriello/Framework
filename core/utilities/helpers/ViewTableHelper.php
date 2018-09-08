@@ -1,6 +1,6 @@
 <?php
 
-class ViewTable
+class ViewTableHelper
 {
     static private $Column = array();
     static private $Data = array();

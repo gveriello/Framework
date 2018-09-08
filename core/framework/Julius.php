@@ -70,7 +70,7 @@ if (can_allocate(CONTROLLER, $controller))
 
     if (!is_null($behaviorInstance))
     {
-        $methods_implemented = get_class_methods($behaviorInstance);
+        $methods_implemented = get_class_methods(IEvent);
         foreach($methods_implemented as $method)
             if ((int)method_exists($behaviorInstance, $method))
                 Event::listen($method, $behaviorInstance->$method());
@@ -91,7 +91,9 @@ if (can_allocate(CONTROLLER, $controller))
     if ((int)method_exists($controllerInstance, $action))
     {
         Event::trigger('OnLoad');
+        global $start;
         call_user_func_array(array($controllerInstance, $action), array());
+        echo microtime(true) - $start;
     }
     else
         show_404();

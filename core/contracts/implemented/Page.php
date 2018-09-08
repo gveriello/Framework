@@ -1,12 +1,12 @@
 <?php
-class Page {
-
+class Page 
+{
     protected function getPage(){
         return $GLOBALS['page'];
     }
 
-    protected function getPHPBehind(){
-        return $GLOBALS["phpbehind"];
+    protected function getBehavior(){
+        return $GLOBALS["behavior"];
     }
 
     protected function getJSBehind(){
@@ -28,7 +28,4 @@ class Page {
     protected function getQueryString(){
         return $GLOBALS['querystring'];
     }
-
-
-
 }
