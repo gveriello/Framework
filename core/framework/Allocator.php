@@ -20,6 +20,16 @@ class Allocator
         }
         return null;
     }
+	public static function allocate_ormclasses($_class)
+	{
+        if ($_class !== '' && $_class !== null){
+            allocate(ORMCLASSES, $_class);
+            if (class_exists($_class))
+                return new $_class();
+        }
+        return null;
+	}
+
     public static function allocate_controller($_controller)
     {
         if ($_controller !== '' && $_controller !== null){
