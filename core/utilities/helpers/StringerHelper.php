@@ -51,4 +51,9 @@ class StringerHelper
             return true;
         return false;
     }
+
+    public static function join($separator = '', $element = array())
+    {
+        return implode($separator, $element);
+    }
 }

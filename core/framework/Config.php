@@ -18,12 +18,6 @@
  *
  * NOTE: If you change these, also change the set_reporting() code below
  */
-class ENVIRONMENTSTATUS
-{
-    const DEVELOP = 0;
-    const TEST = 1;
-    const PRODUCTION = 2;
-}
 const ENVIRONMENT = ENVIRONMENTSTATUS::PRODUCTION;
 #endregion
 
@@ -61,8 +55,11 @@ $autoloader = array(
  */
 
 $dbconfigurator = array(
-    "db1" => array("host" => NULL, "username" => NULL, "password" => NULL, "database" => NULL)
-    );
+    "databases" => array(
+        "db1" => array("typedatabase" => DBType::MYSQL, "host" => NULL, "username" => NULL, "password" => NULL, "database" => NULL)
+    ),
+    "use" => "db1"
+);
 
 /*
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -76,4 +73,26 @@ $errorpages = array(
     "500" => PAGES.DS.'500.php'
     );
 
+#endregion
+
+/*
+ *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * ENUMS
+ *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *
+ * List of enums used in the Julius
+ */
+class DBType
+{
+    const MYSQL = 'mysql';
+    const SQLSERVER = null;
+    const ORACLE = null;
+}
+
+class ENVIRONMENTSTATUS
+{
+    const DEVELOP = 0;
+    const TEST = 1;
+    const PRODUCTION = 2;
+}
 #endregion

@@ -24,12 +24,7 @@ class ServiceHelper
             {
                 $ResultService = array(
                     'result' => array(
-                        "NameAction" => self::$ActionService,
-                        "Status" => "",
-                        "Response" => "",
-                        "RequestStart" => "",
-                        "RequestEnd" => "",
-                        "TimeExecution" => ""
+                        "NameAction" => self::$ActionService
                     ),
                 );
                 $apiInstance = new self::$NameService($ResultService, self::$ActionService, self::$ParamService);

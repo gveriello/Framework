@@ -37,6 +37,8 @@
     <Folder Include="core\utilities\helpers\" />
     <Folder Include="core\utilities\libraries\" />
     <Folder Include="newpage\" />
+    <Folder Include="reserved\cache\" />
+    <Folder Include="reserved\ormclasses\" />
     <Folder Include="resources\" />
     <Folder Include="resources\css\" />
     <Folder Include="resources\img\" />
@@ -61,8 +63,8 @@
     <Compile Include="core\framework\controls\a.php" />
     <Compile Include="core\framework\controls\option.php" />
     <Compile Include="core\framework\controls\select.php" />
-    <Compile Include="core\framework\FrameworksHelper.php" />
     <Compile Include="core\framework\GlobalFunctions.php" />
+    <Compile Include="core\utilities\helpers\OrmHelper.php" />
     <Compile Include="core\utilities\helpers\HtmlParserHelper.php" />
     <Compile Include="core\utilities\helpers\DataValidatorHelper.php" />
     <Compile Include="core\framework\Config.php" />
@@ -81,6 +83,11 @@
     <Compile Include="resources\pages\Blank.php" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="reserved\.htaccess" />
+    <Content Include="reserved\attachments\.htaccess" />
+    <Content Include="reserved\cache\.htaccess" />
+    <Content Include="reserved\log\.htaccess" />
+    <Content Include="reserved\ormclasses\.htaccess" />
     <Content Include="resources\css\bootstrap-theme.css" />
     <Content Include="resources\css\bootstrap-theme.css.map" />
     <Content Include="resources\css\bootstrap-theme.min.css" />

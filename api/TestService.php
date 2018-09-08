@@ -16,6 +16,6 @@ class TestService
     }
     function getNomeCognome()
     {
-        return 'Parametri passati: '.count($this->params);
+        return 'ok';
     }
 }
