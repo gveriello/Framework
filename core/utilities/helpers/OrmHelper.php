@@ -2,16 +2,15 @@
 
 class OrmHelper
 {
-    private $server;
-    private $user;
-    private $password;
-    private $database;
-    private $typedatabase;
-    public $db;
+    private static $server;
+    private static $user;
+    private static $password;
+    private static $database;
+    private static $typedatabase;
+    public static $db;
 
-    private static function initialize()
+    private static function initialize($dbconfigurator)
     {
-        global $dbconfigurator;
         if (is_array($dbconfigurator))
         {
             $configuration = $dbconfigurator['databases'][$dbconfigurator['use']];
@@ -49,18 +48,17 @@ class OrmHelper
     }
     public static function connect()
     {
-        if (self::initialize())
-            if (self::checkparameters())
-            {
-                self::$db = new PDO(
-                    self::$typedatabase.':host='.self::$server.';dbname='.self::$database.';charset=utf8mb4',
-                    self::$user,
-                    self::$password
-                );
-                self::config();
-                return true;
-            }
-        throw new Exception("Failed to connect database");
+		try{
+			self::$db = new PDO(
+				self::$typedatabase.':host='.self::$server.';dbname='.self::$database.';charset=utf8mb4',
+				self::$user,
+				self::$password
+			);
+			self::config();
+		}
+		catch (PDOException $e) {
+			throw new PDOException("Failed to connect database");
+		}
     }
     private static function executeQuery($queryString, $class)
     {
@@ -72,10 +70,11 @@ class OrmHelper
         while($row = $executedQuery->fetch(PDO::FETCH_ASSOC)) {
             $tempClass = new $class();
             foreach($tempClass as $property => $value)
-                $value = $row[$value];
+                $tempClass->{$property} = $row[$property];
             array_push($result, $tempClass);
             unset($tempClass);
         }
+        return $result;
     }
 
     public static function getTable($class)
@@ -83,10 +82,11 @@ class OrmHelper
         if (!class_exists($class))
             throw new Exception("Classresult must be a class");
 
+        $classTemp = new $class();
         $query = 'SELECT <fields> FROM <table>';
-        $query = str_replace('<table>', get_class($class), $query);
-        $fields = array('?');
-        foreach($class as $property)
+        $query = str_replace('<table>', get_class($classTemp), $query);
+        $fields = array();
+        foreach($classTemp as $property => $value)
             array_push($fields, $property);
         $fields = implode(', ', $fields);
         $query = str_replace('<fields>', $fields, $query);
