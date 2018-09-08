@@ -19,7 +19,6 @@ class IndexController extends Page
     public function index()
     {
         $this->ServiceHelper::SetCall("TestService", "getNomeCognome", parent::getModel()->arrayoftable, 'ciao');
-        echo $this->ServiceHelper::run()['Response'];
         $this->FormHelper::set_rules('bho', 'minlength', '', '2');
         $this->FormHelper::set_rules('bho', 'required', 'Il nome e\' obbligatorio');
         $this->FormHelper::set_rules('bho', 'matches', 'Le due password devono combaciare', 'bho2');
@@ -30,7 +29,7 @@ class IndexController extends Page
         $this->ViewTable::AddData(parent::getModel()->arrayoftable);
         $this->ViewTable::DataBinding();
         $this->ViewBag::Add('title', parent::getPage());
-        $this->ViewBag::Add('response', $response);
+        $this->ViewBag::Add('response', $this->ServiceHelper::run()['Response']);
         $this->ViewBag::Add('validator', $this->FormHelper::validator());
         $this->ViewBag::Add('table', $this->ViewTable::TableToHtml());
         Allocator::allocate_layout(parent::getLayout(), $this->ViewBag);

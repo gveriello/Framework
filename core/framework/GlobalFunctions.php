@@ -185,7 +185,7 @@ function validate_fields($_style = '', $_class = '')
         if ($_formatattributevalidator !== NULL)
         {
             Allocator::allocate_library('DataValidator');
-            Allocator::allocate_helper('StringerHelper');
+            Allocator::allocate_helper('Stringer');
             if (password_verify(json_encode($_formatattributevalidator->configurator), base64_decode($_formatattributevalidator->token)))
             {
                 $_formatattributevalidator = $_formatattributevalidator->configurator;
@@ -224,7 +224,7 @@ function validate_fields($_style = '', $_class = '')
 
         }
         else
-            throw new ParserException("Validation Library require that doesn't exist more input called 'formattributevalidator'");
+            throw new Exception("Validation Library require that doesn't exist more input called 'formattributevalidator'");
     }
 }
 
