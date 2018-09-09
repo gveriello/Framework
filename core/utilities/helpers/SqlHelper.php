@@ -1,6 +1,5 @@
 <?php
-
-class SqlHelper
+class SqlSELECT
 {
     private static $selectFields = '';
     private static $fromTables = '';
@@ -32,36 +31,14 @@ class SqlHelper
         return true;
     }
 
-    public function addWhereCondition($field, WHERE_KEY $key, $comparator, OPERATOR_KEY $operator = NULL)
+    
+
+    public function addLimit($start, $stop = NULL)
     {
-        $whereTemp = array();
-
-        if ($key === NULL || empty($field) || empty($comparator))
-            return false;
-
-        if ($key !== NULL)
-            array_push($whereTemp, $field, $key);
-
-        if ($key === WHERE_KEY::EQUAL ||
-            $key === WHERE_KEY::NOT_EQUAL ||
-            $key === WHERE_KEY::GREATER_THAN ||
-            $key === WHERE_KEY::LESS_THAN ||
-            $key === WHERE_KEY::GREATER_THAN_OR_EQUAL ||
-            $key === WHERE_KEY::LESS_THAN_OR_EQUAL)
-            array_push($whereTemp,  $comparator);
-
-        if ($key === WHERE_KEY::BETWEEN || $key === WHERE_KEY::NOT_BETWEEN)
-            if (is_array($comparator))
-                array_push($whereTemp, $comparator[0], OPERATOR_KEY::AND_KEY, $comparator[1]);
-
-        if ($key === WHERE_KEY::IN || $key === WHERE_KEY::NOT_IN)
-            if (is_array($comparator))
-                array_push($whereTemp, '(', implode(',', $comparator), ')');
-
-        if ($operator != NULL)
-            array_push($whereTemp, $operator);
-
-        self::$whereConditions .= implode(' ', $whereTemp);
-        return true;
+        self::$limitSearch = implode(", ", array($start, $stop));
     }
+}
+class SqlHelper
+{
+
 }

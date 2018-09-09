@@ -97,6 +97,22 @@ class ENVIRONMENTSTATUS
     const PRODUCTION = 2;
 }
 
+class SQL_KEY
+{
+    const SELECT = "SELECT";
+    const SELECT_DISTINCT = "SELECT_DISTINCT";
+    const UPDATE = "UPDATE";
+    const DELETE = "DELETE";
+    const INSERT_INTO = "INSERT INTO";
+    const CREATE_DATABASE = "CREATE DATABASE";
+    const ALTER_DATABASE = "ALTER DATABASE";
+    const CREATE_TABLE = "CREATE_TABLE";
+    const ALTER_TABLE = "ALTER TABLE";
+    const DROP_TABLE = "DROP TABLE";
+    const CREATE_INDEX = "CREATE INDEX";
+    const DROP_INDEX = "DROP INDEX";
+}
+
 class SELECT_KEY
 {
     const COUNT = 'COUNT';
