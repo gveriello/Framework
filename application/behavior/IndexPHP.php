@@ -17,4 +17,8 @@ class IndexPHP extends Page implements IEvent
     public function CreateTable()
     {
     }
+    public function QueryToDB()
+    {
+        $this->OrmHelper::getTable(Device, true);
+    }
 }

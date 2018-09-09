@@ -21,21 +21,20 @@ class OrmHelper
                 self::$password = $configuration['password'];
                 self::$database = $configuration['database'];
                 self::$typedatabase = $configuration['typedatabase'];
-                return true;
+
+                if (!is_null(self::$server))
+                    if (!is_null(self::$database))
+                        if (!is_null(self::$typedatabase))
+                            if (!is_null(self::$user))
+                                if (!is_null(self::$password))
+                                    return true;
+
+                return false;
             }
         }
         return false;
     }
-    private static function checkparameters()
-    {
-        if (!is_null(self::$server))
-            if (!is_null(self::$database))
-                if (!is_null(self::$typedatabase))
-                    if (!is_null(self::$user))
-                        if (!is_null(self::$password))
-                            return true;
-        return false;
-    }
+
     private static function config()
     {
         //Configuration variable.
@@ -46,6 +45,7 @@ class OrmHelper
         if (ENVIRONMENT == ENVIRONMENTSTATUS::TEST)
             self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
     }
+
     public static function connect()
     {
 		try{
@@ -91,18 +91,27 @@ class OrmHelper
 
     public static function getTable($class, $toArray = false)
     {
+
         if (!class_exists($class))
-            throw new Exception("Classresult must be a class");
+            throw new Exception("Classresult must be a name of class");
 
         $classTemp = new $class();
-        $query = 'SELECT <fields> FROM <table>';
+        $query = 'SELECT <fields> FROM <table> WHERE <condition>';
         $query = str_replace('<table>', get_class($classTemp), $query);
         $fields = array();
         foreach($classTemp as $property => $value)
-            array_push($fields, $property);
+            array_push($fields, $class.'.'.$property);
         $fields = implode(', ', $fields);
         $query = str_replace('<fields>', $fields, $query);
 
+        $result = self::executeQuery($query, $class);
+		if ($toArray)
+			return self::resultToArray($result);
+		return $result;
+    }
+
+    public static function queryByString($class, $query, $toArray = false)
+    {
         $result = self::executeQuery($query, $class);
 		if ($toArray)
 			return self::resultToArray($result);
