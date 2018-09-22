@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{A0786B88-2ADB-4C21-ABE8-AA2D79766269}") = "Julius", "Julius.phpproj", "{B30AF519-9078-461E-92E2-88D7CB4568B3}"
 EndProject
-Project("{A0786B88-2ADB-4C21-ABE8-AA2D79766269}") = "Test", "Test\Test.phpproj", "{6E6F3325-8EFC-4FD8-ABB5-C3693D9834DE}"
+Project("{A0786B88-2ADB-4C21-ABE8-AA2D79766269}") = "Test", "Test\Test.phpproj", "{11E044A8-F25B-4D84-A238-344CC633F8A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +15,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B30AF519-9078-461E-92E2-88D7CB4568B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B30AF519-9078-461E-92E2-88D7CB4568B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6E6F3325-8EFC-4FD8-ABB5-C3693D9834DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6E6F3325-8EFC-4FD8-ABB5-C3693D9834DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11E044A8-F25B-4D84-A238-344CC633F8A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11E044A8-F25B-4D84-A238-344CC633F8A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -61,55 +61,44 @@ class OrmHelper
 		}
     }
 
-    private static function sqlBuilder($class, $toArray = false, $condition = NULL)
+
+    private static function executeQuery($queryString, $classes = array())
     {
-        //INITIALIZE
-        $classTemp = new $class();
-        $query = 'SELECT <fields> FROM <table> WHERE <condition>';
-
-        //SET SELECT
-        $fields = array();
-        foreach($classTemp as $property => $value)
-            array_push($fields, $class.'.'.$property);
-        $fields = implode(', ', $fields);
-        $query = str_replace('<fields>', $fields, $query);
-
-        //SET FROM
-        $query = str_replace('<table>', get_class($classTemp), $query);
-
-        //SET WHERE
-        if (empty($condition))
-            $query = str_replace('WHERE <condition>', '', $query);
-        if (!empty($condition))
-            $query = str_replace('<condition>', $condition, $query);
-
-        //FINALIZE
-        $query = trim($query);
-
-        //EXECUTE
-        $result = self::executeQuery($query, $class);
-		if ($toArray)
-			return self::resultToArray($result);
-		return $result;
-    }
-
-    private static function executeQuery($queryString, $class)
-    {
-        if (is_null($queryString) || !class_exists($class))
-            throw new Exception("Querystring and Classresult is required");
+        if (is_null($queryString))
+            throw new Exception("Querystring and Classes are required");
 
         $executedQuery = self::$db->query($queryString);
+        return self::fetchResult($executedQuery, $classes);
+    }
+
+    private static function fetchResult($executedQuery, $classes = array())
+    {
+        if (is_null($executedQuery) || count($classes) === 0)
+            throw new Exception("Error during parsing query");
+
         $result = array();
         while($row = $executedQuery->fetch(PDO::FETCH_ASSOC)) {
-            $tempClass = new $class();
-            foreach($tempClass as $property => $value)
-                $tempClass->{$property} = $row[$property];
-            array_push($result, $tempClass);
-            unset($tempClass);
+            foreach($classes as $class)
+            {
+                $class = new $class();
+                foreach($class as $property => $value)
+                    $class->{$property} = $row[$property];
+                array_push($result, $class);
+                unset($class);
+            }
         }
         return $result;
     }
-	private static function resultToArray($result)
+
+    public static function executeQueryByString($query, $classes = array(), $toArray = false)
+    {
+        $result = self::executeQuery($query, $classes);
+        if ($toArray)
+            return self::toArray($result);
+        return $result;
+    }
+
+	private static function toArray($result)
 	{
 		$newResult = array();
 		foreach($result as $record => $index)
@@ -122,63 +111,4 @@ class OrmHelper
 		return $newResult;
 	}
 
-    private function addWhereCondition($field, WHERE_KEY $key, $comparator, OPERATOR_KEY $operator = NULL)
-    {
-        $whereTemp = array();
-
-        if ($key === NULL || empty($field) || empty($comparator))
-            return false;
-
-        if ($key !== NULL)
-            array_push($whereTemp, $field, $key);
-
-        if ($key === WHERE_KEY::EQUAL ||
-            $key === WHERE_KEY::NOT_EQUAL ||
-            $key === WHERE_KEY::GREATER_THAN ||
-            $key === WHERE_KEY::LESS_THAN ||
-            $key === WHERE_KEY::GREATER_THAN_OR_EQUAL ||
-            $key === WHERE_KEY::LESS_THAN_OR_EQUAL)
-            array_push($whereTemp,  $comparator);
-
-        if ($key === WHERE_KEY::BETWEEN || $key === WHERE_KEY::NOT_BETWEEN)
-            if (is_array($comparator))
-                array_push($whereTemp, $comparator[0], OPERATOR_KEY::AND_KEY, $comparator[1]);
-
-        if ($key === WHERE_KEY::IN || $key === WHERE_KEY::NOT_IN)
-            if (is_array($comparator))
-                array_push($whereTemp, '(', implode(',', $comparator), ')');
-
-        if ($operator != NULL)
-            array_push($whereTemp, $operator);
-
-        self::$whereConditions .= implode(' ', $whereTemp);
-        return true;
-    }
-
-    public static function getTable($class, $toArray = false)
-    {
-        if (!class_exists($class))
-            throw new Exception("Classresult must be a name of class");
-
-        return self::sqlBuilder($class, $toArray);
-    }
-
-    public static function getRow($class, $toArray = false, $property, WHERE_KEY $key, $value)
-    {
-        if (!class_exists($class))
-            throw new Exception("Classresult must be a name of class");
-
-        if (empty($property) || empty($value) || empty($key))
-            throw new Exception("Property, Key, Value are required");
-
-        return self::sqlBuilder($class, $toArray, self::addWhereCondition($property, $key, $value));
-    }
-
-    public static function queryByString($class, $query, $toArray = false)
-    {
-        $result = self::executeQuery($query, $class);
-		if ($toArray)
-			return self::resultToArray($result);
-		return $result;
-    }
 }

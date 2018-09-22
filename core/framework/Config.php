@@ -103,6 +103,7 @@ class SQL_KEY
     const SELECT_DISTINCT = "SELECT_DISTINCT";
     const UPDATE = "UPDATE";
     const DELETE = "DELETE";
+    const FROM = 'FROM';
     const INSERT_INTO = "INSERT INTO";
     const CREATE_DATABASE = "CREATE DATABASE";
     const ALTER_DATABASE = "ALTER DATABASE";
@@ -120,6 +121,17 @@ class SELECT_KEY
     const MAX = 'MAX';
     const AVG = 'AVG';
     const SUM = 'SUM';
+}
+
+class FROM_JOIN
+{
+    const INNER_JOIN = 'INNER JOIN';
+    const LEFT_JOIN = 'LEFT JOIN';
+    const LEFT_OUTER_JOIN = 'LEFT OUTER JOIN';
+    const RIGHT_JOIN = 'RIGHT JOIN';
+    const RIGHT_OUTER_JOIN = 'RIGHT OUTER JOIN';
+    const FULL_JOIN = 'FULL JOIN';
+    const FULL_OUTER_JOIN = 'FULL OUTER JOIN';
 }
 class WHERE_KEY
 {
