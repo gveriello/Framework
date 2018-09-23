@@ -148,5 +148,16 @@ class SqlHelper
             .((!empty(self::$limitSearch) ? ' LIMIT '.self::$limitSearch : '')))
             .';';
     }
+
+    public function Clear()
+    {
+        self::$selectFields = array();
+        self::$fromTables = array();
+        self::$whereConditions = array();
+        self::$limitSearch = '';
+        self::$groupByFields = array();
+        self::$orderByFields = array();
+        self::$havingByConditions = array();
+    }
     #endregion
 }

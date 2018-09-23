@@ -20,16 +20,5 @@ class FormHelper
         return '<input type="hidden" name="formattributevalidator" value="'.base64_encode(json_encode(self::$ControlRules)).'" />';
     }
 
-    public static function set_control_value($content = '<input type="text" name="bho" id="bho" value="" binding="ciao" />')
-    {
-        // a new dom object
-        $dom = new DOMDocument;
-
-        // load the html into the object
-        $dom->loadHTML($content);
-         // discard white space
-        $dom->preserveWhiteSpace = false;
-        $val = $dom->getElementById('bho');
-    }
 
 }

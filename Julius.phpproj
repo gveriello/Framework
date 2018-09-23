@@ -74,6 +74,7 @@
     <Compile Include="core\utilities\helpers\ServiceHelper.php" />
     <Compile Include="core\utilities\helpers\FormHelper.php" />
     <Compile Include="core\utilities\helpers\JavascriptHelper.php" />
+    <Compile Include="core\utilities\helpers\SessionHelper.php" />
     <Compile Include="core\utilities\helpers\SqlHelper.php" />
     <Compile Include="core\utilities\helpers\ViewBagHelper.php" />
     <Compile Include="core\utilities\helpers\ViewTableHelper.php" />
