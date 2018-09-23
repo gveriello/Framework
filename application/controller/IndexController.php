@@ -30,7 +30,7 @@ class IndexController extends Page
         $this->FormHelper::set_rules('bho', 'trim');
         $this->ViewBag::AddModel(parent::getModel());
         $this->ViewTable::SetStyle('column', 'Id', 'font-size:20px;');
-        $this->ViewTable::AddColumn('Id,Nome_device,Modello_device');
+        $this->ViewTable::AddColumn('Id,Nome_device,Modello_device,Nome_cell,Modello_cell');
         $this->ViewTable::AddData(parent::getBehavior()->QueryToDB());
         $this->ViewTable::DataBinding();
         $this->ViewBag::Add('title', parent::getPage());

@@ -78,14 +78,17 @@ class OrmHelper
 
         $result = array();
         while($row = $executedQuery->fetch(PDO::FETCH_ASSOC)) {
+            $rowTemp = array();
             foreach($classes as $class)
             {
                 $class = new $class();
                 foreach($class as $property => $value)
                     $class->{$property} = $row[$property];
-                array_push($result, $class);
+                array_push($rowTemp, $class);
                 unset($class);
             }
+            array_push($result, $rowTemp);
+            unset($rowTemp);
         }
         return $result;
     }
@@ -100,12 +103,18 @@ class OrmHelper
 
 	private static function toArray($result)
 	{
+        //$classes = array();
+        //foreach($result as $record => $class)
+        //    if (!in_array(get_class($class), $classes))
+        //        array_push($classes, get_class($class));
+
 		$newResult = array();
-		foreach($result as $record => $index)
+		foreach($result as $record => $classes)
 		{
 			$row = array();
-			foreach($index as $property => $value)
-				$row[$property] = $value;
+            foreach($classes as $class)
+                foreach($class as $property => $value)
+				    $row[$property] = $value;
 			array_push($newResult, $row);
 		}
 		return $newResult;

@@ -78,12 +78,10 @@ class SqlHelper
         if (empty($property) && empty($whereCondition))
             return false;
 
-        $whereTemp = array();
-
         if (empty($whereCondition) || empty($property))
             return false;
 
-        array_push($whereTemp, $property, $whereCondition);
+        array_push(self::$whereConditions, $property, $whereCondition);
 
         if ($whereCondition === WHERE_KEY::EQUAL ||
             $whereCondition === WHERE_KEY::NOT_EQUAL ||
@@ -91,25 +89,23 @@ class SqlHelper
             $whereCondition === WHERE_KEY::LESS_THAN ||
             $whereCondition === WHERE_KEY::GREATER_THAN_OR_EQUAL ||
             $whereCondition === WHERE_KEY::LESS_THAN_OR_EQUAL)
-            array_push($whereTemp,  $value);
+            array_push(self::$whereConditions,  $value);
 
         if ($whereCondition === WHERE_KEY::BETWEEN || $whereCondition === WHERE_KEY::NOT_BETWEEN)
             if (is_array($value))
                 if (count($value) === 2)
-                    array_push($whereTemp, $value[0], OPERATOR_KEY::AND_KEY, $value[1]);
-                else 
+                    array_push(self::$whereConditions, $value[0], OPERATOR_KEY::AND_KEY, $value[1]);
+                else
                     return false;
 
         if ($whereCondition === WHERE_KEY::IN || $whereCondition === WHERE_KEY::NOT_IN)
             if (is_array($value))
-                array_push($whereTemp, '(', implode(',', $value), ')');
+                array_push(self::$whereConditions, '(', implode(',', $value), ')');
             else
                 return false;
 
-        array_push($whereTemp, $finalKey);
+        array_push(self::$whereConditions, $finalKey);
 
-        self::$whereConditions .= implode(' ', $whereTemp);
-        unset($whereCondition);
         return true;
     }
     #endregion
@@ -141,7 +137,7 @@ class SqlHelper
             trim(
             'SELECT '.(implode(',', self::$selectFields))
             .' FROM '.(implode(',', self::$fromTables))
-            .((count(self::$whereConditions) > 0 ? ' WHERE '.(implode(',', self::$whereConditions)) : ''))
+            .((count(self::$whereConditions) > 0 ? ' WHERE '.(implode(' ', self::$whereConditions)) : ''))
             .((!empty(self::$orderByFields) ? ' ORDER BY '.self::$orderByFields : ''))
             .((!empty(self::$groupByFields) ? ' GROUP BY '.self::$groupByFields : ''))
             .((!empty(self::$havingByConditions) ? ' HAVING BY '.self::$havingByConditions : ''))
