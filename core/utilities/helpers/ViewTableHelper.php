@@ -107,6 +107,29 @@ class ViewTableHelper
             unset(self::$Column[$_columnname]);
         }
     }
+    public static function ConfigurationFromLayout($layoutFile, $idTable)
+    {
+        if (!class_exists('HtmlParserHelper'))
+            Allocator::allocate_helper('HtmlParser');
+        HtmlParserHelper::LoadHtmlFromFile($layoutFile);
+        $configuration = HtmlParserHelper::GetControlByName($idTable);
+        if (!empty($configuration))
+        {
+            foreach($configuration->childNodes as $column)
+                if ($column->nodeName === 'column')
+                    if($column->hasAttribute('id'))
+                    {
+                        if ($column->hasAttribute('binding-property'))
+                            if (!empty($column->getAttribute('binding-property')))
+                                self::AddColumn($column->getAttribute('binding-property'));
+                        if ($column->hasAttribute('style'))
+                            if (!empty($column->getAttribute('style')))
+                                self::SetStyle('column', $column->getAttribute('id'), $column->getAttribute('style'));
+                    }
+        }
+
+        HtmlParserHelper::Clear();
+    }
     #endregion
 
     #region Operation to Data
@@ -126,7 +149,7 @@ class ViewTableHelper
     public static function DataBinding(){
         if (self::$Data !== NULL && count(self::$Column) > 0){
             for($i = 0; $i < count(self::$Data); $i++){
-                if (count(self::$Data[$i]) > self::$Row) 
+                if (count(self::$Data[$i]) > self::$Row)
 					self::$Row = count(self::$Data[$i]);
                 for($k = 0; $k < count(self::$Column); $k++){
                     if (array_key_exists(self::$Column[$k], self::$Data[$i]))

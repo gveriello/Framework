@@ -16,6 +16,11 @@
             <placeholder binding-property="table" />
             <placeholder binding-property="validator" />
         </div>
+        <table-configuration name="tableHelper">
+            <column id="Id" binding-property="Id" />
+            <column id="Nome_device" binding-property="Nome_device" style="color: yellow" />
+            <column id="Nome_cell" binding-property="Nome_cell" style="color: yellow" />
+        </table-configuration>
     </form>
 </body>
 </html>

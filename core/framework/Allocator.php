@@ -51,13 +51,12 @@ class Allocator
         Event::trigger('OnPreRender');
         if ($classic_layout)
         {
-            $input = file_get_contents(string_for_allocate_file(LAYOUT, $_layout));
-            $input = trim(str_replace("\r\n", "", $input));
-            if (!empty($input)){
-                self::allocate_helper('HtmlParser');
-                HtmlParserHelper::LoadHtmlFromString($input);
+            self::allocate_helper('HtmlParser');
+            if (HtmlParserHelper::LoadHtmlFromFile(string_for_allocate_file(LAYOUT, $_layout)))
+            {
                 HtmlParserHelper::Binding($viewbag);
                 HtmlParserHelper::RunHtml();
+                return;
             }
         }
         else

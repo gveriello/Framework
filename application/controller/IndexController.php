@@ -31,8 +31,9 @@ class IndexController extends Page
         FormHelper::set_rules('bho', 'required', 'Il nome e\' obbligatorio');
         FormHelper::set_rules('bho', 'matches', 'Le due password devono combaciare', 'bho2');
         FormHelper::set_rules('bho', 'trim');
-        ViewTableHelper::SetStyle('column', 'Id', 'font-size:20px;');
-        ViewTableHelper::AddColumn('Id,Nome_device,Modello_device,Nome_cell,Modello_cell');
+        ViewTableHelper::ConfigurationFromLayout(parent::getLayout(), 'tableHelper');
+        //ViewTableHelper::SetStyle('column', 'Id', 'font-size:20px;');
+        //ViewTableHelper::AddColumn('Id,Nome_device,Nome_cell');
         ViewTableHelper::AddData($table);
         ViewTableHelper::DataBinding();
         ViewBagHelper::AddModel(parent::getModel());

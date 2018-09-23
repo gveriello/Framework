@@ -14,31 +14,45 @@ class HtmlParserHelper
     private static $bindingdone;
     private static $stringer;
 
-    public static function LoadHtmlFromString($html_string)
+    public static function LoadHtmlFromString($htmlString)
     {
         self::$document = new DOMDocument;
         self::$bindingdone = array();
         self::$stringer = Allocator::allocate_helper('Stringer');
-        self::$document->loadHTML($html_string);
+        self::$document->loadHTML($htmlString);
         foreach (self::$document->childNodes as $item)
             if ($item->nodeType == XML_PI_NODE)
                 self::$document->removeChild($item);
+        return true;
     }
-    public static function LoadHtmlFromFile($html_file_path)
+
+    public static function LoadHtmlFromFile($htmlFilePath)
     {
-        self::$document = new DOMDocument;
-        self::$bindingdone = array();
-        self::$stringer = Allocator::allocate_helper('Stringer');
-        self::$document->loadHTML($html_file_path);
-        foreach (self::$document->childNodes as $item)
-            if ($item->nodeType == XML_PI_NODE)
-                self::$document->removeChild($item);
+        $input = file_get_contents(string_for_allocate_file(LAYOUT, $htmlFilePath));
+        $input = trim(str_replace("\r\n", "", $input));
+        if (empty($input))
+            return false;
+
+        return self::LoadHtmlFromString($input);
     }
+
     public static function RunHtml()
     {
+        self::ClearConfigurations();
         $editedHtml = self::$document->saveHTML();
         echo $editedHtml;
     }
+
+    public static function Clear()
+    {
+        self::$document = new DOMDocument;
+    }
+
+    public static function ClearConfigurations()
+    {
+        self::RemoveControlByTagName('table-configuration');
+    }
+
     public static function Binding($view_bag)
     {
         if ($view_bag::Length() === 0)
@@ -84,6 +98,26 @@ class HtmlParserHelper
         }
     }
 
+    public static function RemoveControlById($controlId)
+    {
+        $control = self::GetControlById($controlId);
+        if (!is_null($control))
+            self::$document->removeChild($control);
+    }
+    public static function RemoveControlByName($controlName)
+    {
+        $control = self::GetControlByName($controlName);
+        if (!is_null($control))
+            self::$document->removeChild($control);
+    }
+    public static function RemoveControlByTagName($tagName)
+    {
+        $controls = self::GetAllControlsByTag($tagName);
+        foreach($controls as $control)
+            if (!is_null($control))
+                $control->parentNode->removeChild($control);
+    }
+
     public static function GetAllControlsByTag($tag)
     {
         return self::$document->getElementsByTagName($tag);
@@ -92,18 +126,26 @@ class HtmlParserHelper
     public static function GetControlByName($control_name)
     {
         $xpath = new DOMXpath(self::$document);
-        $xpathquery="//*[@name='".$control_name."']";
+        $xpathquery = "//*[@name='".$control_name."']";
         return $xpath->query($xpathquery)[0];
     }
-    public static function GetControlById($control_name)
+
+    public static function GetControlById($controlId)
     {
         $xpath = new DOMXpath(self::$document);
-        $xpathquery="//*[@id='".$control_name."']";
+        $xpathquery="//*[@id='".$controlId."']";
         return $xpath->query($xpathquery);
     }
-    public static function GetAttribute($control_name, $attribute_name)
+
+    public static function GetAttribute($controlId, $attributeName)
     {
-        $control = self::GetControlByName($control_name);
-        return $control->getAttribute($attribute_name);
+        $control = self::GetControlById($controlId);
+        return $control->getAttribute($attributeName);
+    }
+
+    public static function setAttribute($controlId, $attributeName, $attributeValue)
+    {
+        $control = self::GetControlById($controlId);
+        return $control->setAttribute($attributeName, $attributeValue);
     }
 }
