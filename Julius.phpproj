@@ -64,6 +64,7 @@
     <Compile Include="core\framework\controls\option.php" />
     <Compile Include="core\framework\controls\select.php" />
     <Compile Include="core\framework\GlobalFunctions.php" />
+    <Compile Include="core\utilities\helpers\FileHelper.php" />
     <Compile Include="core\utilities\helpers\OrmHelper.php" />
     <Compile Include="core\utilities\helpers\HtmlParserHelper.php" />
     <Compile Include="core\utilities\helpers\DataValidatorHelper.php" />
