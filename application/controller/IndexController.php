@@ -10,34 +10,37 @@ class IndexController extends Page
 
     function __construct()
     {
-        $this->ViewBag          = Allocator::allocate_helper('ViewBag');
-        $this->ViewTable        = Allocator::allocate_helper('ViewTable');
-        $this->ServiceHelper    = Allocator::allocate_helper('Service');
-        $this->FormHelper       = Allocator::allocate_helper('Form');
-        $this->OrmHelper		= Allocator::allocate_helper('Orm');
+        Allocator::allocate_helper('ViewBag');
+        Allocator::allocate_helper('ViewTable');
+        Allocator::allocate_helper('Service');
+        Allocator::allocate_helper('Form');
+        Allocator::allocate_helper('Orm');
 		global $dbconfigurator;
-		$this->OrmHelper::initialize($dbconfigurator);
-		$this->OrmHelper::connect();
+		OrmHelper::initialize($dbconfigurator);
+		OrmHelper::connect();
     }
     function __destruct(){}
 
     public function index()
     {
-        $this->ServiceHelper::SetCall("TestService", "getNomeCognome", parent::getModel()->arrayoftable, 'ciao');
-        $this->FormHelper::set_rules('bho', 'minlength', '', '2');
-        $this->FormHelper::set_rules('bho', 'required', 'Il nome e\' obbligatorio');
-        $this->FormHelper::set_rules('bho', 'matches', 'Le due password devono combaciare', 'bho2');
-        $this->FormHelper::set_rules('bho', 'trim');
-        $this->ViewBag::AddModel(parent::getModel());
-        $this->ViewTable::SetStyle('column', 'Id', 'font-size:20px;');
-        $this->ViewTable::AddColumn('Id,Nome_device,Modello_device,Nome_cell,Modello_cell');
-        $this->ViewTable::AddData(parent::getBehavior()->QueryToDB());
-        $this->ViewTable::DataBinding();
-        $this->ViewBag::Add('title', parent::getPage());
-        $this->ViewBag::Add('response', $this->ServiceHelper::run()['Response']);
-        $this->ViewBag::Add('validator', $this->FormHelper::validator());
-        $this->ViewBag::Add('table', $this->ViewTable::TableToHtml());
-        Allocator::allocate_layout(parent::getLayout(), $this->ViewBag);
+        ServiceHelper::SetCall("TestService", "getNomeCognome", parent::getModel()->arrayoftable, 'ciao');
+        $response = ServiceHelper::run()['Response'];
+        ServiceHelper::SetCall("TestService", "getTableForTest");
+        $table = ServiceHelper::run()['Response'];
+        FormHelper::set_rules('bho', 'minlength', '', '2');
+        FormHelper::set_rules('bho', 'required', 'Il nome e\' obbligatorio');
+        FormHelper::set_rules('bho', 'matches', 'Le due password devono combaciare', 'bho2');
+        FormHelper::set_rules('bho', 'trim');
+        ViewTableHelper::SetStyle('column', 'Id', 'font-size:20px;');
+        ViewTableHelper::AddColumn('Id,Nome_device,Modello_device,Nome_cell,Modello_cell');
+        ViewTableHelper::AddData($table);
+        ViewTableHelper::DataBinding();
+        ViewBagHelper::AddModel(parent::getModel());
+        ViewBagHelper::Add('title', parent::getPage());
+        ViewBagHelper::Add('response', $response);
+        ViewBagHelper::Add('validator', FormHelper::validator());
+        ViewBagHelper::Add('table', ViewTableHelper::TableToHtml());
+        Allocator::allocate_layout(parent::getLayout(), ViewBagHelper);
     }
 
     public function cosimo()

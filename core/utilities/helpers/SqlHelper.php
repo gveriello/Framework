@@ -5,7 +5,7 @@ class SqlHelper
     private static $selectFields = array();
     private static $fromTables = array();
     private static $whereConditions = array();
-    private static $limitSearch = array();
+    private static $limitSearch = '';
     private static $groupByFields = array();
     private static $orderByFields = array();
     private static $havingByConditions = array();
@@ -126,9 +126,13 @@ class SqlHelper
         }
     }
 
-    public function setLimit($start, $stop = NULL)
+    public function setLimit($limits = array())
     {
-        self::$limitSearch = implode(", ", array($start, $stop));
+        if (count($limits) != 2)
+            return false;
+
+        self::$limitSearch = implode(", ", $limits);
+        return true;
     }
 
     public function getSQL()

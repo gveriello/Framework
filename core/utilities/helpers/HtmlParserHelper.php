@@ -41,7 +41,7 @@ class HtmlParserHelper
     }
     public static function Binding($view_bag)
     {
-        if ($view_bag->Length() === 0)
+        if ($view_bag::Length() === 0)
             throw new Exception("Binding required Data");
 
         $elements = self::$document->getElementsByTagName('*');
@@ -56,7 +56,7 @@ class HtmlParserHelper
                 if($node->hasAttribute('binding-property'))
                     if (!empty($node->getAttribute('binding-property')))
                     {
-                        $value = $view_bag->getValue($node->getAttribute('binding-property'));
+                        $value = $view_bag::getValue($node->getAttribute('binding-property'));
                         if (!empty($value)){
 
                             if ((self::$stringer)::string_is_html($value))

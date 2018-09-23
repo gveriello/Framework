@@ -9,6 +9,8 @@ class TestService
         $this->action = $_action;
         $this->params = $_params;
         $this->result = $result;
+        Allocator::allocate_helper('Sql');
+        Allocator::allocate_helper('Orm');
     }
     function getOperation()
     {
@@ -17,5 +19,11 @@ class TestService
     function getNomeCognome()
     {
         return 'ok';
+    }
+    function getTableForTest()
+    {
+        SqlHelper::configQueryByClasses(array(Device, Cell));
+        SqlHelper::addWhereCondition("Device.Id", WHERE_KEY::EQUAL, "Cell.IdDevice");
+        return OrmHelper::executeQueryByString(SqlHelper::getSQL(), array(Device, Cell), true);
     }
 }

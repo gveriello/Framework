@@ -6,6 +6,7 @@ class FormHelper
         'configurator' => array(),
         'token' => ''
         );
+
     public static function set_rules($_formcontrol, $_rules, $_message = '', $_comparator = '')
     {
         if (!empty($_comparator)) $_comparator = '['.$_comparator.']';

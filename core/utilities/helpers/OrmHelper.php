@@ -103,11 +103,6 @@ class OrmHelper
 
 	private static function toArray($result)
 	{
-        //$classes = array();
-        //foreach($result as $record => $class)
-        //    if (!in_array(get_class($class), $classes))
-        //        array_push($classes, get_class($class));
-
 		$newResult = array();
 		foreach($result as $record => $classes)
 		{
