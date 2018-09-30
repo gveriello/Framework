@@ -27,11 +27,13 @@ class ViewTableHelper
     {
         self::$Style[$_formcontrol][$_controlname] = $_style;
     }
+
     public static function RemoveStyle($_formcontrol, $_controlname){
         if (in_array($_controlname, self::$Style[$_formcontrol])){
             unset(self::$Style[$_formcontrol][$_controlname]);
         }
     }
+
     public static function GetStyle($_formcontrol, $_controlname = ''){
         if (is_array(self::$Style[$_formcontrol])){
             if (empty($_controlname)){
@@ -56,11 +58,13 @@ class ViewTableHelper
     {
         self::$Class[$_formcontrol][$_controlname] = $_style;
     }
+
     public static function RemoveClass($_formcontrol, $_controlname){
         if (in_array($_controlname, self::$Class[$_formcontrol])){
             unset(self::$Class[$_formcontrol][$_controlname]);
         }
     }
+
     public static function GetClass($_formcontrol, $_controlname = ''){
         if (is_array(self::$Class[$_formcontrol])){
             if (empty($_controlname)){
@@ -102,15 +106,19 @@ class ViewTableHelper
             throw new InvalidArgumentException("Column must be a string");
         }
     }
-    public static function RemoveColumn($_columnname){
+
+    public static function RemoveColumn($_columnname)
+    {
         if (!in_array($_columnname, self::$Column)){
             unset(self::$Column[$_columnname]);
         }
     }
+
     public static function ConfigurationFromLayout($layoutFile, $idTable)
     {
         if (!class_exists('HtmlParserHelper'))
             Allocator::allocate_helper('HtmlParser');
+
         HtmlParserHelper::LoadHtmlFromFile($layoutFile);
         $configuration = HtmlParserHelper::GetControlByName($idTable);
         if (!empty($configuration))
@@ -140,6 +148,7 @@ class ViewTableHelper
             throw new InvalidArgumentException("Data must be an array or matrix");
         }
     }
+
     public static function RemoveData(){
         self::$Data = array();
     }

@@ -65,7 +65,7 @@ class OrmHelper
     private static function executeQuery($queryString, $classes = array())
     {
         if (is_null($queryString))
-            throw new Exception("Querystring and Classes are required");
+            throw new Exception("Querystring are required");
 
         $executedQuery = self::$db->query($queryString);
         return self::fetchResult($executedQuery, $classes);

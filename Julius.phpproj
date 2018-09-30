@@ -88,6 +88,7 @@
     <Compile Include="resources\pages\Blank.php" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".htaccess" />
     <Content Include="reserved\.htaccess" />
     <Content Include="reserved\attachments\.htaccess" />
     <Content Include="reserved\cache\.htaccess" />

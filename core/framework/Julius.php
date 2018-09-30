@@ -91,9 +91,11 @@ if (can_allocate(CONTROLLER, $controller))
     if ((int)method_exists($controllerInstance, $action))
     {
         Event::trigger('OnLoad');
-        global $start;
+        global $startExecution;
         call_user_func_array(array($controllerInstance, $action), array());
-        echo microtime(true) - $start;
+        $stopExecution = microtime(true);
+        if ($showTimeExecution)
+            echo $stopExecution - $startExecution;
     }
     else
         show_404();

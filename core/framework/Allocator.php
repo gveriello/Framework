@@ -46,21 +46,28 @@ class Allocator
     {
         allocate(JSBEHIND, $jsbehind);
     }
-    public static function allocate_layout($_layout, $viewbag, $classic_layout = true)
+    public static function allocate_layout($_layout, $classic_layout = true)
     {
         Event::trigger('OnPreRender');
+
+        if (!class_exists(HtmlParserHelper))
+            Allocator::allocate_helper("HtmlParser");
+
+        if (!class_exists(ViewBagHelper))
+            Allocator::allocate_helper("ViewBag");
+
         if ($classic_layout)
         {
-            self::allocate_helper('HtmlParser');
+
             if (HtmlParserHelper::LoadHtmlFromFile(string_for_allocate_file(LAYOUT, $_layout)))
             {
-                HtmlParserHelper::Binding($viewbag);
+                Binding();
+                HtmlParserHelper::ClearConfigurations('table-configuration');
                 HtmlParserHelper::RunHtml();
-                return;
             }
         }
         else
-            allocate(LAYOUT, $_layout, $viewbag::getBag());
+            allocate(LAYOUT, $_layout, ViewBagHelper::getBag());
     }
     public static function allocate_helper($helper)
     {

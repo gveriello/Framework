@@ -38,7 +38,6 @@ class HtmlParserHelper
 
     public static function RunHtml()
     {
-        self::ClearConfigurations();
         $editedHtml = self::$document->saveHTML();
         echo $editedHtml;
     }
@@ -48,53 +47,19 @@ class HtmlParserHelper
         self::$document = new DOMDocument;
     }
 
-    public static function ClearConfigurations()
+    public static function ClearConfigurations($tagName)
     {
-        self::RemoveControlByTagName('table-configuration');
+        self::RemoveControlByTagName($tagName);
     }
 
-    public static function Binding($view_bag)
+    public static function CreateNodeFromHtmlString($parentNode, $htmlString)
     {
-        if ($view_bag::Length() === 0)
-            throw new Exception("Binding required Data");
-
-        $elements = self::$document->getElementsByTagName('*');
-
-        foreach ($elements as $node)
-        {
-            $text_node = $node->nodeValue;
-            if (!empty($text_node))
-                $text_node = trim($text_node);
-
-            if (!is_null($node->attributes))
-                if($node->hasAttribute('binding-property'))
-                    if (!empty($node->getAttribute('binding-property')))
-                    {
-                        $value = $view_bag::getValue($node->getAttribute('binding-property'));
-                        if (!empty($value)){
-
-                            if ((self::$stringer)::string_is_html($value))
-                                self::AddHtmlFromString($node, $value);
-                            else
-                            {
-                                $node->setAttribute('value', $value);
-                                $node->nodeValue = $value;
-                            }
-                            array_push(self::$bindingdone[$node], $value);
-                        }
-                        $node->removeAttribute('binding-property');
-                    }
-        }
-
-        Event::trigger('OnLayoutBinded');
-    }
-
-    private static function AddHtmlFromString($parent, $html_string) {
         $tmpDoc = new DOMDocument();
-        $tmpDoc->loadHTML($html_string);
-        foreach ($tmpDoc->getElementsByTagName('body')->item(0)->childNodes as $node) {
-            $importedNode = $parent->ownerDocument->importNode($node, TRUE);
-            $parent->appendChild($importedNode);
+        $tmpDoc->loadHTML($htmlString);
+        foreach ($tmpDoc->getElementsByTagName('html')->item(0)->childNodes as $node)
+        {
+            $importedNode = $parentNode->ownerDocument->importNode($node, TRUE);
+            $parentNode->appendChild($importedNode);
         }
     }
 
@@ -123,6 +88,24 @@ class HtmlParserHelper
         return self::$document->getElementsByTagName($tag);
     }
 
+    public static function GetAllControls()
+    {
+        $allControls = self::GetAllControlsByTag('*');
+        foreach ($allControls as $control)
+        {
+            $text_node = $control->nodeValue;
+            if (!empty($text_node))
+                $text_node = trim($text_node);
+        }
+        return $allControls;
+    }
+
+    public static function NodeHasAttribute($node, $attribute)
+    {
+        if (!is_null($node->attributes))
+            return $node->hasAttribute($attribute);
+        return false;
+    }
     public static function GetControlByName($control_name)
     {
         $xpath = new DOMXpath(self::$document);
@@ -140,12 +123,44 @@ class HtmlParserHelper
     public static function GetAttribute($controlId, $attributeName)
     {
         $control = self::GetControlById($controlId);
-        return $control->getAttribute($attributeName);
+        return self::GetAttributeByNode($control, $attributeName);
     }
 
-    public static function setAttribute($controlId, $attributeName, $attributeValue)
+    public static function GetAttributeByNode($node, $attributeName)
+    {
+        if (self::NodeHasAttribute($node, $attributeName))
+            return $node->getAttribute($attributeName);
+        return '';
+    }
+
+    public static function SetAttribute($controlId, $attributeName, $attributeValue)
     {
         $control = self::GetControlById($controlId);
         return $control->setAttribute($attributeName, $attributeValue);
+    }
+
+    public static function SetAttributeByNode($node, $attributeName, $attributeValue)
+    {
+        if (!self::NodeHasAttribute($node, $attributeName))
+            return false;
+
+        $node->setAttribute($attributeName, $attributeValue);
+        array_push(self::$bindingdone[$node], $attributeValue);
+        return true;
+    }
+
+    public static function SetNodeValueByNode($node, $value)
+    {
+        $node->nodeValue = $value;
+        array_push(self::$bindingdone[$node], $value);
+        return true;
+    }
+
+    public static function RemoveAttributeByNode($node, $attributeName)
+    {
+        if (!self::NodeHasAttribute($node, $attributeName))
+            return false;
+        $node->removeAttribute($attributeName);
+        return true;
     }
 }

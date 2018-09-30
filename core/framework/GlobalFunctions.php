@@ -228,6 +228,41 @@ function validate_fields($_style = '', $_class = '')
     }
 }
 
+function Binding()
+{
+    if (!class_exists(HtmlParserHelper))
+        Allocator::allocate_helper("HtmlParser");
+
+    if (!class_exists(ViewBagHelper))
+        Allocator::allocate_helper("ViewBag");
+
+    if (!class_exists(StringerHelper))
+        Allocator::allocate_helper("Stringer");
+
+    if (ViewBagHelper::Length() > 0)
+    {
+        $controls = HtmlParserHelper::GetAllControls();
+
+        foreach ($controls as $node)
+        {
+            if (!empty(HtmlParserHelper::GetAttributeByNode($node, 'binding-property')))
+            {
+                $value = ViewBagHelper::getValue(HtmlParserHelper::GetAttributeByNode($node, 'binding-property'));
+                if (!empty($value))
+                    if (StringerHelper::string_is_html($value))
+                        HtmlParserHelper::CreateNodeFromHtmlString($node, $value);
+                    else
+                    {
+                        HtmlParserHelper::SetAttributeByNode($node, 'value', $value);
+                        HtmlParserHelper::SetNodeValueByNode($node, $value);
+                    }
+                HtmlParserHelper::RemoveAttributeByNode($node, 'binding-property');
+            }
+            Event::trigger('OnLayoutBinded');
+        }
+    }
+}
+
 function redirect_page($_page, $action = 'index', $querystring = array())
 {
     $StringQueryString = '';
