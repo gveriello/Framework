@@ -48,6 +48,7 @@
     <Folder Include="reserved\log\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="application\behavior\IndexPHP.php" />
     <Compile Include="application\layout\IndexLayout.php" />
     <Compile Include="application\model\IndexModel.php" />
     <Compile Include="application\controller\IndexController.php" />
