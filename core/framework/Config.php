@@ -69,7 +69,7 @@ $dbconfigurator = array(
  *
  */
 
-$showTimeExecution = true; //Show on page the time of execution (true | false)
+$showTimeExecution = false; //Show on page the time of execution (true | false)
 
 /*
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
