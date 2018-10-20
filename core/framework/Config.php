@@ -18,7 +18,7 @@
  *
  * NOTE: If you change these, also change the set_reporting() code below
  */
-const ENVIRONMENT = ENVIRONMENTSTATUS::PRODUCTION;
+const ENVIRONMENT = ENVIRONMENTSTATUS::DEVELOP;
 #endregion
 
 #region RESOURCES
@@ -44,7 +44,6 @@ $autoloader = array(
     INTERFACES => '*',
     IMPLEMENTED => '*',
     FRAMEWORK => '*',
-	ORMCLASSES => '*'
     );
 
 /*
@@ -58,7 +57,7 @@ $autoloader = array(
 $dbconfigurator = array(
     "use" => "db1",
     "databases" => array(
-        "db1" => array("typedatabase" => DBType::MYSQL, "host" => 'localhost', "username" => 'root', "password" => '', "database" => 'db_test')
+        "db1" => array("typedatabase" => DBType::MYSQL, "host" => '', "username" => '', "password" => '', "database" => '')
     )
 );
 

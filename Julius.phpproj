@@ -30,13 +30,11 @@
     <Folder Include="core\contracts\abstracts\" />
     <Folder Include="core\contracts\interfaces\" />
     <Folder Include="core\contracts\implemented\" />
-    <Folder Include="core\framework\controls\" />
     <Folder Include="core\languages\" />
     <Folder Include="core\utilities\" />
     <Folder Include="core\framework\" />
     <Folder Include="core\utilities\helpers\" />
     <Folder Include="core\utilities\libraries\" />
-    <Folder Include="newpage\" />
     <Folder Include="reserved\cache\" />
     <Folder Include="reserved\ormclasses\" />
     <Folder Include="resources\" />
@@ -50,19 +48,13 @@
     <Folder Include="reserved\log\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="api\TestService.php" />
-    <Compile Include="application\behavior\IndexPHP.php" />
     <Compile Include="application\layout\IndexLayout.php" />
     <Compile Include="application\model\IndexModel.php" />
     <Compile Include="application\controller\IndexController.php" />
     <Compile Include="core\framework\Event.php" />
     <Compile Include="core\contracts\interfaces\IEvent.php" />
-    <Compile Include="core\framework\controls\IFormControl.php" />
     <Compile Include="core\contracts\implemented\Page.php" />
     <Compile Include="core\framework\Allocator.php" />
-    <Compile Include="core\framework\controls\a.php" />
-    <Compile Include="core\framework\controls\option.php" />
-    <Compile Include="core\framework\controls\select.php" />
     <Compile Include="core\framework\GlobalFunctions.php" />
     <Compile Include="core\utilities\helpers\FileHelper.php" />
     <Compile Include="core\utilities\helpers\OrmHelper.php" />
@@ -81,11 +73,7 @@
     <Compile Include="core\utilities\helpers\ViewTableHelper.php" />
     <Compile Include="core\utilities\helpers\StringerHelper.php" />
     <Compile Include="index.php" />
-    <Compile Include="newpage\index.php" />
-    <Compile Include="reserved\ormclasses\Cell.php" />
-    <Compile Include="reserved\ormclasses\Device.php" />
     <Compile Include="resources\pages\404.php" />
-    <Compile Include="resources\pages\Blank.php" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".htaccess" />
