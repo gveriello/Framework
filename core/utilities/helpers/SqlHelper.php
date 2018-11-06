@@ -83,12 +83,14 @@ class SqlHelper
 
         array_push(self::$whereConditions, $property, $whereCondition);
 
+        if (is_string($value))
+            $value = '"'.$value.'"';
         if ($whereCondition === WHERE_KEY::EQUAL ||
-            $whereCondition === WHERE_KEY::NOT_EQUAL ||
-            $whereCondition === WHERE_KEY::GREATER_THAN ||
-            $whereCondition === WHERE_KEY::LESS_THAN ||
-            $whereCondition === WHERE_KEY::GREATER_THAN_OR_EQUAL ||
-            $whereCondition === WHERE_KEY::LESS_THAN_OR_EQUAL)
+        $whereCondition === WHERE_KEY::NOT_EQUAL ||
+        $whereCondition === WHERE_KEY::GREATER_THAN ||
+        $whereCondition === WHERE_KEY::LESS_THAN ||
+        $whereCondition === WHERE_KEY::GREATER_THAN_OR_EQUAL ||
+        $whereCondition === WHERE_KEY::LESS_THAN_OR_EQUAL)
             array_push(self::$whereConditions,  $value);
 
         if ($whereCondition === WHERE_KEY::BETWEEN || $whereCondition === WHERE_KEY::NOT_BETWEEN)
@@ -115,8 +117,8 @@ class SqlHelper
     {
         foreach($classes as $class)
         {
-            if (!class_exists($class))
-                throw new Exception("Parameter must be a name of class");
+            //if (!class_exists($class))
+            //throw new Exception("Parameter must be a name of class");
 
             $class = new $class();
             self::addFromTablesByString(get_class($class));

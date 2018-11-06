@@ -77,19 +77,20 @@ class OrmHelper
             throw new Exception("Error during parsing query");
 
         $result = array();
-        while($row = $executedQuery->fetch(PDO::FETCH_ASSOC)) {
-            $rowTemp = array();
-            foreach($classes as $class)
-            {
-                $class = new $class();
-                foreach($class as $property => $value)
-                    $class->{$property} = $row[$property];
-                array_push($rowTemp, $class);
-                unset($class);
+        if ($executedQuery)
+            while($row = $executedQuery->fetch(PDO::FETCH_ASSOC)) {
+                $rowTemp = array();
+                foreach($classes as $class)
+                {
+                    $class = new $class();
+                    foreach($class as $property => $value)
+                        $class->{$property} = $row[$property];
+                    array_push($rowTemp, $class);
+                    unset($class);
+                }
+                array_push($result, $rowTemp);
+                unset($rowTemp);
             }
-            array_push($result, $rowTemp);
-            unset($rowTemp);
-        }
         return $result;
     }
 
