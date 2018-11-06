@@ -14,7 +14,8 @@ function request_uri()
 
 function get_routing($url, &$page, &$action, &$querystring, &$controller, &$jsbehind, &$layout, &$model, &$behavior)
 {
-    $url = substr($url, 0, strpos($url, '?'));
+    if (strpos($url, '?')) //if exist querystring
+        $url = substr($url, 0, strpos($url, '?'));
     $page  = 'Index';
     $action = 'index';
     $querystring = array();
