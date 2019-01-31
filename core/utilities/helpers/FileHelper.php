@@ -3,7 +3,7 @@
 class FileHelper
 {
 
-    public static function createWord($htmlText, $fileName = 'julius_word.doc')
+    public static function CreateWord($htmlText, $fileName = 'julius_word.doc')
     {
         if(!empty($fileName) && !empty($htmlText))
         {
@@ -13,7 +13,7 @@ class FileHelper
         }
     }
 
-    public static function createExcel($htmlTable, $fileName = 'julius_excel.xls')
+    public static function CreateExcel($htmlTable, $fileName = 'julius_excel.xls')
     {
         if(!empty($fileName) && !empty($htmlTable))
         {
@@ -23,7 +23,7 @@ class FileHelper
         }
     }
 
-    public static function createTxt($text, $fileName = 'julius_txt.txt')
+    public static function CreateTXT($text, $fileName = 'julius_txt.txt')
     {
         if (empty($text))
             return false;
@@ -32,7 +32,7 @@ class FileHelper
         return true;
     }
 
-    public static function createGenericFile($body, $fileName = 'julius_generic_file', $extension = '.txt')
+    public static function CreateGenericFile($body, $fileName = 'julius_generic_file', $extension = '.txt')
     {
         if (empty($body) || empty($fileName) || empty($extension))
             return false;

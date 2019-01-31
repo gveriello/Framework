@@ -28,13 +28,15 @@ class ViewTableHelper
         self::$Style[$_formcontrol][$_controlname] = $_style;
     }
 
-    public static function RemoveStyle($_formcontrol, $_controlname){
+    public static function RemoveStyle($_formcontrol, $_controlname)
+    {
         if (in_array($_controlname, self::$Style[$_formcontrol])){
             unset(self::$Style[$_formcontrol][$_controlname]);
         }
     }
 
-    public static function GetStyle($_formcontrol, $_controlname = ''){
+    public static function GetStyle($_formcontrol, $_controlname = '')
+    {
         if (is_array(self::$Style[$_formcontrol])){
             if (empty($_controlname)){
                 if (in_array($_formcontrol, self::$Style))
@@ -59,13 +61,15 @@ class ViewTableHelper
         self::$Class[$_formcontrol][$_controlname] = $_style;
     }
 
-    public static function RemoveClass($_formcontrol, $_controlname){
+    public static function RemoveClass($_formcontrol, $_controlname)
+    {
         if (in_array($_controlname, self::$Class[$_formcontrol])){
             unset(self::$Class[$_formcontrol][$_controlname]);
         }
     }
 
-    public static function GetClass($_formcontrol, $_controlname = ''){
+    public static function GetClass($_formcontrol, $_controlname = '')
+    {
         if (is_array(self::$Class[$_formcontrol])){
             if (empty($_controlname)){
                 if (in_array($_formcontrol, self::$Class))
@@ -117,7 +121,7 @@ class ViewTableHelper
     public static function ConfigurationFromLayout($layoutFile, $idTable)
     {
         if (!class_exists('HtmlParserHelper'))
-            Allocator::allocate_helper('HtmlParser');
+            Allocator::AllocateHelper('HtmlParser');
 
         HtmlParserHelper::LoadHtmlFromFile($layoutFile);
         $configuration = HtmlParserHelper::GetControlByName($idTable);
@@ -135,13 +139,13 @@ class ViewTableHelper
                                 self::SetStyle('column', $column->getAttribute('id'), $column->getAttribute('style'));
                     }
         }
-
         HtmlParserHelper::Clear();
     }
     #endregion
 
     #region Operation to Data
-    public static function AddData($_data){
+    public static function AddData($_data)
+    {
         if (is_array($_data)){
             self::$Data = $_data;
         }else{
@@ -149,33 +153,36 @@ class ViewTableHelper
         }
     }
 
-    public static function RemoveData(){
+    public static function RemoveData()
+    {
         self::$Data = array();
     }
     #endregion
 
     #region DataBinding Control
-    public static function DataBinding(){
-        if (self::$Data !== NULL && count(self::$Column) > 0){
-            for($i = 0; $i < count(self::$Data); $i++){
+    public static function DataBinding()
+    {
+        if (self::$Data !== NULL && count(self::$Column) > 0)
+            for($i = 0; $i < count(self::$Data); $i++)
+            {
                 if (count(self::$Data[$i]) > self::$Row)
 					self::$Row = count(self::$Data[$i]);
-                for($k = 0; $k < count(self::$Column); $k++){
+                for($k = 0; $k < count(self::$Column); $k++)
                     if (array_key_exists(self::$Column[$k], self::$Data[$i]))
                         array_push(self::$ColumnData[self::$Column[$k]], self::$Data[$i][self::$Column[$k]]);
                     else
                         array_push(self::$ColumnData[self::$Column[$k]], '');
-                }
             }
-        }else{
+        else
             throw new InvalidArgumentException("Data or Columns is null");
-        }
     }
     #endregion
 
     #region Result Html
-    public static function TableToHtml(){
-        if (count(self::$ColumnData) > 0){
+    public static function TableToHtml()
+    {
+        if (count(self::$ColumnData) > 0)
+        {
             $table = '<table '
                 .(!empty(self::GetStyle('table')) ? 'style="'.self::GetStyle('table').'" ': null)
                 .(!empty(self::GetClass('table')) ? 'class="'.self::GetClass('table').'" ': null)
@@ -215,9 +222,9 @@ class ViewTableHelper
             $table .= '</table>';
 
             return $table;
-        }else{
-            throw new InvalidArgumentException("Data or Columns is null");
         }
+        else
+            throw new InvalidArgumentException("Data or Columns is null");
     }
     #endregion
 }

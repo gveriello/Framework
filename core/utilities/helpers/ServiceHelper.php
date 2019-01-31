@@ -4,8 +4,9 @@ class ServiceHelper
     static private $NameService;
     static private $ActionService;
     static private $ParamService;
+    static private $ApiInstance;
 
-    public static function SetCall($_nameservice, $_actionservice, ...$_paramservice)
+    public static function InitializeCall($_nameservice, $_actionservice, ...$_paramservice)
     {
         if (!empty($_nameservice) && !empty($_actionservice)){
             self::$NameService = $_nameservice;
@@ -15,10 +16,10 @@ class ServiceHelper
             throw new Exception("Name service and Action service is required");
     }
 
-    public static function run()
+    public static function Run()
     {
-        $apiInstance = Allocator::allocate_api(self::$NameService);
-        if (!is_null($apiInstance))
+        self::$ApiInstance = Allocator::AllocateAPI(self::$NameService);
+        if (!is_null(self::$ApiInstance))
         {
             if (!empty(self::$ActionService))
             {
@@ -27,9 +28,9 @@ class ServiceHelper
                         "NameAction" => self::$ActionService
                     ),
                 );
-                $apiInstance = new self::$NameService($ResultService, self::$ActionService, self::$ParamService);
+                self::$ApiInstance = new self::$NameService($ResultService, self::$ActionService, self::$ParamService);
                 $ResultService['result']['RequestStart'] = microtime(true);
-                $ResultService['result']['Response'] = call_user_func(array($apiInstance, self::$ActionService), self::$ParamService);
+                $ResultService['result'] = self::CallService();
                 $ResultService['result']['RequestEnd'] = microtime(true);
                 $ResultService['result']['Status'] = !is_null($ResultService['result']['Response']);
                 $ResultService['result']['TimeExecution'] = $ResultService['result']['RequestEnd'] - $ResultService['result']['RequestStart'];
@@ -38,5 +39,22 @@ class ServiceHelper
             throw new Exception("You must be indicate the action");
         }
         throw new Exception("API doesn't exist");
+    }
+
+    private static function CallService()
+    {
+        $response = array("Response" => null, "Exception" => null);
+        try
+        {
+            $response["Response"] = call_user_func(array(self::$ApiInstance, self::$ActionService), self::$ParamService);
+        }
+        catch(Exception $ex)
+        {
+            $response["Exception"] = $ex;
+        }
+        finally
+        {
+            return $response;
+        }
     }
 }

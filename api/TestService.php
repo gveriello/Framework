@@ -1,29 +1,26 @@
 <?php
 class TestService
 {
-    private $action;
-    private $params;
-    private $result;
-    function __construct(&$result, $_action, ...$_params)
+    function __construct()
     {
-        $this->action = $_action;
-        $this->params = $_params;
-        $this->result = $result;
-        Allocator::allocate_helper('Sql');
-        Allocator::allocate_helper('Orm');
+        Allocator::AllocateHelper('Sql');
+        Allocator::AllocateHelper('Orm');
     }
+
     function getOperation()
     {
         return '';
     }
+
     function getNomeCognome()
     {
         return 'ok';
     }
+
     function getTableForTest()
     {
-        SqlHelper::configQueryByClasses(array(Device, Cell));
-        SqlHelper::addWhereCondition("Device.Id", WHERE_KEY::EQUAL, "Cell.IdDevice");
-        return OrmHelper::executeQueryByString(SqlHelper::getSQL(), array(Device, Cell), true);
+        SqlHelper::ConfigQueryByClasses(array(Device, Cell));
+        SqlHelper::AddWhereCondition("Device.Id", WHERE_KEY::EQUAL, "Cell.IdDevice");
+        return OrmHelper::ExecuteQueryByString(SqlHelper::getSQL(), array(Device, Cell), true);
     }
 }

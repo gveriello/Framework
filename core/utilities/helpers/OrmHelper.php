@@ -9,7 +9,7 @@ class OrmHelper
     private static $typedatabase;
     public static $db;
 
-    public static function initialize($dbconfigurator)
+    public static function InitializeORM($dbconfigurator)
     {
         if (is_array($dbconfigurator))
         {
@@ -35,7 +35,7 @@ class OrmHelper
         return false;
     }
 
-    private static function config()
+    private static function ConfigEnvironment()
     {
         //Configuration variable.
         if (ENVIRONMENT == ENVIRONMENTSTATUS::DEVELOP)
@@ -46,7 +46,7 @@ class OrmHelper
             self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
     }
 
-    public static function connect()
+    public static function Connect()
     {
 		try{
 			self::$db = new PDO(
@@ -54,7 +54,7 @@ class OrmHelper
 				self::$user,
 				self::$password
 			);
-			self::config();
+			self::ConfigEnvironment();
 		}
 		catch (PDOException $e) {
 			throw new PDOException("Failed to connect database");
@@ -62,16 +62,16 @@ class OrmHelper
     }
 
 
-    private static function executeQuery($queryString, $classes = array())
+    private static function ExecuteQuery($queryString, $classes = array())
     {
         if (is_null($queryString))
             throw new Exception("Querystring are required");
 
         $executedQuery = self::$db->query($queryString);
-        return self::fetchResult($executedQuery, $classes);
+        return self::FetchResult($executedQuery, $classes);
     }
 
-    private static function fetchResult($executedQuery, $classes = array())
+    private static function FetchResult($executedQuery, $classes = array())
     {
         if (is_null($executedQuery) || count($classes) === 0)
             throw new Exception("Error during parsing query");
@@ -93,15 +93,15 @@ class OrmHelper
         return $result;
     }
 
-    public static function executeQueryByString($query, $classes = array(), $toArray = false)
+    public static function ExecuteQueryByString($query, $classes = array(), $toArray = false)
     {
-        $result = self::executeQuery($query, $classes);
+        $result = self::ExecuteQuery($query, $classes);
         if ($toArray)
-            return self::toArray($result);
+            return self::ToArray($result);
         return $result;
     }
 
-	private static function toArray($result)
+	private static function ToArray($result)
 	{
 		$newResult = array();
 		foreach($result as $record => $classes)

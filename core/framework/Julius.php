@@ -21,7 +21,7 @@ foreach ($autoloader as $folder => $requiredpage)
             $autoloader[$folder] = array();
             foreach ($cdir as $key => $value)
                 if (!in_array($value,array(".","..")))
-                    if (is_dir(string_for_allocate_file($folder, $value)))
+                    if (is_dir(PathFileToAllocate($folder, $value)))
                         array_push($autoloader[$folder], $value);
                     else
                         array_push($autoloader[$folder], pathinfo($value, PATHINFO_FILENAME));
@@ -34,15 +34,15 @@ foreach ($autoloader as $folder => $requiredpage)
 //aggiungo le risorse
 foreach ($autoloader as $folder => $requiredpage)
     foreach ($requiredpage as $page)
-        if (is_dir(string_for_allocate_file($folder, $page)))
+        if (is_dir(PathFileToAllocate($folder, $page)))
         {
-            $files = scandir(string_for_allocate_file($folder, $page));
+            $files = scandir(PathFileToAllocate($folder, $page));
             foreach($files as $file)
                 if ($file !== '.' && $file !== '..' && $file != '.htaccess')
-                    require_once string_for_allocate_file(string_for_allocate_file($folder, $page), $file);
+                    require_once PathFileToAllocate(PathFileToAllocate($folder, $page), $file);
         }else{
-            if (file_exists(string_for_allocate_file($folder, $page)))
-                require_once string_for_allocate_file($folder, $page);
+            if (file_exists(PathFileToAllocate($folder, $page)))
+                require_once PathFileToAllocate($folder, $page);
         }
 
 /*
@@ -51,9 +51,9 @@ foreach ($autoloader as $folder => $requiredpage)
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 
-set_reporting();
-remove_magic_quotes();
-unregister_globals();
+SetReporting();
+RemoveMagicQuotes();
+UnregisterGlobals();
 
 /*
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -61,23 +61,29 @@ unregister_globals();
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 
-$url = ltrim(request_uri(), '/');
+$url = ltrim(RequestUri(), '/');
 $url = rtrim($url, '/');
-get_routing($url, $page, $action, $querystring, $controller, $jsbehind, $layout, $model, $behavior);
-if (can_allocate(CONTROLLER, $controller))
+InitializeRouting($url, $page, $action, $querystring, $controller, $jsbehind, $layout, $model, $behavior);
+if (CanAllocate(CONTROLLER, $controller))
 {
-    $behaviorInstance = Allocator::allocate_behavior($behavior);
+    $behaviorInstance = Allocator::AllocatePHPBehavior($behavior);
 
     if (!is_null($behaviorInstance))
     {
-        $methods_implemented = get_class_methods(IEvent);
-        foreach($methods_implemented as $method)
+        if (!is_subclass_of($behaviorInstance, 'Page'))
+            throw new Exception("PHPBehavior must be extend Page");
+
+        foreach(get_class_methods(IEvent) as $method)
             if ((int)method_exists($behaviorInstance, $method))
-                Event::listen($method, $behaviorInstance->$method());
+                Event::EventListen($method, $behaviorInstance->$method());
     }
-    $controllerInstance = Allocator::allocate_controller($controller);
-    $modelInstance = Allocator::allocate_model($model);
-    Allocator::allocate_jsbehind($jsbehind);
+
+    $controllerInstance = Allocator::AllocateController($controller);
+    if (!is_subclass_of($controllerInstance, 'Page'))
+        throw new Exception("Controller must be extend Page");
+
+    $modelInstance = Allocator::AllocateModel($model);
+    Allocator::AllocateJSBehavior($jsbehind);
     $GLOBALS = array(
         'page' => $page,
         'phpbehind' => $controllerInstance,
@@ -88,17 +94,21 @@ if (can_allocate(CONTROLLER, $controller))
         'action' => $action,
         'querystring' => $querystring
     );
+
+    InitializePageByInstance($controllerInstance);
+    InitializePageByInstance($behaviorInstance);
+
     if ((int)method_exists($controllerInstance, $action))
     {
-        Event::trigger('OnLoad');
+        Event::EventTrigger('OnLoad');
         global $startExecution;
         call_user_func_array(array($controllerInstance, $action), array());
-        $stopExecution = microtime(true);
+        $stopExecution = microtime();
         if ($showTimeExecution)
             echo $stopExecution - $startExecution;
     }
     else
-        show_404();
+        Show404();
 }else
-    show_404();
+    Show404();
 #endregion

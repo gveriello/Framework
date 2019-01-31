@@ -10,7 +10,7 @@ class ViewBagHelper
         return count(self::$Bag);
     }
 
-    public static function AddModel($model)
+    public static function AddObject($model)
     {
         foreach($model as $property => $value)
         {
@@ -18,6 +18,7 @@ class ViewBagHelper
                 self::Add($property, $value);
         }
     }
+
     public static function Add($KeyBag, $ItemBag)
     {
         if ($KeyBag !== null){
@@ -29,21 +30,21 @@ class ViewBagHelper
         }
     }
 
-    function getBag()
+    public static function GetBag()
     {
         return self::$Bag;
     }
 
-    function getValue($key)
+    public static function GetValueByKey($key)
     {
         return self::$Bag[$key];
     }
 
-    function getValueByKeyString($string_key)
+    public static function GetValueByKeyString($string_key)
     {
         $list_of_key = explode('.', $string_key);
         if (count($list_of_key) === 0)
-            return self::getValue($string_key);
+            return self::GetValueByKey($string_key);
         else
         {
             $actual_position = self::$Bag[$list_of_key[0]];

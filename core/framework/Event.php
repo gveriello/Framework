@@ -4,12 +4,12 @@ class Event
 {
     private static $events = [];
 
-    public static function listen($name, $callback)
+    public static function EventListen($name, $callback)
     {
         self::$events[$name][] = $callback;
     }
 
-    public static function trigger($name, $argument = null)
+    public static function EventTrigger($name, $argument = null)
     {
         foreach ((array)self::$events[$name] as $event => $callback)
             if($argument && is_array($argument))

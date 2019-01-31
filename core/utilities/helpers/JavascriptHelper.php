@@ -10,9 +10,9 @@
  */
 class JavascriptHelper
 {
-    public static function allocate_jquery()
+    public static function AllocateJQuery()
     {
         global $jquery_url;
-        return Allocator::allocate_js($jquery_url);
+        return Allocator::AllocateJS($jquery_url);
     }
 }

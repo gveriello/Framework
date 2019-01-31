@@ -18,7 +18,7 @@ class HtmlParserHelper
     {
         self::$document = new DOMDocument;
         self::$bindingdone = array();
-        self::$stringer = Allocator::allocate_helper('Stringer');
+        self::$stringer = Allocator::AllocateHelper('Stringer');
         self::$document->loadHTML($htmlString);
         foreach (self::$document->childNodes as $item)
             if ($item->nodeType == XML_PI_NODE)
@@ -28,7 +28,7 @@ class HtmlParserHelper
 
     public static function LoadHtmlFromFile($htmlFilePath)
     {
-        $input = file_get_contents(string_for_allocate_file(LAYOUT, $htmlFilePath));
+        $input = file_get_contents(PathFileToAllocate(LAYOUT, $htmlFilePath));
         $input = trim(str_replace("\r\n", "", $input));
         if (empty($input))
             return false;

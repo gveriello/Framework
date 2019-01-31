@@ -2,64 +2,68 @@
 
 class Allocator
 {
-    public static function allocate_model($_model)
+    public static function AllocateModel($_model)
     {
         if ($_model !== '' && $_model !== null){
-            allocate(MODEL, $_model);
+            Allocate(MODEL, $_model);
             if (class_exists($_model))
                 return new $_model();
         }
         return null;
     }
-    public static function allocate_behavior($_behavior)
+
+    public static function AllocatePHPBehavior($_behavior)
     {
         if ($_behavior !== '' && $_behavior !== null){
-            allocate(BEHAVIOR, $_behavior);
+            Allocate(BEHAVIOR, $_behavior);
             if (class_exists($_behavior))
                 return new $_behavior();
         }
         return null;
     }
-	public static function allocate_ormclasses($_class)
+
+    public static function AllocateJSBehavior($jsbehind)
+    {
+        Allocate(JSBEHIND, $jsbehind);
+    }
+
+	public static function AllocateORMClass($_class)
 	{
         if ($_class !== '' && $_class !== null){
-            allocate(ORMCLASSES, $_class);
+            Allocate(ORMCLASSES, $_class);
             if (class_exists($_class))
                 return new $_class();
         }
         return null;
 	}
 
-    public static function allocate_controller($_controller)
+    public static function AllocateController($_controller)
     {
         if ($_controller !== '' && $_controller !== null){
-            allocate(CONTROLLER, $_controller);
+            Allocate(CONTROLLER, $_controller);
             if (class_exists($_controller))
             {
-                Event::trigger('OnControllerLoaded');
+                Event::EventTrigger('OnControllerLoaded');
                 return new $_controller();
             }
         }
         return null;
     }
-    public static function allocate_jsbehind($jsbehind)
+
+    public static function AllocateLayout($_layout, $classic_layout = true)
     {
-        allocate(JSBEHIND, $jsbehind);
-    }
-    public static function allocate_layout($_layout, $classic_layout = true)
-    {
-        Event::trigger('OnPreRender');
+        Event::EventTrigger('OnPreRender');
 
         if (!class_exists(HtmlParserHelper))
-            Allocator::allocate_helper("HtmlParser");
+            Allocator::AllocateHelper("HtmlParser");
 
         if (!class_exists(ViewBagHelper))
-            Allocator::allocate_helper("ViewBag");
+            Allocator::AllocateHelper("ViewBag");
 
         if ($classic_layout)
         {
 
-            if (HtmlParserHelper::LoadHtmlFromFile(string_for_allocate_file(LAYOUT, $_layout)))
+            if (HtmlParserHelper::LoadHtmlFromFile(PathFileToAllocate(LAYOUT, $_layout)))
             {
                 Binding();
                 HtmlParserHelper::ClearConfigurations('table-configuration');
@@ -67,60 +71,66 @@ class Allocator
             }
         }
         else
-            allocate(LAYOUT, $_layout, ViewBagHelper::getBag());
+            Allocate(LAYOUT, $_layout, ViewBagHelper::GetBag());
     }
-    public static function allocate_helper($helper)
+
+    public static function AllocateHelper($helper)
     {
         $helper = $helper.'Helper';
         if ($helper !== '' && $helper !== null){
-            allocate(HELPERS, $helper);
+            Allocate(HELPERS, $helper);
             if (class_exists($helper))
                 return new $helper();
         }
         return null;
     }
-    public static function allocate_api($api)
+
+    public static function AllocateAPI($api)
     {
         if ($api !== '' && $api !== null){
-            allocate(API, $api);
+            Allocate(API, $api);
             if (class_exists($api))
                 return true;
         }
         return null;
     }
-    public static function allocate_library($library)
+
+    public static function AllocateLibrary($library)
     {
         if ($library !== '' && $library !== null){
-            allocate(LIBRARIES, $library);
+            Allocate(LIBRARIES, $library);
             if (class_exists($library))
                 return new $library();
         }
         return null;
     }
-    public static function allocate_css($css)
+
+    public static function AllocateCSS($css)
     {
         if ($css !== '' && $css !== null)
             if (filter_var($css, FILTER_VALIDATE_URL))
                 return '<link rel="stylesheet" type="text/css" href="'.$css.'" >';
             else
-                if (can_allocate(CSS, $css))
-                    return '<link rel="stylesheet" type="text/css" href="'.string_for_allocate_file(CSS, $css).'" />';
+                if (CanAllocate(CSS, $css))
+                    return '<link rel="stylesheet" type="text/css" href="'.PathFileToAllocate(CSS, $css).'" />';
         return '';
     }
-    public static function allocate_js($js)
+
+    public static function AllocateJS($js)
     {
         if ($js !== '' && $js !== null)
             if (filter_var($js, FILTER_VALIDATE_URL))
                 return '<script src="'.$js.'" ></script>';
             else
-                if (can_allocate(JS, $js))
-                    return '<script src="'.string_for_allocate_file(JS, $js).'" ></script>';
+                if (CanAllocate(JS, $js))
+                    return '<script src="'.PathFileToAllocate(JS, $js).'" ></script>';
 
         return '';
     }
-    public static function allocate_jquery()
+
+    public static function AllocateJQuery()
     {
         global $jquery_url;
-        return Allocator::allocate_js($jquery_url);
+        return Allocator::AllocateJS($jquery_url);
     }
 }

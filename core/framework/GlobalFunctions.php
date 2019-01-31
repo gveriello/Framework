@@ -7,12 +7,12 @@
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 
-function request_uri()
+function RequestUri()
 {
     return sprintf( "%s", $_SERVER['REQUEST_URI'] );
 }
 
-function get_routing($url, &$page, &$action, &$querystring, &$controller, &$jsbehind, &$layout, &$model, &$behavior)
+function InitializeRouting($url, &$page, &$action, &$querystring, &$controller, &$jsbehind, &$layout, &$model, &$behavior)
 {
     $page  = 'Index';
     $action = 'index';
@@ -36,7 +36,7 @@ function get_routing($url, &$page, &$action, &$querystring, &$controller, &$jsbe
             array_shift($urlArray);
         }
         if (count($_GET) > 0)
-            $querystring = parse_query_string($_GET);
+            $querystring = ParseQueryString($_GET);
     }
     $page = ucwords(strtolower($page));
     $behavior = ucwords(strtolower($action)).'PHP';
@@ -46,7 +46,7 @@ function get_routing($url, &$page, &$action, &$querystring, &$controller, &$jsbe
     $jsbehind = $page.'JS';
 }
 
-function parse_query_string($array)
+function ParseQueryString($array)
 {
     $NewArray = array();
     if (is_array($array))
@@ -56,8 +56,6 @@ function parse_query_string($array)
 }
 #endregion
 
-
-
 #region SECURITY FUNCTIONS
 
 /*
@@ -66,21 +64,21 @@ function parse_query_string($array)
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 
-function strip_slashes_deep($value)
+function StripSlashesDeep($value)
 {
     return is_array($value) ? array_map('stripSlashesDeep', $value) : stripslashes($value);
 }
 
-function remove_magic_quotes()
+function RemoveMagicQuotes()
 {
     if ( get_magic_quotes_gpc() ) {
-        $_GET    = strip_slashes_deep($_GET   );
-        $_POST   = strip_slashes_deep($_POST  );
-        $_COOKIE = strip_slashes_deep($_COOKIE);
+        $_GET    = StripSlashesDeep($_GET   );
+        $_POST   = StripSlashesDeep($_POST  );
+        $_COOKIE = StripSlashesDeep($_COOKIE);
     }
 }
 
-function unregister_globals()
+function UnregisterGlobals()
 {
     if (ini_get('register_globals') == 0) return;
     $variables = array(
@@ -108,7 +106,7 @@ function unregister_globals()
     }
 }
 
-function set_reporting()
+function SetReporting()
 {
     if (ENVIRONMENT === 0) {
         ini_set('display_errors', 1);
@@ -134,22 +132,22 @@ function set_reporting()
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 
-function can_allocate($folder, $file)
+function CanAllocate($folder, $file)
 {
     if ($folder !== NULL && $file !== NULL && $folder !== '' && $file !== '')
-        return (!empty(string_for_allocate_file($folder, $file)));
+        return (!empty(PathFileToAllocate($folder, $file)));
     return false;
 }
 
-function allocate($folder, $file, $databag = array())
+function Allocate($folder, $file, $databag = array())
 {
     if (count($databag) > 0)
         extract($databag);
-    if (can_allocate($folder, $file))
-        require_once string_for_allocate_file($folder, $file);
+    if (CanAllocate($folder, $file))
+        require_once PathFileToAllocate($folder, $file);
 }
 
-function string_for_allocate_file($folder, $file)
+function PathFileToAllocate($folder, $file)
 {
     $file = pathinfo($file, PATHINFO_FILENAME); //prendo solo il nome del file eliminando l' eventuale estensione
     $extension = '.php';
@@ -175,7 +173,7 @@ function string_for_allocate_file($folder, $file)
     return '';
 }
 
-function validate_fields($_style = '', $_class = '')
+function ValidateRules($_style = '', $_class = '')
 {
     if (!empty($_REQUEST["formattributevalidator"]))
     {
@@ -184,8 +182,8 @@ function validate_fields($_style = '', $_class = '')
         $_formatattributevalidator = json_decode(base64_decode($_REQUEST["formattributevalidator"]));
         if ($_formatattributevalidator !== NULL)
         {
-            Allocator::allocate_helper('DataValidator');
-            Allocator::allocate_helper('Stringer');
+            Allocator::AllocateHelper('DataValidator');
+            Allocator::AllocateHelper('Stringer');
             if (password_verify(json_encode($_formatattributevalidator->configurator), base64_decode($_formatattributevalidator->token)))
             {
                 $_formatattributevalidator = $_formatattributevalidator->configurator;
@@ -194,18 +192,18 @@ function validate_fields($_style = '', $_class = '')
                     $validatorresult = false;
                     foreach($rules as $rule)
                     {
-                        $message = StringerHelper::after($rule, ',');
-                        $comparator = StringerHelper::between($rule, '[', ']');
+                        $message = StringerHelper::After($rule, ',');
+                        $comparator = StringerHelper::Between($rule, '[', ']');
                         $validator = null;
                         if ($comparator !== '')
                         {
-                            $rule = StringerHelper::before($rule, '[');
+                            $rule = StringerHelper::Before($rule, '[');
                             $validator = new $rule($value, $comparator, $message);
                             $validatorresult = $validator->Execute();
                         }
                         else
                         {
-                            $rule = StringerHelper::before($rule, ',');
+                            $rule = StringerHelper::Before($rule, ',');
                             $validator = new $rule($value, $message);
                             $validatorresult = $validator->Execute();
                         }
@@ -231,13 +229,13 @@ function validate_fields($_style = '', $_class = '')
 function Binding()
 {
     if (!class_exists(HtmlParserHelper))
-        Allocator::allocate_helper("HtmlParser");
+        Allocator::AllocateHelper("HtmlParser");
 
     if (!class_exists(ViewBagHelper))
-        Allocator::allocate_helper("ViewBag");
+        Allocator::AllocateHelper("ViewBag");
 
     if (!class_exists(StringerHelper))
-        Allocator::allocate_helper("Stringer");
+        Allocator::AllocateHelper("Stringer");
 
     if (ViewBagHelper::Length() > 0)
     {
@@ -247,9 +245,9 @@ function Binding()
         {
             if (!empty(HtmlParserHelper::GetAttributeByNode($node, 'binding-property')))
             {
-                $value = ViewBagHelper::getValue(HtmlParserHelper::GetAttributeByNode($node, 'binding-property'));
+                $value = ViewBagHelper::GetValueByKey(HtmlParserHelper::GetAttributeByNode($node, 'binding-property'));
                 if (!empty($value))
-                    if (StringerHelper::string_is_html($value))
+                    if (StringerHelper::IsHtml($value))
                         HtmlParserHelper::CreateNodeFromHtmlString($node, $value);
                     else
                     {
@@ -258,12 +256,12 @@ function Binding()
                     }
                 HtmlParserHelper::RemoveAttributeByNode($node, 'binding-property');
             }
-            Event::trigger('OnLayoutBinded');
+            Event::EventTrigger('OnLayoutBinded');
         }
     }
 }
 
-function redirect_page($_page, $action = 'index', $querystring = array())
+function RedirectTo($_page, $action = 'index', $querystring = array())
 {
     $StringQueryString = '';
     if (count($querystring) > 0){
@@ -274,6 +272,20 @@ function redirect_page($_page, $action = 'index', $querystring = array())
     }
     return '/'.$_page.'/'.$action.'/'.(count($querystring) > 0 ? $StringQueryString : '');
 }
+
+function InitializePageByInstance($instance)
+{
+    if (is_null($instance))
+        return;
+
+    $instance->PageName = $GLOBALS['page'];
+    $instance->PHPBehavior = $GLOBALS['behavior'];
+    $instance->JSBehavior = $GLOBALS['jsbehind'];
+    $instance->Layout = $GLOBALS["layout"];
+    $instance->Model = $GLOBALS['model'];
+    $instance->Action = $GLOBALS['action'];
+    $instance->QueryString = $GLOBALS['querystring'];
+}
 #endregion
 
 #region INTERNAL ERROR
@@ -283,7 +295,7 @@ function redirect_page($_page, $action = 'index', $querystring = array())
  * Method of internal error
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-function show_404()
+function Show404()
 {
     global $errorpages;
     if (array_key_exists("404", $errorpages))
@@ -298,7 +310,7 @@ function show_404()
     }
 }
 
-function show_500()
+function Show500()
 {
     if (array_key_exists("500", $errorpages))
     {

@@ -12,7 +12,7 @@ class SqlHelper
 
     #region SELECT METHODS
 
-    public function addSelectFieldsByArray($fields = array())
+    public function AddSelectFieldsByArray($fields = array())
     {
         if (count($fields) === 0)
             return false;
@@ -22,12 +22,12 @@ class SqlHelper
         return true;
     }
 
-    public function addSelectFieldsByString($fields, $delimeter = ';')
+    public function AddSelectFieldsByString($fields, $delimeter = ';')
     {
-        return self::addSelectFieldsByArray(explode($delimeter, $fields));
+        return self::AddSelectFieldsByArray(explode($delimeter, $fields));
     }
 
-    public function modifySelectFieldsByString($oldField, $newField)
+    public function ModifySelectFieldsByString($oldField, $newField)
     {
         if (empty($oldField) || empty($newField))
             return false;
@@ -37,7 +37,7 @@ class SqlHelper
         return true;
     }
 
-    public function removeSelectFieldsByArray($fields = array())
+    public function RemoveSelectFieldsByArray($fields = array())
     {
         if (count($fields) === 0)
             return false;
@@ -49,14 +49,14 @@ class SqlHelper
         return true;
     }
 
-    public function removeSelectFieldsByString($fields, $delimeter = ';')
+    public function RemoveSelectFieldsByString($fields, $delimeter = ';')
     {
-        return self::removeSelectFieldsByArray(explode($delimeter, $fields));
+        return self::RemoveSelectFieldsByArray(explode($delimeter, $fields));
     }
     #endregion
 
     #region FROM METHODS
-    public function addFromTablesByArray($tables = array())
+    public function AddFromTablesByArray($tables = array())
     {
         if (count($tables) === 0)
             return false;
@@ -66,14 +66,14 @@ class SqlHelper
         return true;
     }
 
-    public function addFromTablesByString($tables, $delimeter = ';')
+    public function AddFromTablesByString($tables, $delimeter = ';')
     {
-        return self::addFromTablesByArray(explode($delimeter, $tables));
+        return self::AddFromTablesByArray(explode($delimeter, $tables));
     }
     #endregion
 
     #region WHERE METHODS
-    public function addWhereCondition($property, $whereCondition, $value = '', $finalKey = '')
+    public function AddWhereCondition($property, $whereCondition, $value = '', $finalKey = '')
     {
         if (empty($property) && empty($whereCondition))
             return false;
@@ -111,7 +111,7 @@ class SqlHelper
     #endregion
 
     #region ADDITIONAL METHODS
-    public function configQueryByClasses($classes = array())
+    public function ConfigQueryByClasses($classes = array())
     {
         foreach($classes as $class)
         {
@@ -119,10 +119,10 @@ class SqlHelper
                 throw new Exception("Parameter must be a name of class");
 
             $class = new $class();
-            self::addFromTablesByString(get_class($class));
+            self::AddFromTablesByString(get_class($class));
 
             foreach($class as $property => $value)
-                self::addSelectFieldsByString(get_class($class).'.'.$property);
+                self::AddSelectFieldsByString(get_class($class).'.'.$property);
         }
     }
 
