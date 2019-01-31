@@ -19,13 +19,22 @@ class IndexController extends Page
 		//OrmHelper::InitializeORM($dbconfigurator);
 		//OrmHelper::Connect();
     }
-    function __destruct(){}
+
+    function __destruct()
+    {
+        unset($ViewBag);
+        unset($ViewTable);
+        unset($APIService);
+        unset($FormHelper);
+        unset($OrmHelper);
+    }
 
     public function index()
     {
         $this->PHPBehavior->CreateTable();
         $this->PHPBehavior->ManageViewBag();
         $this->PHPBehavior->SetBhoRule();
+
         Allocator::AllocateLayout($this->Layout);
     }
 }

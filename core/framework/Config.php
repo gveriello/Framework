@@ -58,7 +58,7 @@ $autoloader = array(
 $dbconfigurator = array(
     "use" => "db1",
     "databases" => array(
-        "db1" => array("typedatabase" => DBType::MYSQL, "host" => 'localhost', "username" => 'root', "password" => '', "database" => 'db_test')
+        "db1" => array("typedatabase" => DBType::MYSQL, "host" => '', "username" => '', "password" => '', "database" => '')
     )
 );
 
@@ -69,7 +69,7 @@ $dbconfigurator = array(
  *
  */
 
-$showTimeExecution = false; //Show on page the time of execution (true | false)
+$showTimeExecution = true; //Show on page the time of execution (true | false)
 
 /*
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
