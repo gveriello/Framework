@@ -12,13 +12,11 @@ class HtmlParserHelper
 {
     private static $document;
     private static $bindingdone;
-    private static $stringer;
 
     public static function LoadHtmlFromString($htmlString)
     {
         self::$document = new DOMDocument;
         self::$bindingdone = array();
-        self::$stringer = Allocator::AllocateHelper('Stringer');
         self::$document->loadHTML($htmlString);
         foreach (self::$document->childNodes as $item)
             if ($item->nodeType == XML_PI_NODE)
@@ -75,6 +73,7 @@ class HtmlParserHelper
         if (!is_null($control))
             self::$document->removeChild($control);
     }
+
     public static function RemoveControlByTagName($tagName)
     {
         $controls = self::GetAllControlsByTag($tagName);
@@ -106,6 +105,7 @@ class HtmlParserHelper
             return $node->hasAttribute($attribute);
         return false;
     }
+
     public static function GetControlByName($control_name)
     {
         $xpath = new DOMXpath(self::$document);
@@ -117,7 +117,7 @@ class HtmlParserHelper
     {
         $xpath = new DOMXpath(self::$document);
         $xpathquery="//*[@id='".$controlId."']";
-        return $xpath->query($xpathquery);
+        return $xpath->query($xpathquery)[0];
     }
 
     public static function GetAttribute($controlId, $attributeName)
@@ -163,4 +163,5 @@ class HtmlParserHelper
         $node->removeAttribute($attributeName);
         return true;
     }
+
 }
