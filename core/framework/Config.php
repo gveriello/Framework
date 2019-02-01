@@ -31,6 +31,8 @@ $jquery_url = 'https://code.jquery.com/jquery-3.3.1.min.js';
 global $autoloader;
 global $dbconfigurator;
 global $errorpages;
+global $defaultpage;
+global $defaultaction;
 
 /*
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -68,6 +70,18 @@ $dbconfigurator = array(
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *
  */
+
+$showTimeExecution = true; //Show on page the time of execution (true | false)
+
+/*
+ *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * FRAMEWORK DEFAULT PAGE & ACTION
+ *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *
+ */
+
+$defaultpage = 'Index';
+$defaultaction = 'index';
 
 $showTimeExecution = true; //Show on page the time of execution (true | false)
 

@@ -14,12 +14,14 @@ function RequestUri()
 
 function InitializeRouting($url, &$page, &$action, &$querystring, &$controller, &$jsbehind, &$layout, &$model, &$behavior)
 {
-    $page  = 'Index';
-    $action = 'index';
+    global $defaultpage;
+    global $defaultaction;
+    $page  = $defaultpage;
+    $action = $defaultaction;
     $querystring = array();
-    $controller  = 'Index';
-    $layout = 'Index';
-    $model = 'Index';
+    $controller  = $defaultpage;
+    $layout = $defaultpage;
+    $model = $defaultpage;
     if ($url !== '' && $url !== NULL){
         $urlArray = array();
         $urlArray = explode("/", $url);
