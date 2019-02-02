@@ -39,14 +39,14 @@
 </head>
 <body>
     <form method="post" action="/index/cosimo">
-        <?php echo $title; ?>
+        <?php //echo $title; ?>
         <h1 ></h1>
         <div>
             <input type="text" name="name" binding-property="name" />
             <input type="text" name="bho2" binding-property="surname" />
             <input type="submit" value="" binding-property="submittext" />
         </div>
-        <?php echo $table; ?>
+        <?php //echo $table; ?>
     </form>
 </body>
 </html>-->

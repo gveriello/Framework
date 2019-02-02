@@ -1,5 +1,5 @@
 <?php
-$startExecution = microtime();
+$startExecution = microtime(true);
 #region FRAMEWORK CONST
 /*
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

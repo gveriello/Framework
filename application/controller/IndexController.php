@@ -27,6 +27,8 @@ class IndexController extends Page
         unset($APIService);
         unset($FormHelper);
         unset($OrmHelper);
+        unset($this->PHPBehavior);
+        unset($this->Model);
     }
 
     public function index()

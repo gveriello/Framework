@@ -36,12 +36,15 @@ class IndexPHP extends Page implements IEvent
 
     public function ManageViewBag()
     {
-        ServiceHelper::InitializeCall("TestService", "getNomeCognome");
-        $response = ServiceHelper::Run()['Exception'];
         ViewBagHelper::AddObject($this->Model);
         ViewBagHelper::Add('title', $this->PageName);
-        ViewBagHelper::Add('response', $response);
-        ViewBagHelper::Add('validator', FormHelper::GetValidator());
+        ViewBagHelper::Add('response', $this->CallService());
+    }
+
+    private function CallService()
+    {
+        ServiceHelper::InitializeCall("TestService", "getNomeCognome");
+        return ServiceHelper::Run()['Exception'];
     }
 
     public function SetBhoRule()
@@ -50,5 +53,6 @@ class IndexPHP extends Page implements IEvent
         FormHelper::AddRule('bho', 'required', 'Il nome e\' obbligatorio');
         FormHelper::AddRule('bho', 'matches', 'Le due password devono combaciare', 'bho2');
         FormHelper::AddRule('bho', 'trim');
+        ViewBagHelper::Add('validator', FormHelper::GetValidator());
     }
 }

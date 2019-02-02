@@ -74,6 +74,7 @@ $controllerInstance = null;
 $behaviorInstance = null;
 $modelInstance = null;
 
+//if not possible to allocate controller
 if (!CanAllocate(CONTROLLER, $controller))
 {
     Show404();
@@ -84,12 +85,20 @@ $controllerInstance = Allocator::AllocateController($controller);
 if (!is_subclass_of($controllerInstance, 'Page'))
     throw new Exception("Controller must be extend Page");
 
+//if not exist method to call in controller
+if (!method_exists($controllerInstance, $action))
+{
+    Show404();
+    return;
+}
+
 if (CanAllocate(BEHAVIOR, $behavior))
 {
     $behaviorInstance = Allocator::AllocatePHPBehavior($behavior);
     if (!is_subclass_of($behaviorInstance, 'Page'))
         throw new Exception("PHPBehavior must be extend Page");
 
+    //Initialize listen for event
     foreach(get_class_methods(IEvent) as $method)
         if ((int)method_exists($behaviorInstance, $method))
             Event::EventListen($method, $behaviorInstance->$method());
@@ -115,15 +124,9 @@ $GLOBALS = array(
 InitializePageByInstance($controllerInstance);
 InitializePageByInstance($behaviorInstance);
 
-if ((int)method_exists($controllerInstance, $action))
-{
-    Event::EventTrigger('OnLoad');
-    global $startExecution;
-    call_user_func_array(array($controllerInstance, $action), array());
-    $stopExecution = microtime();
-    if ($showTimeExecution)
-        echo $stopExecution - $startExecution;
-}
-else
-    Show404();
+Event::EventTrigger('OnLoad');
+call_user_func_array(array($controllerInstance, $action), array());
+global $startExecution;
+if ($showTimeExecution)
+    echo microtime(true) - $startExecution;
 #endregion
