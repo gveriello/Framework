@@ -89,6 +89,7 @@
   <ItemGroup>
     <Content Include=".htaccess" />
     <Content Include="core\utilities\helpers\FireStoreApiClientHelper.php" />
+    <Content Include="License.txt" />
     <Content Include="reserved\.htaccess" />
     <Content Include="reserved\attachments\.htaccess" />
     <Content Include="reserved\cache\.htaccess" />
