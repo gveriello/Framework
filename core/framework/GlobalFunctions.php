@@ -136,9 +136,7 @@ function SetReporting()
 
 function CanAllocate($folder, $file)
 {
-    if ($folder !== NULL && $file !== NULL && $folder !== '' && $file !== '')
-        return (!empty(PathFileToAllocate($folder, $file)));
-    return false;
+    return (!empty(PathFileToAllocate($folder, $file)));
 }
 
 function Allocate($folder, $file, $databag = array())
@@ -151,28 +149,33 @@ function Allocate($folder, $file, $databag = array())
 
 function PathFileToAllocate($folder, $file)
 {
+    if (is_null(folder) || is_null($file) || empty($folder) || empty($file))
+        return '';
+    
     $file = pathinfo($file, PATHINFO_FILENAME); //prendo solo il nome del file eliminando l' eventuale estensione
-    $extension = '.php';
     if (is_dir($folder.DS.$file))
         return $folder.DS.$file;
-    else
-        if (!empty($folder) && !empty($file))
-        {
-            switch($folder){
+    
+    $extension = GetExtensionByFolder($folder);
+    if (file_exists($folder.DS.$file.$extension))
+        return $folder.DS.$file.$extension;
 
-                case JSBEHIND:
-                case JS:
-                    $extension = '.js';
-                    break;
-                case CSS:
-                    $extension = '.css';
-                    break;
-            }
-            if (file_exists($folder.DS.$file.$extension))
-                return $folder.DS.$file.$extension;
-            return '';
-        }
     return '';
+}
+
+function GetExtensionByFolder($folder)
+{
+    $extension = '.php';
+    switch($folder){
+        case JSBEHIND:
+        case JS:
+            $extension = '.js';
+            break;
+        case CSS:
+            $extension = '.css';
+            break;
+    }
+    return $extension;
 }
 
 function ValidateRules($_style = '', $_class = '')
@@ -307,9 +310,7 @@ function Show404()
         return;
     }
     else
-    {
         header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found', true, 404);
-    }
 }
 
 function Show500()

@@ -18,11 +18,20 @@ class IndexPHP extends Page implements IEvent
     {
     }
 
-    public function CreateTable()
+    public function CreateTable1()
     {
         ViewTableHelper::ConfigurationFromLayout($this->Layout, 'tableHelper');
         ViewTableHelper::AddData($this->Model->table);
         ViewTableHelper::DataBinding();
+        ViewBagHelper::Add('table', ViewTableHelper::TableToHtml());
+    }
+    public function CreateTable2()
+    {
+        ViewTableHelper::AddColumn('Id');
+        ViewTableHelper::AddColumn('Nome_device');
+        ViewTableHelper::AddData($this->Model->table);
+        ViewTableHelper::DataBinding();
+        ViewBagHelper::Add('table', ViewTableHelper::TableToHtml());
     }
 
     public function ManageViewBag()
@@ -33,7 +42,6 @@ class IndexPHP extends Page implements IEvent
         ViewBagHelper::Add('title', $this->PageName);
         ViewBagHelper::Add('response', $response);
         ViewBagHelper::Add('validator', FormHelper::GetValidator());
-        ViewBagHelper::Add('table', ViewTableHelper::TableToHtml());
     }
 
     public function SetBhoRule()

@@ -50,7 +50,7 @@ class Allocator
         return null;
     }
 
-    public static function AllocateLayout($_layout, $classic_layout = true)
+    public static function AllocateLayout($_layout, $normal_layout = true)
     {
         Event::EventTrigger('OnPreRender');
 
@@ -60,18 +60,19 @@ class Allocator
         if (!class_exists(ViewBagHelper))
             Allocator::AllocateHelper("ViewBag");
 
-        if ($classic_layout)
+        if ($normal_layout)
         {
-
-            if (HtmlParserHelper::LoadHtmlFromFile(PathFileToAllocate(LAYOUT, $_layout)))
-            {
-                Binding();
-                HtmlParserHelper::ClearConfigurations('table-configuration');
-                HtmlParserHelper::RunHtml();
-            }
-        }
-        else
             Allocate(LAYOUT, $_layout, ViewBagHelper::GetBag());
+            return;
+        }
+
+        //Load layout custom with binding
+        if (HtmlParserHelper::LoadHtmlFromFile(PathFileToAllocate(LAYOUT, $_layout)))
+        {
+            Binding();
+            HtmlParserHelper::ClearConfigurations('table-configuration');
+            HtmlParserHelper::RunHtml();
+        }
     }
 
     public static function AllocateHelper($helper)

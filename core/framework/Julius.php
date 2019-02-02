@@ -9,7 +9,6 @@
  */
 
 // Allocate required pages indicated in Config.php
-
 foreach ($autoloader as $folder => $requiredpage)
 {
     //preparo i file e le cartelle da aggiungere
@@ -31,7 +30,7 @@ foreach ($autoloader as $folder => $requiredpage)
         unset($autoloader[$folder]);
 }
 
-//aggiungo le risorse
+//Allocate the resources
 foreach ($autoloader as $folder => $requiredpage)
     foreach ($requiredpage as $page)
         if (is_dir(PathFileToAllocate($folder, $page)))
@@ -57,58 +56,74 @@ UnregisterGlobals();
 
 /*
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * GO!
+ * Initialize routing page
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 
 $url = ltrim(RequestUri(), '/');
 $url = rtrim($url, '/');
 InitializeRouting($url, $page, $action, $querystring, $controller, $jsbehind, $layout, $model, $behavior);
-if (CanAllocate(CONTROLLER, $controller))
+
+/*
+ *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Initialize controller, behavior, model & layout
+ *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ */
+
+$controllerInstance = null;
+$behaviorInstance = null;
+$modelInstance = null;
+
+if (!CanAllocate(CONTROLLER, $controller))
+{
+    Show404();
+    return;
+}
+
+$controllerInstance = Allocator::AllocateController($controller);
+if (!is_subclass_of($controllerInstance, 'Page'))
+    throw new Exception("Controller must be extend Page");
+
+if (CanAllocate(BEHAVIOR, $behavior))
 {
     $behaviorInstance = Allocator::AllocatePHPBehavior($behavior);
+    if (!is_subclass_of($behaviorInstance, 'Page'))
+        throw new Exception("PHPBehavior must be extend Page");
 
-    if (!is_null($behaviorInstance))
-    {
-        if (!is_subclass_of($behaviorInstance, 'Page'))
-            throw new Exception("PHPBehavior must be extend Page");
+    foreach(get_class_methods(IEvent) as $method)
+        if ((int)method_exists($behaviorInstance, $method))
+            Event::EventListen($method, $behaviorInstance->$method());
+}
 
-        foreach(get_class_methods(IEvent) as $method)
-            if ((int)method_exists($behaviorInstance, $method))
-                Event::EventListen($method, $behaviorInstance->$method());
-    }
-
-    $controllerInstance = Allocator::AllocateController($controller);
-    if (!is_subclass_of($controllerInstance, 'Page'))
-        throw new Exception("Controller must be extend Page");
-
+if (CanAllocate(MODEL, $model))
     $modelInstance = Allocator::AllocateModel($model);
+
+if (CanAllocate(JSBEHIND, $jsbehind))
     Allocator::AllocateJSBehavior($jsbehind);
-    $GLOBALS = array(
-        'page' => $page,
-        'phpbehind' => $controllerInstance,
-        'model' => $modelInstance,
-        'behavior' => $behaviorInstance,
-        'jsbehind' => $jsbehind,
-        'layout' => $layout,
-        'action' => $action,
-        'querystring' => $querystring
-    );
 
-    InitializePageByInstance($controllerInstance);
-    InitializePageByInstance($behaviorInstance);
+$GLOBALS = array(
+    'page' => $page,
+    'phpbehind' => $controllerInstance,
+    'model' => $modelInstance,
+    'behavior' => $behaviorInstance,
+    'jsbehind' => $jsbehind,
+    'layout' => $layout,
+    'action' => $action,
+    'querystring' => $querystring
+);
 
-    if ((int)method_exists($controllerInstance, $action))
-    {
-        Event::EventTrigger('OnLoad');
-        global $startExecution;
-        call_user_func_array(array($controllerInstance, $action), array());
-        $stopExecution = microtime();
-        if ($showTimeExecution)
-            echo $stopExecution - $startExecution;
-    }
-    else
-        Show404();
-}else
+InitializePageByInstance($controllerInstance);
+InitializePageByInstance($behaviorInstance);
+
+if ((int)method_exists($controllerInstance, $action))
+{
+    Event::EventTrigger('OnLoad');
+    global $startExecution;
+    call_user_func_array(array($controllerInstance, $action), array());
+    $stopExecution = microtime();
+    if ($showTimeExecution)
+        echo $stopExecution - $startExecution;
+}
+else
     Show404();
 #endregion

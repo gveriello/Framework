@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -26,4 +26,27 @@
         </table-configuration>
     </form>
 </body>
-</html>
+</html>-->
+
+<!--<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Ciao</title>          
+    <link rel="stylesheet" href="resources/css/bootstrap.css" />
+    <script src="resources/js/jquery.min.js"></script>
+    <script src="resources/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <form method="post" action="/index/cosimo">
+        <?php echo $title; ?>
+        <h1 ></h1>
+        <div>
+            <input type="text" name="name" binding-property="name" />
+            <input type="text" name="bho2" binding-property="surname" />
+            <input type="submit" value="" binding-property="submittext" />
+        </div>
+        <?php echo $table; ?>
+    </form>
+</body>
+</html>-->

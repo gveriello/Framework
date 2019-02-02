@@ -31,7 +31,8 @@ class IndexController extends Page
 
     public function index()
     {
-        $this->PHPBehavior->CreateTable();
+        //$this->PHPBehavior->CreateTable();
+        //$this->PHPBehavior->CreateTable2();
         $this->PHPBehavior->ManageViewBag();
         $this->PHPBehavior->SetBhoRule();
 
